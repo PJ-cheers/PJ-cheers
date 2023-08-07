@@ -1,70 +1,153 @@
-# Getting Started with Create React App
+## 맛집 추천 사이트: 오메추
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+리액트를 이용해 맛집, 메뉴 추천 웹앱 구현 (redux, react-route-dom 사용)
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 팀구성
 
-### `yarn start`
+| 김채현 | 이지원 | 전대현 | 정봉호 |
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 깃 플로우 전략
 
-### `yarn test`
+- main
+- develop
+- feature
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `yarn build`
+## 커밋 컨벤션
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- feat : 새로운 기능 추가
+- fix : 버그 수정
+- docs : 문서 변경
+- style : styled-components 수정, layout 수정 등 스타일 관련 변경
+- refactor : 코드 리팩토링 (변수명 변경 등)
+- chore : 설정 변경, 기타 변경사항
+- hotfix : 긴급 수정사항
+- test : 테스트 커밋
+- init : 초기설정
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 코드 컨벤션
 
-### `yarn eject`
+### 폴더, 파일명
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+컴포넌트 파일명은 파스칼 케이스(PascalCase)를 사용한다.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```js
+MainComponent.jsx;
+Route.jsx;
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+컴포넌트를 제외한 폴더, 파일명은 카멜 케이스(camelCase)를 사용한다.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```js
+components;
+modules;
+configStore.js;
+```
 
-## Learn More
+### 함수
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+함수명은 카멜 케이스(camelCase)를 원칙으로 한다.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```js
+function nameOfFunction() {
+  // ...some logic
+}
+```
 
-### Code Splitting
+### 변수명
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+상수는 모두 대문자로 쓰며 띄어쓰기는 \_로 처리하며, 객체타입의 경우 카멜 케이스를 적용한다.
 
-### Analyzing the Bundle Size
+```javascript
+const SOME_VALUE = 1;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+const people = {
+  name: "김자바",
+  age: "26",
+};
+```
 
-### Making a Progressive Web App
+### 클래스명
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+클래스명은 케밥 케이스(kebab-case)를 원칙으로 한다.
 
-### Advanced Configuration
+```html
+<h1 class="main-title">오늘 메뉴 추천</h1>
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
+### 변수명 컨벤션
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```javascript
+회원가입: signUp;
+로그인: signIn;
+로그아웃: signOut;
+비밀번호수정: updatePassword;
 
-### `yarn build` fails to minify
+최신글불러오기: getPostList;
+마이페이지불러오기: getMyPostList;
+좋아요목록불러오기: getLikedPostList;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+새글등록: addPost;
+글수정: editPost;
+글삭제: deletePost;
+
+좋아요누르기: pressLike;
+좋아요취소: deleteLike;
+```
+
+---
+
+### 스타일 코드 순서 (styled-components)
+
+스타일 코드의 순서는 아래와 같이 작성한다.
+
+```css
+.sample {
+  /* position 관련 */
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  /* display 관련 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* size 관련 */
+  width: auto;
+  height: auto;
+
+  /* margin, padding */
+  margin: 0 auto;
+  padding: 12px;
+
+  /* background 관련 */
+  background-color: #ffffff;
+
+  /* border 관련 */
+  border: 1px solid #ffffff;
+  border-radius: 12px;
+
+  /* font 관련 */
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+
+  /* animation 관련 */
+  transform: translate(10px, 100%);
+  transition: 300ms;
+}
+```
+
+# news-feed-project-distribution
+
+# news-feed-project-distribution
