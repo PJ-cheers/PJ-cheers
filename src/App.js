@@ -14,11 +14,6 @@ const GlobalStyle = createGlobalStyle`
 body{
   font-family: 'Noto Sans KR', sans-serif;
 }
-html {
-  
-}
-
-
 `;
 const queryClient = new QueryClient();
 

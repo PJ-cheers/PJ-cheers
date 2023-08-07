@@ -1,12 +1,23 @@
-## 맛집 추천 사이트: 오메추
+## 칵테일 레시피 사이트 Cheers(치얼스)
 
-리액트를 이용해 맛집, 메뉴 추천 웹앱 구현 (redux, react-route-dom 사용)
+리액트를 이용해 칵테일 레시피 추천 및 공유 사이트 구현 (react-query, react-route-dom, firebase 사용)
 
 ---
 
 ## 팀구성
 
 | 김채현 | 이지원 | 전대현 | 정봉호 |
+
+---
+
+## 기술 스택
+
+<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
+<img src="https://img.shields.io/badge/Creact React App-09D3AC?style=for-the-badge&logo=CreactReactApp&logoColor=white">
+<img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=white">
+<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
+<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
+<img src="https://img.shields.io/badge/fontawesome-339AF0?style=for-the-badge&logo=fontawesome&logoColor=white">
 
 ---
 
@@ -69,8 +80,8 @@ function nameOfFunction() {
 const SOME_VALUE = 1;
 
 const people = {
-  name: "김자바",
-  age: "26",
+  name: '김자바',
+  age: '26'
 };
 ```
 
@@ -88,20 +99,20 @@ const people = {
 
 ```javascript
 회원가입: signUp;
-로그인: signIn;
-로그아웃: signOut;
+로그인: logIn;
+로그아웃: logOut;
 비밀번호수정: updatePassword;
 
-최신글불러오기: getPostList;
-마이페이지불러오기: getMyPostList;
-좋아요목록불러오기: getLikedPostList;
+최신글불러오기: getBoard;
+내가쓴글불러오기: getMyBoard;
+좋아요목록불러오기: getLikedBoardList;
 
-새글등록: addPost;
-글수정: editPost;
-글삭제: deletePost;
+새글등록: addBoard;
+글수정: editBoard;
+글삭제: deleteBoard;
 
 좋아요누르기: pressLike;
-좋아요취소: deleteLike;
+좋아요취소: cancelLike;
 ```
 
 ---
@@ -148,6 +159,4 @@ const people = {
 }
 ```
 
-# news-feed-project-distribution
-
-# news-feed-project-distribution
+# cheers_4조
