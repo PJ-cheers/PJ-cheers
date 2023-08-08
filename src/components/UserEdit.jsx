@@ -36,9 +36,9 @@ export default UserEdit;
 
 const Modal = styled.div`
   display: ${(props) => (props.isOpen ? 'block' : 'none')};
-  z-index: 1;
+  z-index: 30;
   position: fixed;
-  background-color: #202020;
+  background-color: rgba(0, 0, 0, 0.9);
   justify-content: center;
   align-items: center;
   width: 100vw;

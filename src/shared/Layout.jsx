@@ -1,21 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Login from '../components/Login';
-import { useState } from 'react';
 import Signup from '../components/Signup';
 
 // 아이콘
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faMagnifyingGlass, faBars } from '@fortawesome/free-solid-svg-icons';
+import SideBar from '../pages/SideBar';
 import UserEdit from '../components/UserEdit';
 
 function Layout() {
+  const [sidebarVisible, setSidebarVisible] = useState(false);
   const [loginIsModalOpen, setLoginIsModalOpen] = useState(false);
   const [signupIsModalOpen, setSignupIsModalOpen] = useState(false);
   const [userEditIsModalOpen, setUserEditIsModalOpen] = useState(false);
 
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+  };
   const loginOpenModal = () => setLoginIsModalOpen(true);
   const loginCloseModal = () => setLoginIsModalOpen(false);
   const signupOpenModal = () => setSignupIsModalOpen(true);
@@ -38,9 +42,10 @@ function Layout() {
           <LoginButton onClick={loginOpenModal}>로그인</LoginButton>
           <SignupButton onClick={signupOpenModal}>회원가입</SignupButton>
           <UserEditButton onClick={userEditModalOpen}>회원정보 수정</UserEditButton>
-          <FontAwesomeIcon icon={faBars} />
+          <FontAwesomeIcon style={{ fontSize: '24px' }} icon={faBars} onClick={toggleSidebar} />
         </HeaderRight>
       </Header>
+      {sidebarVisible && <SideBar onClose={toggleSidebar} />}
       <Outlet />
       <Login isOpen={loginIsModalOpen} closeModal={loginCloseModal} />
       <Signup isOpen={signupIsModalOpen} closeModal={signupCloseModal} />
@@ -66,7 +71,7 @@ export default Layout;
 const Header = styled.header`
   position: fixed;
   top: 0;
-  z-index: 20;
+  z-index: 40;
   width: 100vw;
   height: 6rem;
 
