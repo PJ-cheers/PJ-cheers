@@ -46,16 +46,29 @@ function Main() {
         {recipeData?.map((item) => {
           return (
             <div
+              key={item.id}
               style={{
                 backgroundColor: 'white',
                 border: '1px solid black',
-                margin: '1rem'
+                margin: '1rem',
+                width: '20rem',
+                height: '30rem',
+                position: 'relative'
               }}
             >
-              <img src={item.image} />
-              <h2>칵테일 이름 : {item.Cocktail}</h2>
-              <p>가니쉬 : {item.Garnish}</p>
-              <p>레시피 : {item.recipe}</p>
+              <img
+                src={item.image}
+                style={{
+                  width: '10rem',
+                  height: '10rem',
+                  borderRadius: '100%',
+                  objectFit: 'cover',
+                  margin: '2rem 4.5rem'
+                }}
+              />
+              <h2 style={{ margin: '1rem 0' }}>칵테일 이름: {item.Cocktail}</h2>
+              <p style={{ margin: '0.5rem 0' }}>가니쉬: {item.Garnish}</p>
+              <p style={{ margin: '0.5rem 0' }}>레시피: {item.recipe}</p>
             </div>
           );
         })}
@@ -71,15 +84,28 @@ function Main() {
         {diyData?.map((item) => {
           return (
             <div
+              key={item.id}
               style={{
                 backgroundColor: 'white',
                 border: '1px solid black',
-                margin: '1rem'
+                margin: '1rem',
+                width: '20rem',
+                height: '30rem',
+                position: 'relative'
               }}
             >
-              <img src={item.image} />
-              <h2>칵테일 이름 : {item.Cocktail}</h2>
-              <p>레시피 : {item.recipe}</p>
+              <img
+                src={item.image}
+                style={{
+                  width: '10rem',
+                  height: '10rem',
+                  borderRadius: '100%',
+                  objectFit: 'cover',
+                  margin: '2rem 4.5rem 0'
+                }}
+              />
+              <h2 style={{ margin: '1rem 0' }}>칵테일 이름: {item.Cocktail}</h2>
+              <p style={{ margin: '0.5rem 0' }}>레시피 : {item.recipe}</p>
             </div>
           );
         })}
