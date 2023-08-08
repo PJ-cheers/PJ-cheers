@@ -4,8 +4,8 @@ import styled from 'styled-components';
 
 // 아이콘
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faMagnifyingGlass, faBars } from '@fortawesome/free-solid-svg-icons';
 
 function Layout() {
   return (
@@ -27,7 +27,18 @@ function Layout() {
         </HeaderRight>
       </Header>
       <Outlet />
-      <footer></footer>
+      <Footer>
+        <Link to="/">
+          <ImgNotion src="img/notion_logo_white.png" alt="notionImage"></ImgNotion>
+        </Link>
+        <p>
+          © 2023 <img src="img/cheers_logo_white.png" alt="logoImage" style={{ width: '4rem' }} /> by 김채현 이지원
+          전대현 정봉호
+        </p>
+        <Link to="https://github.com/PJ-cheers/PJ-cheers">
+          <FontAwesomeIcon icon={faGithub} size="xl" />
+        </Link>
+      </Footer>
     </>
   );
 }
@@ -35,14 +46,23 @@ function Layout() {
 export default Layout;
 
 const Header = styled.header`
+  position: relative;
+  top: 0;
+  z-index: 20;
   width: 100vw;
   height: 100px;
-  padding: 0 1rem 0 1rem;
   background-color: #000000;
   color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  & > :first-child {
+    margin-left: 1rem;
+  }
+  & > :last-child {
+    margin-right: 1rem;
+  }
 `;
 
 const ImgLogo = styled.img`
@@ -78,4 +98,29 @@ const HeaderRight = styled.div`
     text-decoration: none;
     color: white;
   }
+`;
+
+const Footer = styled.footer`
+  z-index: 20;
+  width: 100vw;
+  height: 70px;
+  position: absolute;
+  bottom: 0px;
+  background-color: #000000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+
+  & > :first-child {
+    margin-left: 2rem;
+  }
+  & > :last-child {
+    margin-right: 2rem;
+    color: #fff;
+  }
+`;
+
+const ImgNotion = styled.img`
+  width: 1.5rem;
 `;
