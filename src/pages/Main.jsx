@@ -12,17 +12,23 @@ const getFirestoreData = async () => {
   return fetchedData;
 };
 
+const getDIYData = async () => {
+  const querySnapshot = await getDocs(collection(db, 'DIY'));
+  const fetchedData = querySnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id
+  }));
+  return fetchedData;
+};
+
 function Main() {
-  const { data, isLoading, isError, error } = useQuery('fetchFirestoreData', getFirestoreData);
-  if (isLoading) {
-    return <div>Loading..</div>;
-  }
-  if (isError) {
-    return <div>Error:{error.message}</div>;
-  }
-  console.log(data);
+  const { data: recipeData } = useQuery('fetchFirestoreData', getFirestoreData);
+  const { data: diyData } = useQuery('fetchDIYData', getDIYData);
+  console.log(diyData);
+
   return (
     <>
+      <h1 style={{ fontSize: '24px' }}>인기 레시피</h1>
       <div
         style={{
           backgroundColor: '#d9d9d9',
@@ -30,18 +36,42 @@ function Main() {
           display: 'flex'
         }}
       >
-        {data.map((item) => {
+        {recipeData?.map((item) => {
           return (
             <div
               style={{
                 backgroundColor: 'white',
                 border: '1px solid black',
-                margin: '20px'
+                margin: '1rem'
               }}
             >
               <img src={item.image} />
               <h2>칵테일 이름 : {item.Cocktail}</h2>
               <p>가니쉬 : {item.Garnish}</p>
+              <p>레시피 : {item.recipe}</p>
+            </div>
+          );
+        })}
+      </div>
+      <h1 style={{ fontSize: '24px' }}>DIY레시피</h1>
+      <div
+        style={{
+          backgroundColor: '#d9d9d9',
+          width: '100%',
+          display: 'flex'
+        }}
+      >
+        {diyData?.map((item) => {
+          return (
+            <div
+              style={{
+                backgroundColor: 'white',
+                border: '1px solid black',
+                margin: '1rem'
+              }}
+            >
+              <img src={item.image} />
+              <h2>칵테일 이름 : {item.Cocktail}</h2>
               <p>레시피 : {item.recipe}</p>
             </div>
           );
