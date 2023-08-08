@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from 'styled-components';
 
-function Login({ isOpen, closeModal }) {
+function Signup({ isOpen, closeModal }) {
   const confirm = (e) => {
     e.prevDefaultEvent();
   };
@@ -15,10 +15,18 @@ function Login({ isOpen, closeModal }) {
             <label>이메일</label>
             <EmailInput type="email"></EmailInput>
           </EmailBox>
+          <NickNameBox>
+            <label>닉네임</label>
+            <NickNameInput type="text"></NickNameInput>
+          </NickNameBox>
           <PasswordBox>
             <label>비밀번호</label>
             <PasswordInput type="password"></PasswordInput>
           </PasswordBox>
+          <ConfirmPasswordBox>
+            <label>비밀번호 확인</label>
+            <ConfirmPasswordInput type="password"></ConfirmPasswordInput>
+          </ConfirmPasswordBox>
           <Buttons>
             <CancelButton onClick={closeModal}>취소</CancelButton>
             <ConfirmButton onClick={confirm}>확인</ConfirmButton>
@@ -28,20 +36,27 @@ function Login({ isOpen, closeModal }) {
     </Modal>
   );
 }
-// 1rem = 16px
-export default Login;
+export default Signup;
 
 const Modal = styled.div`
   display: ${(props) => (props.isOpen ? 'block' : 'none')};
+  z-index: 1;
+  position: fixed;
+  background-color: #202020;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 `;
 
 const LoginBox = styled.div`
-  width: 40rem;
-  height: 35rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #202020;
   border-radius: 8px;
 `;
 
@@ -63,9 +78,10 @@ const ProfileEdit = styled.button`
 
 const UserBox = styled.div`
   width: 20rem;
-  height: 15rem;
+  height: 28rem;
   padding-top: 60px;
   padding-left: 30px;
+  border-radius: 8px;
   background-color: #a6a6a6;
 `;
 
@@ -82,11 +98,37 @@ const EmailInput = styled.input`
   border-radius: 20px;
 `;
 
+const NickNameBox = styled.div`
+  margin-bottom: 10px;
+`;
+
+const NickNameInput = styled.input`
+  width: 18rem;
+  height: 1.5rem;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 20px;
+`;
+
 const PasswordBox = styled.div`
   margin-bottom: 10px;
 `;
 
 const PasswordInput = styled.input`
+  width: 18rem;
+  height: 1.5rem;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 20px;
+`;
+
+const ConfirmPasswordBox = styled.div`
+  margin-bottom: 10px;
+`;
+
+const ConfirmPasswordInput = styled.input`
   width: 18rem;
   height: 1.5rem;
   margin-top: 20px;

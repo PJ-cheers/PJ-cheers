@@ -2,8 +2,6 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
-import Login from './Login';
-import { useState } from 'react';
 
 const getFirestoreData = async () => {
   const querySnapshot = await getDocs(collection(db, 'recipes'));
@@ -24,11 +22,6 @@ const getDIYData = async () => {
 };
 
 function Main() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
   const { data: recipeData } = useQuery('fetchFirestoreData', getFirestoreData);
   const { data: diyData } = useQuery('fetchDIYData', getDIYData);
   console.log(diyData);
@@ -83,10 +76,6 @@ function Main() {
             </div>
           );
         })}
-        <button>회원가입</button>
-        <button onClick={openModal}>로그인</button>
-        <Login isOpen={isModalOpen} closeModal={closeModal} />
-        <button>회원수정</button>
       </div>
     </>
   );
