@@ -105,7 +105,7 @@ function Main() {
                 }}
               />
               <h2 style={{ margin: '1rem 0' }}>칵테일 이름: {item.Cocktail}</h2>
-              <p style={{ margin: '0.5rem 0' }}>레시피: {item.recipe}</p>
+              <p style={{ margin: '0.5rem 0' }}>레시피 : {item.recipe}</p>
             </div>
           );
         })}
