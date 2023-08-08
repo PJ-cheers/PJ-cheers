@@ -23,7 +23,7 @@ function Layout() {
   const userEditModalOpen = () => setUserEditIsModalOpen(true);
   const userEditCloseModal = () => setUserEditIsModalOpen(false);
   return (
-    <>
+    <div style={{ paddingTop: '6rem' }}>
       <Header>
         <Link to="/">
           <ImgLogo src="img/cheers_logo_white.png" alt="logoImage"></ImgLogo>
@@ -36,15 +36,15 @@ function Layout() {
         </HeaderMiddle>
         <HeaderRight>
           <LoginButton onClick={loginOpenModal}>로그인</LoginButton>
-          <Login isOpen={loginIsModalOpen} closeModal={loginCloseModal} />
           <SignupButton onClick={signupOpenModal}>회원가입</SignupButton>
-          <Signup isOpen={signupIsModalOpen} closeModal={signupCloseModal} />
           <UserEditButton onClick={userEditModalOpen}>회원정보 수정</UserEditButton>
-          <UserEdit isOpen={userEditIsModalOpen} closeModal={userEditCloseModal} />
           <FontAwesomeIcon icon={faBars} />
         </HeaderRight>
       </Header>
       <Outlet />
+      <Login isOpen={loginIsModalOpen} closeModal={loginCloseModal} />
+      <Signup isOpen={signupIsModalOpen} closeModal={signupCloseModal} />
+      <UserEdit isOpen={userEditIsModalOpen} closeModal={userEditCloseModal} />
       <Footer>
         <Link to="/">
           <ImgNotion src="img/notion_logo_white.png" alt="notionImage"></ImgNotion>
@@ -57,20 +57,22 @@ function Layout() {
           <FontAwesomeIcon icon={faGithub} size="xl" />
         </Link>
       </Footer>
-    </>
+    </div>
   );
 }
 
 export default Layout;
 
 const Header = styled.header`
-  position: relative;
+  position: fixed;
   top: 0;
   z-index: 20;
   width: 100vw;
-  height: 100px;
+  height: 6rem;
+
   background-color: #000000;
   color: #fff;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -112,6 +114,11 @@ const HeaderMiddle = styled.form`
 const HeaderRight = styled.div`
   display: flex;
   gap: 1rem;
+
+  & > :nth-child(n + 1) {
+    cursor: pointer;
+  }
+
   & > :nth-child(-n + 2) {
     text-decoration: none;
     color: white;
@@ -121,8 +128,8 @@ const HeaderRight = styled.div`
 const Footer = styled.footer`
   z-index: 20;
   width: 100vw;
-  height: 70px;
-  position: absolute;
+  height: 4rem;
+  position: fixed;
   bottom: 0px;
   background-color: #000000;
   display: flex;

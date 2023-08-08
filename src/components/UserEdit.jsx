@@ -6,7 +6,7 @@ function UserEdit({ isOpen, closeModal }) {
     e.prevDefaultEvent();
   };
   return (
-    <Modal isOpen={isOpen}>
+    <Modal isOpen={isOpen} style={{ paddingTop: '6rem' }}>
       <LoginBox>
         <ProfileBox></ProfileBox>
         <ProfileEdit>이미지 편집</ProfileEdit>
