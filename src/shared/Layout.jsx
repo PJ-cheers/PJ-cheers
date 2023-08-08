@@ -1,13 +1,27 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import styled from 'styled-components';
+import Login from '../components/Login';
+import { useState } from 'react';
+import Signup from '../components/Signup';
 
 // 아이콘
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faMagnifyingGlass, faBars } from '@fortawesome/free-solid-svg-icons';
+import UserEdit from '../components/UserEdit';
 
 function Layout() {
+  const [loginIsModalOpen, setLoginIsModalOpen] = useState(false);
+  const [signupIsModalOpen, setSignupIsModalOpen] = useState(false);
+  const [userEditIsModalOpen, setUserEditIsModalOpen] = useState(false);
+
+  const loginOpenModal = () => setLoginIsModalOpen(true);
+  const loginCloseModal = () => setLoginIsModalOpen(false);
+  const signupOpenModal = () => setSignupIsModalOpen(true);
+  const signupCloseModal = () => setSignupIsModalOpen(false);
+  const userEditModalOpen = () => setUserEditIsModalOpen(true);
+  const userEditCloseModal = () => setUserEditIsModalOpen(false);
   return (
     <>
       <Header>
@@ -21,8 +35,12 @@ function Layout() {
           </button>
         </HeaderMiddle>
         <HeaderRight>
-          <Link to="/">로그인</Link>
-          <Link to="/">회원가입</Link>
+          <LoginButton onClick={loginOpenModal}>로그인</LoginButton>
+          <Login isOpen={loginIsModalOpen} closeModal={loginCloseModal} />
+          <SignupButton onClick={signupOpenModal}>회원가입</SignupButton>
+          <Signup isOpen={signupIsModalOpen} closeModal={signupCloseModal} />
+          <UserEditButton onClick={userEditModalOpen}>회원정보 수정</UserEditButton>
+          <UserEdit isOpen={userEditIsModalOpen} closeModal={userEditCloseModal} />
           <FontAwesomeIcon icon={faBars} />
         </HeaderRight>
       </Header>
@@ -123,4 +141,22 @@ const Footer = styled.footer`
 
 const ImgNotion = styled.img`
   width: 1.5rem;
+`;
+
+const LoginButton = styled.button`
+  background-color: transparent;
+  border: none;
+  color: #ffffff;
+`;
+
+const SignupButton = styled.button`
+  background-color: transparent;
+  border: none;
+  color: #ffffff;
+`;
+
+const UserEditButton = styled.button`
+  background-color: transparent;
+  border: none;
+  color: #ffffff;
 `;
