@@ -21,7 +21,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  z-index: 30;
+  z-index: 10;
 `;
 
 const SidebarContent = styled.div`

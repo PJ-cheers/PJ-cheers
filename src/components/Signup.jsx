@@ -6,7 +6,7 @@ function Signup({ isOpen, closeModal }) {
     e.prevDefaultEvent();
   };
   return (
-    <Modal isOpen={isOpen}>
+    <Modal isOpen={isOpen} style={{ paddingTop: '6rem' }}>
       <LoginBox>
         <ProfileBox></ProfileBox>
         <ProfileEdit>이미지 편집</ProfileEdit>
@@ -40,9 +40,9 @@ export default Signup;
 
 const Modal = styled.div`
   display: ${(props) => (props.isOpen ? 'block' : 'none')};
-  z-index: 1;
+  z-index: 30;
   position: fixed;
-  background-color: #202020;
+  background-color: rgba(0, 0, 0, 0.9);
   justify-content: center;
   align-items: center;
   width: 100vw;
