@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -6,8 +6,14 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import SideBar from '../pages/SideBar';
 
 function Layout() {
+  const [sidebarVisible, setSidebarVisible] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+  };
   return (
     <>
       <Header>
@@ -23,9 +29,10 @@ function Layout() {
         <HeaderRight>
           <Link to="/">로그인</Link>
           <Link to="/">회원가입</Link>
-          <FontAwesomeIcon icon={faBars} />
+          <FontAwesomeIcon style={{ fontSize: '24px' }} icon={faBars} onClick={toggleSidebar} />
         </HeaderRight>
       </Header>
+      {sidebarVisible && <SideBar onClose={toggleSidebar} />}
       <Outlet />
       <footer></footer>
     </>
