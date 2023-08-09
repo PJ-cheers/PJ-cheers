@@ -1,0 +1,726 @@
+[
+  {
+    "id": 1,
+    "krName": "와바시 애비뉴 사워",
+    "enName": "Wabash Avenue Sour",
+    "ingredients": [
+      { "ingName": "버번", "ingVolume": "2oz" },
+      { "ingName": "신선한 레몬 주스", "ingVolume": "2oz" },
+      { "ingName": "룩사르도 상그 모라코 체리 리큐르", "ingVolume": "0.75oz" },
+      { "ingName": "파인애플 껌 시럽", "ingVolume": "0.75oz" },
+      { "ingName": "달걀 흰자", "ingVolume": "0.5oz" },
+      { "ingName": "루바브 비터스", "ingVolume": "2 dashes" }
+    ],
+    "recipe": "1. 모든 재료를 넣고 드라이 쉐이크(얼음 없이)한 다음 얼음을 넣고 다시 흔듭니다. 2. 잔에 붓고 루바브 비터스로 토핑을 얹어줍니다."
+  },
+  {
+    "id": 2,
+    "krName": "리츠 칵테일",
+    "enName": "Ritz Cocktail",
+    "ingredients": [
+      { "ingName": "코냑", "ingVolume": "75oz" },
+      { "ingName": "코인트로", "ingVolume": "0.5oz" },
+      { "ingName": "룩사르도 마라스키노 리큐르", "ingVolume": "0.25oz" },
+      { "ingName": "프레쉬 레몬 주스", "ingVolume": "0.25oz" },
+      { "ingName": "샴페인", "ingVolume": "3oz" },
+      { "ingName": "오렌지필", "ingVolume": null }
+    ],
+    "recipe": "1. 믹싱 글라스에 샴페인을 제외한 모든 재료를 넣고 얼음으로 채웁니다. 2. 잘 저은 후 마티니 잔에 부어줍니다. 3. 샴페인을 채우고 불에 태운 오렌지 껍질로 토핑을 얹어줍니다."
+  },
+  {
+    "id": 3,
+    "krName": "해피니스",
+    "enName": "Happiness",
+    "ingredients": [
+      { "ingName": "재스민 티와 쌀이 들어간 주니페로 진", "ingVolume": "1.5oz" },
+      { "ingName": "레오폴드 브라더스 사워 애플 리큐르", "ingVolume": "0.75oz" },
+      { "ingName": "라임", "ingVolume": "0.75oz" },
+      { "ingName": "꿀 시럽", "ingVolume": "0.5oz" },
+      { "ingName": "로파이 젠티안 아마로", "ingVolume": "0.25oz" },
+      { "ingName": "식용 꽃", "ingVolume": null }
+    ],
+    "recipe": "1. 모든 재료를 칵테일 쉐이커에 넣고 흔들어 차가운 잔에 부어줍니다. 2. 식용꽃으로 장식해줍니다. 3. 자스민 티/쌀이 들어간 주니페로 진: 주니페로 진 1병(750ml)에 0.5컵 재스민 티와 씻어서 전분을 제거한 쌀을 넣어줍니다. 4. 꿀 시럽: 소스 팬에 꿀 (10oz)과 물 (10oz)을 1:1 비율로 넣고 끓이면서 꿀이 완전히 녹을 때까지 저어주세요."
+  },
+  {
+    "id": 4,
+    "krName": "4세대",
+    "enName": "Fourth Generation",
+    "ingredients": [
+      { "ingName": "메스칼", "ingVolume": "1.5oz" },
+      { "ingName": "룩사르도 에스프레소 이탈리안 리큐르", "ingVolume": "0.25oz" },
+      { "ingName": "룩사르도 비터 비앙코", "ingVolume": "0.75oz" },
+      { "ingName": "초콜릿 비터", "ingVolume": "2 dashes" },
+      { "ingName": "고스트 오렌지 트위스트", "ingVolume": null }
+    ],
+    "recipe": "믹싱 글라스에 모든 재료를 넣고 얼음과 함께 저으세요. 닉 앤 노라 쿠페에 부어줍니다. 고스트 오렌지 트위스트로 토핑을 얹으세요."
+  },
+  {
+    "id": 5,
+    "krName": "밀레밀리아",
+    "enName": "Mille Miglia",
+    "ingredients": [
+      { "ingName": "룩사르도 마라스키노 리큐르", "ingVolume": "0.75 oz" },
+      { "ingName": "룩사르도 상게 말러코 체리 리큐르", "ingVolume": "0.5 oz" },
+      { "ingName": "바질 잎", "ingVolume": "1개" },
+      { "ingName": "라임 주스", "ingVolume": "0.25 oz" },
+      { "ingName": "로즈 워터", "ingVolume": "5 dashes" },
+      { "ingName": "라임 플로럴", "ingVolume": null },
+      { "ingName": "빙 체리", "ingVolume": null }
+    ],
+    "recipe": "믹싱 글라스에 모든 재료와 얼음을 넣어 세게 흔들고 잔에 부어줍니다. 라임 슬라이스와 빙 체리로 토핑을 얹으세요."
+  },
+  {
+    "id": 6,
+    "krName": "파라디소 썬",
+    "enName": "Paradiso Sun",
+    "ingredients": [
+      { "ingName": "주니페로 진", "ingVolume": "1.5oz" },
+      { "ingName": "라임 사워", "ingVolume": "1oz" },
+      { "ingName": "오렌지 주스", "ingVolume": "0.5oz" },
+      { "ingName": "드라이 큐라카오", "ingVolume": "0.25oz" },
+      { "ingName": "오렌지 웨지", "ingVolume": null },
+      { "ingName": "주니퍼 베리", "ingVolume": null }
+    ],
+    "recipe": "믹싱 글라스에 모든 재료와 얼음을 넣어 세게 흔들고 잔에 부어줍니다. 오렌지 슬라이스와 1개와 주니퍼베리 토핑을 얹으세요."
+  },
+  {
+    "id": 7,
+    "krName": "컷앤럼",
+    "enName": "Cut & Rum",
+    "ingredients": [
+      { "ingName": "뱅크 5 럼", "ingVolume": "0.75oz" },
+      { "ingName": "데니젠 숙성 화이트 럼", "ingVolume": "0.75oz" },
+      { "ingName": "데니젠 숙성 화이트 럼", "ingVolume": "0.75oz" },
+      { "ingName": "룩사르도 아마로 아바노", "ingVolume": "0.75oz" },
+      { "ingName": "오렌지 필", "ingVolume": null }
+    ],
+    "recipe": "믹싱 글라스에 모든 재료를 넣고 저어준 뒤 잔에 얼음 큐브를 넣고 그 위로 부어줍니다. 오렌지 껍질과 옷핀으로 토핑을 얹으세요."
+  },
+  {
+    "id": 8,
+    "krName": "킹스 스프링 데이지",
+    "enName": "The King's Spring Daisy",
+    "ingredients": [
+      { "ingName": "킹스 진저 리큐르", "ingVolume": "1oz" },
+      { "ingName": "H by HINE", "ingVolume": "1oz" },
+      { "ingName": "레몬 주스", "ingVolume": "0.25oz" },
+      { "ingName": "심플 시럽", "ingVolume": "0.25oz" },
+      { "ingName": "대시피 브라더스 루바드 비터", "ingVolume": "2개" },
+      { "ingName": "민트 스프리그", "ingVolume": null }
+    ],
+    "recipe": "모든 재료를 칵테일 쉐이커에 넣습니다. 흔들어서 잔에 더블스트레인 해주고 민트로 토핑을 얹습니다."
+  },
+  {
+    "id": 9,
+    "krName": "킹스 진저 스파이스드 펀치",
+    "enName": "The King's Ginger Spiced Punch",
+    "ingredients": [
+      { "ingName": "킹스 진저 리큐르", "ingVolume": "25oz" },
+      { "ingName": "크랜베리 주스", "ingVolume": "37.5oz" },
+      { "ingName": "피버트리 레모네이드", "ingVolume": "37.5oz" },
+      { "ingName": "레몬 슬라이스", "ingVolume": null },
+      { "ingName": "딸기", "ingVolume": null }
+    ],
+    "recipe": "모든 재료를 펀치 볼 또는 피쳐잔에 넣고 저어준 뒤 레몬 슬라이스와 딸기를 얹으세요."
+  },
+  {
+    "id": 10,
+    "krName": "킹스 메디슨",
+    "enName": "The King's Medicine",
+    "ingredients": [
+      { "ingName": "킹스 진저 리큐르", "ingVolume": "1.5oz" },
+      { "ingName": "룩사르도 페르네", "ingVolume": "0.5oz" },
+      { "ingName": "벤 리아치 큐리오시티 싱글 몰트 10YO", "ingVolume": "0.25oz" },
+      { "ingName": "레몬 주스", "ingVolume": "0.75oz" },
+      { "ingName": "레몬 트위스트", "ingVolume": null }
+    ],
+    "recipe": "쉐이커에 얼음과 모든 재료를 넣고 세게 흔들어 차가운 잔에 부어준 뒤 레몬 트위스트로 토핑을 얹어줍니다."
+  },
+  {
+    "id": 11,
+    "krName": "킹스 어텀 코블러",
+    "enName": "The King's Autumn Cobbler",
+    "ingredients": [
+      { "ingName": "킹스 진저 리큐르", "ingVolume": "1oz" },
+      { "ingName": "브리오텟 크림 드 무레(블랙베리)", "ingVolume": "0.25oz" },
+      { "ingName": "배 사이다", "ingVolume": null },
+      { "ingName": "레몬 슬라이스", "ingVolume": "3개" },
+      { "ingName": "블랙베리", "ingVolume": "3개" }
+    ],
+    "recipe": "얼음 위에 모든 재료를 넣고 바스푼으로 저어준 뒤, 레몬을 짜 넣어주고 블랙베리를 넣습니다."
+  },
+  {
+    "id": 12,
+    "krName": "더 매드킹",
+    "enName": "The Mad King",
+    "ingredients": [
+      { "ingName": "글렌로데스 빈티지 리저브", "ingVolume": "2oz" },
+      { "ingName": "킹스 진저 리큐르", "ingVolume": "1oz" },
+      { "ingName": "허니 시럽", "ingVolume": "0.25oz" },
+      { "ingName": "앙고스투라 비터", "ingVolume": "1dash" },
+      { "ingName": "태운 레몬 껍질", "ingVolume": null }
+    ],
+    "recipe": "믹싱 글라스에 모든 재료를 넣고 15-20초 동안 저으세요. 신선한 얼음으로 채워진 높은 공에 무리를 주세요."
+  },
+  {
+    "id": 13,
+    "krName": "마르티네즈",
+    "enName": "Martinez",
+    "ingredients": [
+      { "ingName": "올드 톰 진", "ingVolume": "1.5oz" },
+      { "ingName": "템퍼스 푸기트 알레시오 베르무트 디 토���노 로소", "ingVolume": "1.5oz" },
+      { "ingName": "룩사르도 마라스키노 리큐르", "ingVolume": "0.25oz" },
+      { "ingName": "템퍼스 푸기트 애벗스 비터즈", "ingVolume": "2dash" },
+      { "ingName": "오렌지 트위스트", "ingVolume": null }
+    ],
+    "recipe": "쉐이커에 모든 재료를 넣고 얼음을 채웁니다. 흔들어서 차가운 쿠페 잔에 부어줍니다."
+  },
+  {
+    "id": 14,
+    "krName": "버뮤다 하이볼",
+    "enName": "Bermuda Highball",
+    "ingredients": [
+      { "ingName": "샤토 드 몽티포 코냑 VSOP", "ingVolume": "1oz" },
+      { "ingName": "플리머스 진", "ingVolume": "1oz" },
+      { "ingName": "콘트라토 비앙코 베르무트", "ingVolume": "1oz" },
+      { "ingName": "리건스 오렌지 비터 6호", "ingVolume": "2dash" },
+      { "ingName": "클럽 소다", "ingVolume": "3oz" },
+      { "ingName": "오렌지 필", "ingVolume": null }
+    ],
+    "recipe": "콜린 유리에 양주와 비터를 첨가합니다. 큰 얼음을 넣고 클럽 소다로 채웁니다. 오렌지 껍질(또는 레몬 껍질)로 토핑합니다."
+  },
+  {
+    "id": 15,
+    "krName": "럭스 체리 스파클러",
+    "enName": "Lux Cherry Sparkler",
+    "ingredients": [
+      { "ingName": "룩사르도 상구에 말로코 체리 리큐르", "ingVolume": "1oz" },
+      { "ingName": "프로세코", "ingVolume": "4oz" },
+      { "ingName": "루샤르도 체리", "ingVolume": null }
+    ],
+    "recipe": "플루트 잔에 체리 리큐르를 넣고 프로세코를 얹은 후 룩사르도 마라스키노 체리로 토핑을 얹습니다."
+  },
+  {
+    "id": 16,
+    "krName": "핑크 리본",
+    "enName": "Pink Ribbon",
+    "ingredients": [
+      { "ingName": "페이쇼의 비터즈에 적신 1 큐브 브라운 슈가", "ingVolume": null },
+      { "ingName": "핑크 피죤 럼", "ingVolume": ".75oz" },
+      { "ingName": "샴페인", "ingVolume": null },
+      { "ingName": "레몬 트위스트", "ingVolume": null }
+    ],
+    "recipe": "페이쇼의 비터즈에 적신 갈색 설탕 큐브. 먼저 유리에 적신 설탕 큐브를 넣으세요. 설탕 큐브 위에 .75oz의 핑크 피죤 럼을 플루트에 붓습니다. 잔의 나머지를 샴페인으로 채웁니다. 레몬 트위스트로 토핑을 얹으세요."
+  },
+  {
+    "id": 17,
+    "krName": "클리어리 비터",
+    "enName": "Clearly Bitter",
+    "ingredients": [
+      { "ingName": "룩사르도 비터 비앙코", "ingVolume": ".75oz" },
+      { "ingName": "주니페로 진", "ingVolume": "1oz" },
+      { "ingName": "드라이 버머스", "ingVolume": "0.75oz" },
+      { "ingName": "큐라카오", "ingVolume": "0.5oz" },
+      { "ingName": "루바브 비터", "ingVolume": "2dash" },
+      { "ingName": "자몽 트위스트", "ingVolume": null }
+    ],
+    "recipe": "믹싱 글라스에 모든 재료를 넣어 얼음과 함께 저은 후 쿠페에 스트레인합니다. 자몽 껍질로 토핑합니다."
+  },
+  {
+    "id": 18,
+    "krName": "숏 라운드",
+    "enName": "Short Round",
+    "ingredients": [
+      { "ingName": "바카르디 슈페리어 럼", "ingVolume": "5oz" },
+      { "ingName": "몽티포 피노 데 샤랑트 블랑", "ingVolume": "4oz" },
+      { "ingName": "레몬 주스", "ingVolume": "3.5oz" },
+      { "ingName": "벨벳 팰러넘", "ingVolume": "3.5oz" },
+      { "ingName": "계절 과일", "ingVolume": null },
+      { "ingName": "감귤류", "ingVolume": null }
+    ],
+    "recipe": "모든 재료를 펀치 볼에 얼음과 넣고 부드럽게 저으세요. 제철 과일과 감귤류 슬라이스로 토핑을 얹으세요."
+  },
+  {
+    "id": 19,
+    "krName": "핑크 피죤 펀치",
+    "enName": "Pink Pigeon Punch",
+    "ingredients": [
+      { "ingName": "핑크 피죤 럼", "ingVolume": "7oz" },
+      { "ingName": "아가베 시럽", "ingVolume": "1oz" },
+      { "ingName": "수박", "ingVolume": "7oz" },
+      { "ingName": "레몬 주스", "ingVolume": "2개" },
+      { "ingName": "생강즙", "ingVolume": null }
+    ],
+    "recipe": "큰 물병이나 펀치볼에 핑크 피죤 럼, 레몬 2개와 아가베 주스를 넣고 섞어줍니다. 믹서기에 신선한 수박 7oz를 갈아서 넣은 뒤, 얼음을 충분히 넣고 저어주세요. 마지막으로 생각 맥주를 부어주고 잔에 붓습니다."
+  },
+  {
+    "id": 20,
+    "krName": "킹스 스퀴즈",
+    "enName": "The King's Squeeze",
+    "ingredients": [
+      { "ingName": "킹스 진저 리큐르", "ingVolume": "35ml" },
+      { "ingName": "피버-트리 비터 레몬", "ingVolume": "125ml" },
+      { "ingName": "라임 스퀴즈", "ingVolume": null }
+    ],
+    "recipe": "얼음이 가득 찬 높은 유리잔에 재료를 넣고, 라임을 짜 넣어줍니다."
+  },
+  {
+    "id": 21,
+    "krName": "갓파더",
+    "enName": "Godfather",
+    "ingredients": [
+      { "ingName": "스카치 위스키", "ingVolume": "1.5oz" },
+      { "ingName": "아마레토", "ingVolume": "0.5oz" },
+      { "ingName": "오렌지 껍질", "ingVolume": null },
+      { "ingName": "레몬껍질", "ingVolume": null },
+      { "ingName": "후추", "ingVolume": null }
+    ],
+    "recipe": "락 글라스에 얼음을 채운 후 얼음 위로 스카치위스키와 아마레토를 부어줍니다."
+  },
+  {
+    "id": 22,
+    "krName": "버진 피나 콜라다",
+    "enName": "Virgin Pina Colada",
+    "ingredients": [
+      { "ingName": "코코넛 밀크", "ingVolume": "30ml" },
+      { "ingName": "얼음", "ingVolume": "100g" },
+      { "ingName": "마라스키노 체리", "ingVolume": "1개" },
+      { "ingName": "파인애플", "ingVolume": "1wedge" },
+      { "ingName": "파인애플 주스", "ingVolume": "120ml" },
+      { "ingName": "휘핑크림", "ingVolume": "30ml" }
+    ],
+    "recipe": "믹서기에 으깬 얼음을 넣고, 코코넛 밀크(또는 코코넛 크림이나 코코넛 시럽) 30ml와 파인애플 주스 120ml를 추가한 뒤, 부드러워질 때까지 갈아서 허리케인 잔에 붓고 휘핑크림으로 토핑하고 웨지 파인애플과 마라스키노 체리로 장식한다."
+  },
+  {
+    "id": 23,
+    "krName": "셜리 템플",
+    "enName": "Shirley Temple",
+    "ingredients": [
+      { "ingName": "그레나딘 시럽", "ingVolume": "1dash" },
+      { "ingName": "레몬에이드", "ingVolume": "60ml" },
+      { "ingName": "마라스키노 체리", "ingVolume": "1개" },
+      { "ingName": "진저에일", "ingVolume": "60ml" }
+    ],
+    "recipe": "높은 컵에 얼음을 채우고 그레나딘 시럽, 레몬에이드, 진저에일을 넣은 후 스푼으로 저어주며 섞은 뒤 마라스키노 체리로 장식합니다."
+  },
+  {
+    "id": 24,
+    "krName": "로이 로저스",
+    "enName": "Roy Rogers",
+    "ingredients": [
+      { "ingName": "콜라", "ingVolume": "200ml" },
+      { "ingName": "그레나딘 시럽", "ingVolume": "10ml" },
+      { "ingName": "얼음", "ingVolume": "100g" },
+      { "ingName": "마라스키노 체리", "ingVolume": "1개" }
+    ],
+    "recipe": "하이볼 글라스에 얼음을 넣고 그레나딘 시럽 10ml를 붓고 잔에 콜라를 채우고 잘 저어주고 마라스키노 체리로 장식합니다."
+  },
+  {
+    "id": 25,
+    "krName": "한라토닉",
+    "enName": "Halla Tonic",
+    "ingredients": [
+      { "ingName": "얼음", "ingVolume": "100g" },
+      { "ingName": "레몬", "ingVolume": "1slice" },
+      { "ingName": "토닉워터", "ingVolume": "60ml" },
+      { "ingName": "소주", "ingVolume": "30ml" }
+    ],
+    "recipe": "하이볼잔에 각얼음을 넣고, 얼음위에 소주와 반드시 단맛이 있는 토닉워터를 1:2의 비율로 붓고 레몬 슬라이스로 장식하거나 레몬즙이나 라임즙을 넣어 대체가능합니다."
+  },
+  {
+    "id": 26,
+    "krName": "고진감래주",
+    "enName": "No pain, No gain",
+    "ingredients": [
+      { "ingName": "콜라", "ingVolume": "15ml" },
+      { "ingName": "맥주", "ingVolume": "50ml" },
+      { "ingName": "소주", "ingVolume": "15ml" }
+    ],
+    "recipe": "소주잔 1에 콜라를 반만 따라서 맥주잔 안에 넣고, 소주잔 2에 소주를 반만 따라서 맥주잔 안에 있는 소주잔 1위에 포개어 놓고 맥주로 맥주잔으로 채우는데 소주잔에 들어가지 않도록 주의합니다."
+  },
+  {
+    "id": 27,
+    "krName": "에너자이저주",
+    "enName": "Energyju",
+    "ingredients": [
+      { "ingName": "얼음", "ingVolume": "100g" },
+      { "ingName": "파워에이드", "ingVolume": "30ml" },
+      { "ingName": "핫식스", "ingVolume": "30ml" },
+      { "ingName": "소주", "ingVolume": "30ml" }
+    ],
+    "recipe": "맥주잔에 각얼음을 넣고, 얼음 위에 소주, 파워에이드, 핫식스를 1:1:1의 비율로 붓고, 잘 저어줍니다."
+  },
+  {
+    "id": 28,
+    "krName": "꿀주",
+    "enName": "Honey Cocktail",
+    "ingredients": [
+      { "ingName": "맥주", "ingVolume": "3ml" },
+      { "ingName": "소주", "ingVolume": "27ml" }
+    ],
+    "recipe": "소주잔에 소주를 9의 비율로 채우고, 맥주를 1의 비율로 채우고 맥주색이 전체적으로 퍼지는 순간 원샷"
+  },
+  {
+    "id": 29,
+    "krName": "화이트 러시안",
+    "enName": "White Russian",
+    "ingredients": [
+      { "ingName": "크림", "ingVolume": "3ml" },
+      { "ingName": "얼음", "ingVolume": "100g" },
+      { "ingName": "커피 리큐르", "ingVolume": "30ml" },
+      { "ingName": "보드카", "ingVolume": "50ml" }
+    ],
+    "recipe": "락글라스에 각얼음을 넣고, 얼음 위에 보드카 50ml, 커피 리큐르 30ml, 크림 30ml를 붓고 잘 저어줍니다."
+  },
+  {
+    "id": 30,
+    "krName": "보드카 마티니",
+    "enName": "Vodka Martini",
+    "ingredients": [
+      { "ingName": "얼음", "ingVolume": "100g" },
+      { "ingName": "레몬", "ingVolume": "1peel" },
+      { "ingName": "올리브", "ingVolume": "1개" },
+      { "ingName": "드라이 베르무트", "ingVolume": "15ml" },
+      { "ingName": "보드카", "ingVolume": "55ml" }
+    ],
+    "recipe": "믹싱 글라스에 각얼음을 채우고 보드카 55ml와 드라이 베르무트 15ml를 넣고 잘 저어 칵테일 글라스에 따르고 레몬 껍질을 음료에 짜내고 그린 올리브로 장식합니다."
+  },
+  {
+    "id": 31,
+    "krName": "데킬라 선라이즈",
+    "enName": "Tequila Sunrise",
+    "ingredients": [
+      { "ingName": "그레나딘 시럽", "ingVolume": "15ml" },
+      { "ingName": "얼음", "ingVolume": "100g" },
+      { "ingName": "마라스키노 체리", "ingVolume": "1개" },
+      { "ingName": "오렌지", "ingVolume": "1slice" },
+      { "ingName": "오렌지 주스", "ingVolume": "90ml" },
+      { "ingName": "데킬라 블랑코", "ingVolume": "45ml" }
+    ],
+    "recipe": "하이볼 잔에 얼음을 채우고, 얼음 위에 데킬라 45ml, 오렌지 주스 90ml를 붓고 그레나딘 시럽 15ml를 넣고, 저으면 안되고 오렌지 슬라이스와 체리로 장식합니다."
+  },
+  {
+    "id": 32,
+    "krName": "싱가포르 슬링",
+    "enName": "Singapore Sling",
+    "ingredients": [
+      { "ingName": "앙고스투라 비터", "ingVolume": "1dash" },
+      { "ingName": "그레나딘 시럽", "ingVolume": "10ml" },
+      { "ingName": "얼음", "ingVolume": "100g" },
+      { "ingName": "레몬", "ingVolume": "1half" },
+      { "ingName": "마라스키노 체리", "ingVolume": "1개" },
+      { "ingName": "파인애플", "ingVolume": "1slice" },
+      { "ingName": "파인애플 주스", "ingVolume": "120ml" },
+      { "ingName": "베네딕틴 D.O.M", "ingVolume": "7ml" },
+      { "ingName": "체리 브랜디", "ingVolume": "15ml" },
+      { "ingName": "쿠앵트로", "ingVolume": "7ml" },
+      { "ingName": "진", "ingVolume": "30ml" }
+    ],
+    "recipe": "얼음을 채운 셰이커에 레몬 반개(15ml)를 짜서 넣고 다른 재료를 넣고 잘 흔들고, 허리케인 잔에 따른 뒤 파인애플 웨지와 마라스키노 체리로 장식한다."
+  },
+  {
+    "id": 33,
+    "krName": "실버 불렛",
+    "enName": "Silver Bullet",
+    "ingredients": [
+      { "ingName": "얼음", "ingVolume": "100g" },
+      { "ingName": "레몬", "ingVolume": "1twist" },
+      { "ingName": "진", "ingVolume": "60ml" },
+      { "ingName": "스카치 위스키", "ingVolume": "30ml" }
+    ],
+    "recipe": "셰이커나 믹싱 클라스에 얼음을 채우고, 스카치위스키 30ml, 진 60ml를 넣고 저은 후 칵테일 글라스에 따르고 레몬 트위스트로 장식한다."
+  },
+  {
+    "id": 34,
+    "krName": "사이드 카",
+    "enName": "Sidecar",
+    "ingredients": [
+      { "ingName": "얼음", "ingVolume": "100g" },
+      { "ingName": "레몬", "ingVolume": "1개" },
+      { "ingName": "설탕", "ingVolume": "10g" },
+      { "ingName": "꼬냑", "ingVolume": "50ml" },
+      { "ingName": "쿠앵트로", "ingVolume": "30ml" }
+    ],
+    "recipe": "셰이커에 얼음을 채우고 꼬냑 또는 버번 위스키 50ml, 쿠앵트로 30ml, 레몬 주스 15ml를 채우고 잘 흔들어 설탕 테두리가 있는 칵테일 글라스에 따르고 레몬 트위스트로 장식한다."
+  },
+  {
+    "id": 35,
+    "krName": "섹스온더비치",
+    "enName": "Sex on the beach",
+    "ingredients": [
+      { "ingName": "크랜베리 주스", "ingVolume": "40ml" },
+      { "ingName": "얼음", "ingVolume": "100g" },
+      { "ingName": "오렌지", "ingVolume": "1slice" },
+      { "ingName": "오렌지 주스", "ingVolume": "40ml" },
+      { "ingName": "보드카", "ingVolume": "40ml" },
+      { "ingName": "복숭아 리큐르", "ingVolume": "20ml" }
+    ],
+    "recipe": "하이볼 잔에 얼음을 채우고 보드카 40ml, 복숭아 리큐르 20ml, 오렌지 주스 40ml, 크랜베리 주스 40ml를 붓고 살살 저어준 뒤 오렌지 슬라이스로 장식한다."
+  },
+  {
+    "id": 36,
+    "krName": "씨 브리즈",
+    "enName": "Sea Breeze",
+    "ingredients": [
+      { "ingName": "크랜베리 주스", "ingVolume": "120ml" },
+      { "ingName": "자몽 주스", "ingVolume": "30ml" },
+      { "ingName": "얼음", "ingVolume": "100g" },
+      { "ingName": "마라스키노 체리", "ingVolume": "1개" },
+      { "ingName": "오렌지", "ingVolume": "1peel" },
+      { "ingName": "보드카", "ingVolume": "40ml" }
+    ],
+    "recipe": "하이볼 잔에 얼음을 채우고 보드카 40ml, 크랜베리 주스 120ml, 자몽 주스 30ml를 붓고 부드럽게 저어주고 오렌지 제스트와 마라스키노 체리로 장식한다."
+  },
+  {
+    "id": 37,
+    "krName": "스크류드라이버",
+    "enName": "Screwdriver",
+    "ingredients": [
+      { "ingName": "얼음", "ingVolume": "100g" },
+      { "ingName": "오렌지", "ingVolume": "1slice" },
+      { "ingName": "오렌지 주스", "ingVolume": "100ml" },
+      { "ingName": "보드카", "ingVolume": "50ml" }
+    ],
+    "recipe": "하이볼 잔에 얼음을 채우고 얼음 위에 보드카 50ml, 오렌지 주스 100ml를 붓고 살살 저어주고 오렌지 슬라이스로 장식한다."
+  },
+  {
+    "id": 38,
+    "krName": "샹그리아",
+    "enName": "Sangria",
+    "ingredients": [
+      { "ingName": "얼음", "ingVolume": "100g" },
+      { "ingName": "레몬", "ingVolume": "1개" },
+      { "ingName": "오렌지", "ingVolume": "1개" },
+      { "ingName": "탄산수", "ingVolume": "200ml" },
+      { "ingName": "설탕", "ingVolume": "20g" },
+      { "ingName": "브랜디", "ingVolume": "50ml" },
+      { "ingName": "레드 와인", "ingVolume": "750ml" }
+    ],
+    "recipe": "피처에 적포도주나 백포도주 한 병을 붓고 오렌지와 레몬은 웨지 모양으로 썰어 와인에 살짝 짜 넣고 기호에 따라 다른 과일도 추가하고 설탕이나 꿀을 3~4티스푼 넣고 브랜디 50ml, 진저 에일 또는 탄산수 200ml(선택적으로 음료를 더 부드럽게 만들고 싶다면)를 넣고 선택적으로 얼음을 넣고 저어준다."
+  },
+  {
+    "id": 39,
+    "krName": "러스티 네일",
+    "enName": "Rusty Nail",
+    "ingredients": [
+      { "ingName": "얼음", "ingVolume": "100g" },
+      { "ingName": "레몬", "ingVolume": "1twist" },
+      { "ingName": "드람부이", "ingVolume": "25ml" },
+      { "ingName": "스카치 위스키", "ingVolume": "45ml" }
+    ],
+    "recipe": "락 글라스에 얼을 채우고 스카치위스키 45ml, 드람부이 25ml를 채우고 부드럽게 저어주고 레몬 트위스트로 장식한다."
+  },
+  {
+    "id": 40,
+    "krName": "키르",
+    "enName": "Kir",
+    "ingredients": [
+      { "ingName": "크림 드 카시스", "ingVolume": "10ml" },
+      { "ingName": "화이트 와인", "ingVolume": "90ml" }
+    ],
+    "recipe": "1. 플루트 잔에 크림 드 카시스 10ml를 붓는다. 2. 드라이 화이트 와인 90ml를 얹는다."
+  },
+  {
+    "id": 41,
+    "krName": "젤리피쉬",
+    "enName": "Jellyfish",
+    "ingredients": [
+      { "ingName": "그레나딘 시럽", "ingVolume": "4drops" },
+      { "ingName": "아마레토", "ingVolume": "10ml" },
+      { "ingName": "베일리스", "ingVolume": "10ml" },
+      { "ingName": "크림 드 카카오 화이트", "ingVolume": "25ml" }
+    ],
+    "recipe": "1. 슈터 글라스에 크림 드 카카오 화이트 25ml를 붓는다. 2. 그 위에 아마레토 10ml를 살살 올린다. 3. 아마레토 위에 베일리스 10ml를 부드럽게 붓는다. 4. 그레나딘 시럽 몇 방울을 추가한다."
+  },
+  {
+    "id": 42,
+    "krName": "예거밤",
+    "enName": "Jager Bomb",
+    "ingredients": [
+      { "ingName": "콜라", "ingVolume": "150ml" },
+      { "ingName": "얼음", "ingVolume": "100gram" },
+      { "ingName": "잭 다니엘", "ingVolume": "50ml" }
+    ],
+    "recipe": "1. 펍 글라스에 레드불 반 캔을 붓는다. 2. 예거마이스터 한 잔을 레드불을 넣은 글라스에 떨어뜨린다."
+  },
+  {
+    "id": 43,
+    "krName": "잭콕",
+    "enName": "Jack Coke",
+    "ingredients": [
+      { "ingName": "레드불", "ingVolume": "125ml" },
+      { "ingName": "예거 마이스터", "ingVolume": "50ml" }
+    ],
+    "recipe": "1. 콜린스 잔에 얼음을 채운다. 2. 얼음 위에 잭다니엘 50ml와 콜라 150ml를 붓는다. 3. 부드럽게 저어줍니다."
+  },
+  {
+    "id": 44,
+    "krName": "허리케인",
+    "enName": "Hurricane",
+    "ingredients": [
+      { "ingName": "그레나딘 시럽", "ingVolume": "15ml" },
+      { "ingName": "얼음", "ingVolume": "100gram" },
+      { "ingName": "라임", "ingVolume": "1half" },
+      { "ingName": "마라스키노 체리", "ingVolume": "1개" },
+      { "ingName": "오렌지", "ingVolume": "1slice" },
+      { "ingName": "오렌지 주스", "ingVolume": "30ml" },
+      { "ingName": "설탕 시럽", "ingVolume": "15ml" },
+      { "ingName": "패션, 루트 주스", "ingVolume": "60ml" },
+      { "ingName": "다크 럼", "ingVolume": "60ml" },
+      { "ingName": "오버프루프 럼", "ingVolume": "30ml" },
+      { "ingName": "화이트 럼", "ingVolume": "60ml" }
+    ],
+    "recipe": "1. 칵테일 셰이커에 얼음을 채운다. 2. 화이트 럼 60ml와 다크 럼 60ml를 넣는다. 선택적으로 오버프루프 럼 30ml을 추가한다. 3. 패션프루트 주스 60ml, 오렌지 주스 30ml, 라임 주스 30ml를 넣는다. 4. 마지막으로 그레나딘 시럽 15ml와 설탕 시럽 15ml를 붓는다. 5. 잘 흔들어 얼음을 채운 허리케인 글라스에 따른다. 6. 오렌지 슬라이스와 체리로 장식한다."
+  },
+  {
+    "id": 45,
+    "krName": "핫 토디",
+    "enName": "Hot Toddy",
+    "ingredients": [
+      { "ingName": "꿀", "ingVolume": "1teaspoon" },
+      { "ingName": "레몬", "ingVolume": "1조각" },
+      { "ingName": "물", "ingVolume": "100ml" },
+      { "ingName": "위스키", "ingVolume": "45ml" },
+      { "ingName": "계피 스틱", "ingVolume": "1개" },
+      { "ingName": "정향", "ingVolume": "3개" },
+      { "ingName": "팔각", "ingVolume": "1개" }
+    ],
+    "recipe": "1. 아이리쉬 커피 잔 바닥에 꿀이나 설탕 1티스푼을 넣는다. 2. 위스키 45ml을 넣고 저어 꿀이나 설탕을 녹인다. 3. 계피스틱, 정향, 팔각 등의 향신료를 넣는다. 4. 레몬 주스 10ml를 선택적으로 추가하거나 레몬조각을 넣는다. 5. 뜨거운 물이나 홍차로 잔을 채운다."
+  },
+  {
+    "id": 46,
+    "krName": "하이볼",
+    "enName": "Highball",
+    "ingredients": [
+      { "ingName": "얼음", "ingVolume": "100gram" },
+      { "ingName": "탄산수", "ingVolume": "150ml" },
+      { "ingName": "위스키", "ingVolume": "60ml" }
+    ],
+    "recipe": "1. 하이볼 잔에 얼음을 채운다. 2. 얼음 위에 위스키 60ml를 붓고 진저에일 또는 탄산수로 잔을 채운다."
+  },
+  {
+    "id": 47,
+    "krName": "하비 월뱅어",
+    "enName": "Harvey Wallbanger",
+    "ingredients": [
+      { "ingName": "얼음", "ingVolume": "100gram" },
+      { "ingName": "마라스키노 체리", "ingVolume": "1개" },
+      { "ingName": "오렌지", "ingVolume": "1slice" },
+      { "ingName": "오렌지 주스", "ingVolume": "90ml" },
+      { "ingName": "갈리아노", "ingVolume": "15ml" },
+      { "ingName": "보드카", "ingVolume": "45ml" }
+    ],
+    "recipe": "1. 하이볼 잔에 얼음을 채운다. 2. 얼음 위에 보드카 45ml, 오렌지 주스 90ml를 붓는다. 3. 살살 저어준 후 갈리아노 15ml를 얹는다. 4. 오렌지 슬라이스와 마라스키노 체리로 장식한다."
+  },
+  {
+    "id": 48,
+    "krName": "그린 멕시칸",
+    "enName": "Green Mexican",
+    "ingredients": [
+      { "ingName": "얼음", "ingVolume": "100gram" },
+      { "ingName": "레몬", "ingVolume": "1half" },
+      { "ingName": "설탕 시럽", "ingVolume": "45ml" },
+      { "ingName": "미도리", "ingVolume": "90ml" },
+      { "ingName": "데킬라 블랑코", "ingVolume": "90ml" }
+    ],
+    "recipe": "1. 콜린스 잔에 얼음을 채운다. 2. 데킬라 블랑코 90ml, 미도리 90ml를 넣고 잔의 나머지를 레몬 주스 약 45ml, 설탕 시럽 45ml로 채운다."
+  },
+  {
+    "id": 49,
+    "krName": "그래스호퍼",
+    "enName": "Grasshopper",
+    "ingredients": [
+      { "ingName": "크림", "ingVolume": "20ml" },
+      { "ingName": "얼음", "ingVolume": "100gram" },
+      { "ingName": "민트", "ingVolume": "1개" },
+      { "ingName": "크림 드 카카오 화이트", "ingVolume": "20ml" },
+      { "ingName": "크렘 드 민트 그린", "ingVolume": "20ml" }
+    ],
+    "recipe": "1. 셰이커에 각얼음을 채운다. 2. 크림 드 민트 그린 20ml, 크림 드 카카오 화이트 20ml, 크림 20ml를 넣는다. 3. 몇 초간 흔든 후 차가운 칵테일 글라스에 따른다. 4. 선택적으로 민트 잎으로 장식한다."
+  },
+  {
+    "id": 50,
+    "krName": "골드 러쉬",
+    "enName": "Gold Rush",
+    "ingredients": [
+      { "ingName": "꿀 시럽", "ingVolume": "20ml" },
+      { "ingName": "얼음", "ingVolume": "100gram" },
+      { "ingName": "레몬", "ingVolume": "2개" },
+      { "ingName": "버번 위스키", "ingVolume": "60ml" }
+    ],
+    "recipe": "1. 버번위스키 60ml, 레몬 주스 20ml, 꿀 시럽 20ml를 섞는다. 2. 잘 흔들어 얼음을 채운 락 글라스에 따른다. 3. 레몬 조각이나 레몬 트위스트로 장식한다."
+  },
+  {
+    "id": 51,
+    "krName": "갓마더",
+    "enName": "Godmother",
+    "ingredients": [
+      { "ingName": "얼음", "ingVolume": "100gram" },
+      { "ingName": "아마레토", "ingVolume": "35ml" },
+      { "ingName": "보드카", "ingVolume": "35ml" }
+    ],
+    "recipe": "1. 락 글라스에 얼음을 채운다. 2. 얼음 위에 보드카 35ml와 아마레토 35ml를 붓는다."
+  },
+  {
+    "id": 52,
+    "krName": "진토닉",
+    "enName": "Gin Tonic",
+    "ingredients": [
+      { "ingName": "얼음", "ingVolume": "100gram" },
+      { "ingName": "라임", "ingVolume": "1wedge" },
+      { "ingName": "토닉워터", "ingVolume": "100ml" },
+      { "ingName": "진", "ingVolume": "50ml" }
+    ],
+    "recipe": "1. 하이볼 잔에 얼음을 채운다. 2. 얼음 위에 진 50ml, 토닉워터 100ml를 붓는다. 3. 부드럽게 저어주고 라임 조각으로 장식한다."
+  },
+  {
+    "id": 53,
+    "krName": "진피즈",
+    "enName": "Gin Fizz",
+    "ingredients": [
+      { "ingName": "얼음", "ingVolume": "100gram" },
+      { "ingName": "레몬", "ingVolume": "1half" },
+      { "ingName": "탄산수", "ingVolume": "80ml" },
+      { "ingName": "설탕 시럽", "ingVolume": "10ml" },
+      { "ingName": "진", "ingVolume": "45ml" }
+    ],
+    "recipe": "1. 하이볼 잔에 얼음을 채운다. 2. 진 45ml, 레몬 주스 30ml, 설탕 시럽 10ml를 붓는다. 3. 탄산수를 넣는다.4. 레몬 슬라이스로 장식한다."
+  },
+  {
+    "id": 54,
+    "krName": "김렛",
+    "enName": "Gimlet",
+    "ingredients": [
+      { "ingName": "얼음", "ingVolume": "50gram" },
+      { "ingName": "라임", "ingVolume": "1개" },
+      { "ingName": "설탕 시럽", "ingVolume": "15ml" },
+      { "ingName": "진", "ingVolume": "60ml" }
+    ],
+    "recipe": "1. 믹싱 글라스에 각얼음을 채운다. 2. 진 60ml, 라임 주스 15ml를 넣는다. 3. 선택적으로 설탕 시럽 15ml를 넣는다. 4. 잘 저어 차가운 칵테일 글라스에 따른다. 5. 라임 조각이나 라임 트위스트로 장식한다."
+  },
+  {
+    "id": 55,
+    "krName": "깁슨",
+    "enName": "Gibson",
+    "ingredients": [
+      { "ingName": "얼음", "ingVolume": "100gram" },
+      { "ingName": "방울양파", "ingVolume": "1peel" },
+      { "ingName": "드라이 베르무트", "ingVolume": "10ml" },
+      { "ingName": "진", "ingVolume": "60ml" }
+    ],
+    "recipe": "1. 셰이커에 얼음을 채우고 진 60ml, 드라이 베르무트 10ml를 넣는다. 2. 저어서 칵테일 글라스에 따른다. 3. 방울양파로 장식한다."
+  },
+  {
+    "id": 56,
+    "krName": "애플 마티니",
+    "enName": "Apple Martini",
+    "ingredients": [
+      { "ingName": "사과", "ingVolume": "1slice" },
+      { "ingName": "얼음", "ingVolume": "100gram" },
+      { "ingName": "사과 리큐르", "ingVolume": "15ml" },
+      { "ingName": "쿠앵트로", "ingVolume": "15ml" },
+      { "ingName": "보드카", "ingVolume": "40ml" }
+    ],
+    "recipe": "1. 믹싱 글라스에 얼음을 넣는다. 2. 보드카 40ml, 사과 리큐르 15ml, 쿠앵트로 15ml를 넣는다. 3. 잘 저어 차가운 칵테일 글라스에 따른다. 4. 사과 한 조각으로 장식한다."
+  }
+]

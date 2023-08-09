@@ -26,6 +26,12 @@ function Layout() {
   const signupCloseModal = () => setSignupIsModalOpen(false);
   const userEditModalOpen = () => setUserEditIsModalOpen(true);
   const userEditCloseModal = () => setUserEditIsModalOpen(false);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    })}
   return (
     <div style={{ padding: '6rem 0' }}>
       <Header>
@@ -45,6 +51,9 @@ function Layout() {
           <FontAwesomeIcon style={{ fontSize: '24px' }} icon={faBars} onClick={toggleSidebar} />
         </HeaderRight>
       </Header>
+      <ScrollContainer>
+        <TopButton onClick={scrollToTop}>Top</TopButton>
+      </ScrollContainer>
       {sidebarVisible && <SideBar onClose={toggleSidebar} />}
       <Outlet />
       <Login isOpen={loginIsModalOpen} closeModal={loginCloseModal} />
@@ -172,3 +181,24 @@ const UserEditButton = styled.button`
   border: none;
   color: #ffffff;
 `;
+
+const ScrollContainer = styled.div`
+  position: fixed;
+  right: 1rem;
+  bottom: 6rem;
+  z-index: 5;
+`
+const TopButton = styled.button`
+  font-weight: bold;
+  font-size: 15px;
+  padding :15px 10px;
+  background-color: var(--color-black);
+  color:var(--color-white);
+  border: 1px solid var(--color-white);
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+&:hover{
+  color : var(--color-gray);
+}
+`
