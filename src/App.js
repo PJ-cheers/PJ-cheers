@@ -13,6 +13,7 @@ const GlobalStyle = createGlobalStyle`
   ${reset}
 body{
   font-family: 'Noto Sans KR', sans-serif;
+  background-color: #313131;
 }
 `;
 const queryClient = new QueryClient();

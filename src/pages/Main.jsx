@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 
@@ -28,6 +29,9 @@ function Main() {
 
   return (
     <>
+      <Link to="/recipe/:id">
+        <button>상세페이지</button>
+      </Link>
       <h1 style={{ fontSize: '24px' }}>인기 레시피</h1>
       <div
         style={{
