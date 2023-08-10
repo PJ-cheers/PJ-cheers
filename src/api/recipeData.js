@@ -1,4 +1,4 @@
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDoc, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 
 const getDIYData = async () => {
@@ -10,4 +10,32 @@ const getDIYData = async () => {
   return fetchedData;
 };
 
-export { getDIYData };
+const getCocktailData = async () => {
+  const cocktailCollectionRef = collection(db, 'cocktails');
+  const cocktailQuerySnapshot = await getDocs(cocktailCollectionRef);
+
+  const cocktailsDataPromises = cocktailQuerySnapshot.docs.map(async (cocktailDoc) => {
+    const cocktailId = cocktailDoc.id;
+
+    const cocktailSnapshot = await getDoc(cocktailDoc.ref);
+
+    const ingredientsSnapshot = await getDocs(collection(cocktailDoc.ref, 'ingredients'));
+
+    return {
+      id: cocktailId,
+      ...cocktailSnapshot.data(),
+      ingredients: ingredientsSnapshot.docs.map((ingredientDoc) => {
+        return {
+          id: ingredientDoc.id,
+          ...ingredientDoc.data()
+        };
+      })
+    };
+  });
+
+  const cocktailsData = await Promise.all(cocktailsDataPromises);
+
+  return cocktailsData;
+};
+
+export { getDIYData, getCocktailData };

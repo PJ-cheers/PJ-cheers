@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Login from '../components/Login';
 import Signup from '../components/Signup';
@@ -10,10 +10,31 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faMagnifyingGlass, faBars } from '@fortawesome/free-solid-svg-icons';
 import SideBar from '../pages/SideBar';
 import UserEdit from '../components/UserEdit';
+import { getCocktailData } from '../api/recipeData';
 
 function Layout() {
+  const [searchTerm, setSearchTerm] = useState('');
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [modalType, setModalType] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearchInputChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearchSubmit = async () => {
+    const cocktailsData = await getCocktailData();
+
+    const filteredData = cocktailsData.filter((cocktail) => {
+      return (
+        cocktail.krName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        cocktail.enName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
+
+    console.log('필터된 데이터:', filteredData);
+    navigate('/search', { state: { cocktails: filteredData } });
+  };
 
   // login, signup, edit
   const handleOpenModal = (type) => {
@@ -41,10 +62,20 @@ function Layout() {
         <Link to="/">
           <ImgLogo src="img/cheers_logo_white.png" alt="logoImage"></ImgLogo>
         </Link>
-        <HeaderMiddle>
-          <input type="text" placeholder="검색어를 입력해 주세요"></input>
+        <HeaderMiddle
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSearchSubmit();
+          }}
+        >
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={handleSearchInputChange}
+            placeholder="검색어를 입력해 주세요"
+          ></input>
           <button>
-            <FontAwesomeIcon icon={faMagnifyingGlass} />
+            <FontAwesomeIcon type="Submit" icon={faMagnifyingGlass} />
           </button>
         </HeaderMiddle>
         <HeaderRight>
