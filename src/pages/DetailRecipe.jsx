@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { useNavigate, useParams } from 'react-router-dom';
+import Slider from 'react-slick';
+import { useParams } from 'react-router-dom';
 import { getDoc, getDocs, collection } from 'firebase/firestore';
+import { YoutubeDataContext } from '../api/YoutubeDataContext';
 import { db } from '../firebase';
 import { useQuery } from 'react-query';
 
@@ -35,8 +37,12 @@ const getCocktailData = async () => {
 };
 
 function DetailRecipe() {
+  const { playlists, videosList, videoId, setVideoId, handleVideoEnd } = useContext(YoutubeDataContext);
+  const playlistId = 'PLhD80yCklGmZqOBTMAlfMz0sZryCVKO_Y';
+  const videoData = videosList[playlistId];
   // useParams를 이용하여 url의 id를 가져옴
   const { id } = useParams();
+  console.log(videoData);
 
   const { data: cocktailData } = useQuery('fetchCocktailData', getCocktailData);
 
@@ -44,6 +50,15 @@ function DetailRecipe() {
     return item.id === id;
   }
 
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    cssEase: 'linear',
+    slide: 'div'
+  };
   return (
     <>
       <ButtonBack>←</ButtonBack>
@@ -52,7 +67,7 @@ function DetailRecipe() {
           <h2>{cocktailData?.find(findCocktail).krName}</h2>
           <p>{cocktailData?.find(findCocktail).enName}</p>
         </CocktailName>
-        <ImgCocktail src={cocktailData?.find(findCocktail).cocktailImg} alt="cocktailImage" />
+        <ImgCocktail src={cocktailData?.find(findCocktail).imgurl} alt="cocktailImage" />
         <Ingredients>
           <IngredientTitle>
             <h3>재료</h3>
@@ -79,9 +94,26 @@ function DetailRecipe() {
             <h4>관련영상</h4>
           </VideoTitle>
           <VideoContent>
-            <div>동영상</div>
-            <p>영상 제목</p>
-            <p>Youtube</p>
+            <Slider {...sliderSettings}>
+              {videoData?.map((video, index) => {
+                const { title, thumbnails } = video.snippet;
+                const { videoId } = video.snippet.resourceId;
+                return (
+                  <SlickSlideStyled key={index}>
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src={`https://www.youtube.com/embed/${videoId}`}
+                      title={title}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                    <p>{title}</p>
+                  </SlickSlideStyled>
+                );
+              })}
+            </Slider>
           </VideoContent>
         </Video>
       </DetailContainer>
@@ -90,6 +122,13 @@ function DetailRecipe() {
 }
 
 export default DetailRecipe;
+
+const SlickSlideStyled = styled.div`
+  background-color: #d9d9d9;
+  padding: 5px;
+  border-radius: 10px;
+  margin: 10px;
+`;
 
 const ButtonBack = styled.button`
   background-color: transparent;
@@ -202,18 +241,8 @@ const VideoContent = styled.div`
   width: 70%;
   height: auto;
   margin: 2rem;
-
-  & > :nth-child(1) {
-    background-color: #000;
-    width: 12rem;
-    height: 7rem;
-  }
-
-  & > :nth-child(2) {
-    margin: 1rem 0 0.4rem 0;
-  }
-  & > :nth-child(3) {
-    color: #a6a6a6;
-    font-size: 0.8rem;
-  }
+  position: relative;
+  overflow: hidden;
+  gap: 10px;
+  width: 100%;
 `;
