@@ -3,51 +3,51 @@ import { useQuery } from 'react-query';
 import { collection, getDoc, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 
-// const getDIYData = async () => {
-//   const querySnapshot = await getDocs(collection(db, 'DIY'));
-//   const fetchedData = querySnapshot.docs.map((doc) => ({
-//     ...doc.data(),
-//     id: doc.id
-//   }));
-//   return fetchedData;
-// };
+const getDIYData = async () => {
+  const querySnapshot = await getDocs(collection(db, 'DIY'));
+  const fetchedData = querySnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id
+  }));
+  return fetchedData;
+};
 
-// const getCocktailData = async () => {
-//   const cocktailCollectionRef = collection(db, 'cocktails');
-//   const cocktailQuerySnapshot = await getDocs(cocktailCollectionRef);
+const getCocktailData = async () => {
+  const cocktailCollectionRef = collection(db, 'cocktails');
+  const cocktailQuerySnapshot = await getDocs(cocktailCollectionRef);
 
-//   const cocktailsDataPromises = cocktailQuerySnapshot.docs.map(async (cocktailDoc) => {
-//     const cocktailId = cocktailDoc.id;
+  const cocktailsDataPromises = cocktailQuerySnapshot.docs.map(async (cocktailDoc) => {
+    const cocktailId = cocktailDoc.id;
 
-//     const cocktailSnapshot = await getDoc(cocktailDoc.ref);
+    const cocktailSnapshot = await getDoc(cocktailDoc.ref);
 
-//     const ingredientsSnapshot = await getDocs(collection(cocktailDoc.ref, 'ingredients'));
+    const ingredientsSnapshot = await getDocs(collection(cocktailDoc.ref, 'ingredients'));
 
-//     return {
-//       id: cocktailId,
-//       ...cocktailSnapshot.data(),
-//       ingredients: ingredientsSnapshot.docs.map((ingredientDoc) => {
-//         return {
-//           id: ingredientDoc.id,
-//           ...ingredientDoc.data()
-//         };
-//       })
-//     };
-//   });
+    return {
+      id: cocktailId,
+      ...cocktailSnapshot.data(),
+      ingredients: ingredientsSnapshot.docs.map((ingredientDoc) => {
+        return {
+          id: ingredientDoc.id,
+          ...ingredientDoc.data()
+        };
+      })
+    };
+  });
 
-//   const cocktailsData = await Promise.all(cocktailsDataPromises);
+  const cocktailsData = await Promise.all(cocktailsDataPromises);
 
-//   return cocktailsData;
-// };
+  return cocktailsData;
+};
 
 function Main() {
-  // const { data: diyData } = useQuery('fetchDIYData', getDIYData);
-  // const { data: cocktailData } = useQuery('fetchCocktailData', getCocktailData);
+  const { data: diyData } = useQuery('fetchDIYData', getDIYData);
+  const { data: cocktailData } = useQuery(['fetchCocktailData'], getCocktailData, { refetchOnWindowFocus: false });
 
   return (
     <>
       <h1 style={{ fontSize: '24px' }}>인기 레시피</h1>
-      {/* <div style={{ display: 'flex', width: '100%' }}>
+      <div style={{ display: 'flex', width: '100%' }}>
         {cocktailData?.map((item) => {
           const ingredients = item?.ingredients || [];
           return (
@@ -91,6 +91,7 @@ function Main() {
             >
               <img
                 src={item.image}
+                alt="test"
                 style={{
                   width: '10rem',
                   height: '10rem',
@@ -103,7 +104,7 @@ function Main() {
             </div>
           );
         })}
-      </div> */}
+      </div>
     </>
   );
 }

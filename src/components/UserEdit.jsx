@@ -6,38 +6,43 @@ function UserEdit({ isOpen, closeModal }) {
     e.prevDefaultEvent();
   };
   return (
-    <Modal isOpen={isOpen} style={{ paddingTop: '6rem' }}>
-      <LoginBox>
-        <ProfileBox></ProfileBox>
-        <ProfileEdit>이미지 편집</ProfileEdit>
-        <UserBox>
-          <NickNameBox>
-            <label>닉네임</label>
-            <NickNameInput type="text"></NickNameInput>
-          </NickNameBox>
-          <PasswordBox>
-            <label>비밀번호 변경</label>
-            <PasswordInput type="password"></PasswordInput>
-          </PasswordBox>
-          <ConfirmPasswordBox>
-            <label>비밀번호 확인</label>
-            <ConfirmPasswordInput type="password"></ConfirmPasswordInput>
-          </ConfirmPasswordBox>
-          <Buttons>
-            <CancelButton onClick={closeModal}>취소</CancelButton>
-            <ConfirmButton onClick={edit}>수정</ConfirmButton>
-          </Buttons>
-        </UserBox>
-      </LoginBox>
-    </Modal>
+    <>
+      <Modal isOpen={isOpen}>
+        <LoginBox>
+          <ProfileBox></ProfileBox>
+          <ProfileEdit>이미지 편집</ProfileEdit>
+          <UserBox>
+            <NickNameBox>
+              <label>닉네임</label>
+              <NickNameInput type="text"></NickNameInput>
+            </NickNameBox>
+            <PasswordBox>
+              <label>비밀번호 변경</label>
+              <PasswordInput type="password"></PasswordInput>
+            </PasswordBox>
+            <ConfirmPasswordBox>
+              <label>비밀번호 확인</label>
+              <ConfirmPasswordInput type="password"></ConfirmPasswordInput>
+            </ConfirmPasswordBox>
+            <Buttons>
+              <CancelButton onClick={closeModal}>취소</CancelButton>
+              <ConfirmButton onClick={edit}>수정</ConfirmButton>
+            </Buttons>
+          </UserBox>
+        </LoginBox>
+      </Modal>
+    </>
   );
 }
 export default UserEdit;
 
 const Modal = styled.div`
-  display: ${(props) => (props.isOpen ? 'block' : 'none')};
+  display: ${(props) => {
+    return props.isOpen ? 'block' : 'none';
+  }};
   z-index: 30;
   position: fixed;
+  padding-top: 6rem;
   background-color: rgba(0, 0, 0, 0.9);
   justify-content: center;
   align-items: center;
