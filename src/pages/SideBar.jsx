@@ -2,12 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import { GrayButton } from '../shared/Buttons';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 function SideBar({ onClose, onLogin, onSignup }) {
   const navigate = useNavigate();
   return (
     <Wrapper onClick={onClose}>
       <SidebarContent onClick={(e) => e.stopPropagation()}>
+        <CloseIcon onClick={onClose}>
+          <FontAwesomeIcon icon={faTimes} style={{ fontSize: '30px' }} />
+        </CloseIcon>
         <ImgWrapper>
           <ProfileImg />
         </ImgWrapper>
@@ -44,6 +49,13 @@ function SideBar({ onClose, onLogin, onSignup }) {
 }
 
 export default SideBar;
+
+const CloseIcon = styled.div`
+  position: absolute;
+  top: 8rem;
+  right: 2rem;
+  cursor: pointer;
+`;
 
 const List = styled.p`
   cursor: pointer;
