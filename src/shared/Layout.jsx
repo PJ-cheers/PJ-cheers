@@ -69,14 +69,14 @@ function Layout() {
       <Signup isOpen={modalType === 'signup'} closeModal={() => handleCloseModal()} />
       <UserEdit isOpen={modalType === 'edit'} closeModal={() => handleCloseModal()} />
       <Footer>
-        <Link to="/">
+        <Link to="https://www.notion.so/fd48b261cbda4b51a7ece56e9d3f6f3d" target="_blank">
           <ImgNotion src="img/notion_logo_white.png" alt="notionImage"></ImgNotion>
         </Link>
         <p>
           © 2023 <img src="img/cheers_logo_white.png" alt="logoImage" style={{ width: '4rem' }} /> by 김채현 이지원
           전대현 정봉호
         </p>
-        <Link to="https://github.com/PJ-cheers/PJ-cheers">
+        <Link target="_blank" to="https://github.com/PJ-cheers/PJ-cheers">
           <FontAwesomeIcon icon={faGithub} size="xl" />
         </Link>
       </Footer>
