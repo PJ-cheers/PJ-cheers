@@ -7,6 +7,10 @@ import { YoutubeDataContext } from '../api/YoutubeDataContext';
 import { db } from '../firebase';
 import { useQuery } from 'react-query';
 
+// 아이콘
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+
 const getCocktailData = async () => {
   const cocktailCollectionRef = collection(db, 'cocktails');
   const cocktailQuerySnapshot = await getDocs(cocktailCollectionRef);
@@ -32,9 +36,13 @@ const getCocktailData = async () => {
 
   const cocktailsData = await Promise.all(cocktailsDataPromises);
 
-  console.log(cocktailsData);
   return cocktailsData;
 };
+
+// 버튼 클릭 시 뒤로가기
+function historyBack() {
+  window.history.back();
+}
 
 function DetailRecipe() {
   const { playlists, videosList, videoId, setVideoId, handleVideoEnd } = useContext(YoutubeDataContext);
@@ -61,13 +69,17 @@ function DetailRecipe() {
   };
   return (
     <>
-      <ButtonBack>←</ButtonBack>
+      <ButtonBack onClick={historyBack}>
+        <FontAwesomeIcon icon={faChevronLeft} />
+      </ButtonBack>
       <DetailContainer>
         <CocktailName>
           <h2>{cocktailData?.find(findCocktail).krName}</h2>
           <p>{cocktailData?.find(findCocktail).enName}</p>
         </CocktailName>
-        <ImgCocktail src={cocktailData?.find(findCocktail).imgurl} alt="cocktailImage" />
+        <ImgCocktail>
+          <img src={cocktailData?.find(findCocktail).cocktailImg} alt="cocktailImage" />
+        </ImgCocktail>
         <Ingredients>
           <IngredientTitle>
             <h3>재료</h3>
@@ -133,9 +145,11 @@ const SlickSlideStyled = styled.div`
 const ButtonBack = styled.button`
   background-color: transparent;
   margin: 1rem;
+  padding: 1rem;
   border: none;
   color: #fff;
   font-size: 2rem;
+  cursor: pointer;
 `;
 
 const DetailContainer = styled.div`
@@ -151,7 +165,7 @@ const CocktailName = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 1rem 0;
+  margin: 0 0 2rem 0;
 
   & > h2 {
     font-size: 32px;
@@ -163,10 +177,20 @@ const CocktailName = styled.div`
   }
 `;
 
-const ImgCocktail = styled.img`
+const ImgCocktail = styled.div`
   width: 30rem;
   height: 30rem;
-  margin: 1rem 0;
+  margin: 2rem 0;
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > img {
+    width: 100%;
+    height: auto;
+  }
 `;
 
 const Ingredients = styled.div`

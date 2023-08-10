@@ -48,6 +48,7 @@ function BoardRecipe() {
               key={item.id}
               onClick={() => {
                 navigate(`/recipe/${item.id}`);
+                window.scrollTo(0, 0);
               }}
             >
               {item.imgUrl}
@@ -89,4 +90,5 @@ const CockTailImage = styled.div`
   height: 8.25rem;
   border-radius: 50%;
   background-color: #ffffff;
+  cursor: pointer;
 `;
