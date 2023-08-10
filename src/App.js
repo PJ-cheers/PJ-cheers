@@ -15,6 +15,10 @@ body{
   font-family: 'Noto Sans KR', sans-serif;
   background-color: #313131;
 }
+.slick-slide {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 `;
 const queryClient = new QueryClient({
   defaultOptions: {

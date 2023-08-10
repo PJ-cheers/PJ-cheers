@@ -8,6 +8,7 @@ import Layout from './Layout';
 import BoardRecipe from '../pages/BoardRecipe';
 import NotFoundPage from '../pages/NotFoundPage';
 import Search from '../pages/Search';
+import MyPage from '../pages/MyPage';
 
 function Router() {
   return (
@@ -19,6 +20,7 @@ function Router() {
         <Route path="/recipe" element={<BoardRecipe />} />
         <Route path="/recipe/:id" element={<DetailRecipe />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/mypage" element={<MyPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

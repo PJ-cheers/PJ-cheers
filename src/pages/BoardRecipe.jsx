@@ -90,4 +90,5 @@ const CockTailImage = styled.div`
   height: 8.25rem;
   border-radius: 50%;
   background-color: #ffffff;
+  cursor: pointer;
 `;

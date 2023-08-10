@@ -2,6 +2,8 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { collection, getDoc, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
+import { useNavigate } from 'react-router-dom';
+
 const getDIYData = async () => {
   const querySnapshot = await getDocs(collection(db, 'DIY'));
   const fetchedData = querySnapshot.docs.map((doc) => ({
@@ -10,6 +12,7 @@ const getDIYData = async () => {
   }));
   return fetchedData;
 };
+
 const getCocktailData = async () => {
   const cocktailCollectionRef = collection(db, 'cocktails');
   const cocktailQuerySnapshot = await getDocs(cocktailCollectionRef);
@@ -39,6 +42,8 @@ const getCocktailData = async () => {
 };
 
 function Main() {
+  const navigate = useNavigate();
+
   const { data: diyData } = useQuery('fetchDIYData', getDIYData);
   const { data: cocktailData } = useQuery('fetchCocktailData', getCocktailData);
 
@@ -57,7 +62,12 @@ function Main() {
                 margin: '1rem',
                 width: '20rem',
                 height: '24rem',
-                position: 'relative'
+                position: 'relative',
+                cursor: 'pointer'
+              }}
+              onClick={() => {
+                navigate(`/recipe/${item.id}`);
+                window.scrollTo(0, 0);
               }}
             >
               <h2>{item.krName}</h2>
