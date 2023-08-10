@@ -5,6 +5,7 @@ import { collection, addDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { storage } from '../firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { GrayButton } from '../shared/Buttons';
 
 function AddBoard() {
   const fileInput = React.useRef(null);
@@ -12,6 +13,8 @@ function AddBoard() {
   const [content, setContent] = useState('');
   const [fileName, setFileName] = useState('');
   const [imgUrl, setImgUrl] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
   const navigate = useNavigate();
 
   const handleCancelClick = (e) => {
@@ -21,8 +24,17 @@ function AddBoard() {
   const handleSaveClick = async (e) => {
     e.preventDefault();
 
-    if (title.trim() === '' || content.trim() === '' || imgUrl.trim() === '') {
-      alert('제목과 내용을 모두 입력해주세요.');
+    if (title.trim() === '') {
+      setModalMessage('제목을 입력해주세요.');
+      setIsModalOpen(true);
+      return;
+    } else if (content.trim() === '') {
+      setModalMessage('내용을 입력해주세요.');
+      setIsModalOpen(true);
+      return;
+    } else if (fileName.trim() === '') {
+      setModalMessage('업로드할 이미지를 선택해주세요.');
+      setIsModalOpen(true);
       return;
     }
 
@@ -40,6 +52,7 @@ function AddBoard() {
     } catch (error) {
       console.error('Error adding document: ', error);
     }
+    setIsModalOpen(true);
   };
   const handleChangeTitle = (e) => {
     setTitle(e.target.value);
@@ -82,15 +95,23 @@ function AddBoard() {
       </ContentBox>
       <Buttons>
         <div>
-          <UploadButton onClick={handleUploadClick}>업로드</UploadButton>
+          <GrayButton onClick={handleUploadClick}>업로드</GrayButton>
           <Upload type="file" ref={fileInput} onChange={handleChange}></Upload>
           <UploadInfo>{fileName}</UploadInfo>
         </div>
         <div>
-          <CancelButton onClick={handleCancelClick}>취소</CancelButton>
-          <SaveButton onClick={handleSaveClick}>게시</SaveButton>
+          <GrayButton onClick={handleCancelClick}>취소</GrayButton>
+          <GrayButton onClick={handleSaveClick}>게시</GrayButton>
         </div>
       </Buttons>
+      {isModalOpen && (
+        <ModalOverlay>
+          <ModalContent>
+            <ModalMessage>{modalMessage}</ModalMessage>
+            <GrayButton onClick={() => setIsModalOpen(false)}>닫기</GrayButton>
+          </ModalContent>
+        </ModalOverlay>
+      )}
     </AddBoardBox>
   );
 }
@@ -146,9 +167,7 @@ const Buttons = styled.div`
   width: 50rem;
   margin: 40px auto;
 `;
-const UploadButton = styled.button`
-  border-radius: 8px;
-`;
+
 const Upload = styled.input`
   display: none;
 `;
@@ -157,10 +176,29 @@ const UploadInfo = styled.span`
   color: #ffffff;
 `;
 
-const CancelButton = styled.button`
-  border-radius: 8px;
-  margin-right: 10px;
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
-const SaveButton = styled.button`
+
+const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 20px;
   border-radius: 8px;
+  text-align: center;
+`;
+
+const ModalMessage = styled.div`
+  font-weight: 400;
+  font-size: 20px;
+  margin-bottom: 10px;
 `;
