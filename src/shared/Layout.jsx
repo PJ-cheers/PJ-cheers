@@ -57,7 +57,13 @@ function Layout() {
       <ScrollContainer>
         <TopButton onClick={scrollToTop}>Top</TopButton>
       </ScrollContainer>
-      {sidebarVisible && <SideBar onClose={toggleSidebar} />}
+      {sidebarVisible && (
+        <SideBar
+          onClose={toggleSidebar}
+          onLogin={() => handleOpenModal('login')}
+          onSignup={() => handleOpenModal('signup')}
+        />
+      )}
       <Outlet />
       <Login isOpen={modalType === 'login'} closeModal={() => handleCloseModal()} />
       <Signup isOpen={modalType === 'signup'} closeModal={() => handleCloseModal()} />
