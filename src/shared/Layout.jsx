@@ -148,7 +148,7 @@ const HeaderMiddle = styled.form`
   display: flex;
   align-items: center;
   position: relative;
-  width: 40rem;
+  width: 40%;
 
   & > input {
     width: 100%;
