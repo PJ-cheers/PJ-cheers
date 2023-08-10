@@ -43,13 +43,6 @@ function BoardRecipe() {
   return (
     <RecipeBody>
       <Title>칵테일 레시피</Title>
-      <HeaderMiddle>
-        <input type="text" placeholder="검색어를 입력해 주세요"></input>
-        <button>
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
-        </button>
-      </HeaderMiddle>
-
       <CockTailBox>
         {cocktailData?.map((item) => {
           return (
@@ -80,29 +73,6 @@ const Title = styled.h1`
   padding-top: 20px;
   padding-left: 20px;
   margin-bottom: 60px;
-`;
-const HeaderMiddle = styled.form`
-  display: flex;
-  align-items: center;
-  position: relative;
-  width: 40rem;
-  margin: 0 auto;
-  margin-bottom: 60px;
-
-  & > input {
-    width: 100%;
-    padding: 1rem;
-    border: none;
-    border-radius: 3rem;
-  }
-
-  & > button {
-    border: none;
-    background-color: #fff;
-    position: absolute;
-    right: 10px;
-    color: #dcdcdc;
-  }
 `;
 
 const CockTailBox = styled.div`
