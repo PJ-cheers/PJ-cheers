@@ -79,7 +79,7 @@ export default Login;
 
 const Modal = styled.div`
   display: ${(props) => (props.isOpen ? 'block' : 'none')};
-  z-index: 30;
+  z-index: 40;
   position: fixed;
   padding-top: 6rem;
   background-color: rgba(0, 0, 0, 0.9);
@@ -157,21 +157,21 @@ const Buttons = styled.div`
   justify-content: center;
 `;
 
-const CancelButton = styled.button`
-  background-color: #cecece;
-  border-radius: 8px;
-  margin-right: 10px;
-  height: 1.7rem;
-  width: 5rem;
-  color: #000000;
-  border: none;
-`;
+// const CancelButton = styled.button`
+//   background-color: #cecece;
+//   border-radius: 8px;
+//   margin-right: 10px;
+//   height: 1.7rem;
+//   width: 5rem;
+//   color: #000000;
+//   border: none;
+// `;
 
-const ConfirmButton = styled.button`
-  background-color: #cecece;
-  border-radius: 8px;
-  height: 1.7rem;
-  width: 5rem;
-  color: #000000;
-  border: none;
-`;
+// const ConfirmButton = styled.button`
+//   background-color: #cecece;
+//   border-radius: 8px;
+//   height: 1.7rem;
+//   width: 5rem;
+//   color: #000000;
+//   border: none;
+// `;

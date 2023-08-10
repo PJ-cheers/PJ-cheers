@@ -1,61 +1,104 @@
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { useNavigate, useParams } from 'react-router-dom';
-import { doc, getDocs, collection } from 'firebase/firestore';
+import Slider from 'react-slick';
+import { useParams } from 'react-router-dom';
+import { getDoc, getDocs, collection } from 'firebase/firestore';
+import { YoutubeDataContext } from '../api/YoutubeDataContext';
 import { db } from '../firebase';
+import { useQuery } from 'react-query';
+
+// 아이콘
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+
+const getCocktailData = async () => {
+  const cocktailCollectionRef = collection(db, 'cocktails');
+  const cocktailQuerySnapshot = await getDocs(cocktailCollectionRef);
+
+  const cocktailsDataPromises = cocktailQuerySnapshot.docs.map(async (cocktailDoc) => {
+    const cocktailId = cocktailDoc.id;
+
+    const cocktailSnapshot = await getDoc(cocktailDoc.ref);
+
+    const ingredientsSnapshot = await getDocs(collection(cocktailDoc.ref, 'ingredients'));
+
+    return {
+      id: cocktailId,
+      ...cocktailSnapshot.data(),
+      ingredients: ingredientsSnapshot.docs.map((ingredientDoc) => {
+        return {
+          id: ingredientDoc.id,
+          ...ingredientDoc.data()
+        };
+      })
+    };
+  });
+
+  const cocktailsData = await Promise.all(cocktailsDataPromises);
+
+  return cocktailsData;
+};
+
+// 버튼 클릭 시 뒤로가기
+function historyBack() {
+  window.history.back();
+}
 
 function DetailRecipe() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const querySnapshot = await getDocs(collection(db, 'cocktails'));
-      querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data()}`);
-      });
-    };
-    fetchData();
-  }, []);
-
+  const { playlists, videosList, videoId, setVideoId, handleVideoEnd } = useContext(YoutubeDataContext);
+  const playlistId = 'PLhD80yCklGmZqOBTMAlfMz0sZryCVKO_Y';
+  const videoData = videosList[playlistId];
   // useParams를 이용하여 url의 id를 가져옴
   const { id } = useParams();
+  console.log(videoData);
 
+  const { data: cocktailData } = useQuery('fetchCocktailData', getCocktailData);
+
+  function findCocktail(item) {
+    return item.id === id;
+  }
+
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    cssEase: 'linear',
+    slide: 'div'
+  };
   return (
     <>
-      <ButtonBack>←</ButtonBack>
+      <ButtonBack onClick={historyBack}>
+        <FontAwesomeIcon icon={faChevronLeft} />
+      </ButtonBack>
       <DetailContainer>
         <CocktailName>
-          <h2>모히또</h2>
-          <p>Mojito</p>
+          <h2>{cocktailData?.find(findCocktail).krName}</h2>
+          <p>{cocktailData?.find(findCocktail).enName}</p>
         </CocktailName>
-        <ImgCocktail src="img/mojito.png" alt="cocktailImage" />
+        <ImgCocktail>
+          <img src={cocktailData?.find(findCocktail).cocktailImg} alt="cocktailImage" />
+        </ImgCocktail>
         <Ingredients>
           <IngredientTitle>
             <h3>재료</h3>
           </IngredientTitle>
-          <IngredientContents>
-            <div>
-              <p>재료명1</p>
-              <p>재료명2</p>
-              <p>재료명3</p>
-            </div>
-            <div>
-              <p>용량1</p>
-              <p>용량2</p>
-              <p>용량3</p>
-            </div>
-          </IngredientContents>
+          {cocktailData?.find(findCocktail).ingredients.map((ingredient) => {
+            return (
+              <IngredientContents>
+                <p>{ingredient.ingName}</p>
+                <p>{ingredient.ingVolume}</p>
+              </IngredientContents>
+            );
+          })}
         </Ingredients>
         <Recipe>
           <RecipeTitle>
             <h3>레시피</h3>
           </RecipeTitle>
           <RecipeContent>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-              ea commodo consequat.
-            </p>
+            <p>{cocktailData?.find(findCocktail).recipe}</p>
           </RecipeContent>
         </Recipe>
         <Video>
@@ -63,9 +106,26 @@ function DetailRecipe() {
             <h4>관련영상</h4>
           </VideoTitle>
           <VideoContent>
-            <div>동영상</div>
-            <p>영상 제목</p>
-            <p>Youtube</p>
+            <Slider {...sliderSettings}>
+              {videoData?.map((video, index) => {
+                const { title, thumbnails } = video.snippet;
+                const { videoId } = video.snippet.resourceId;
+                return (
+                  <SlickSlideStyled key={index}>
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src={`https://www.youtube.com/embed/${videoId}`}
+                      title={title}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                    <p>{title}</p>
+                  </SlickSlideStyled>
+                );
+              })}
+            </Slider>
           </VideoContent>
         </Video>
       </DetailContainer>
@@ -75,12 +135,21 @@ function DetailRecipe() {
 
 export default DetailRecipe;
 
+const SlickSlideStyled = styled.div`
+  background-color: #d9d9d9;
+  padding: 5px;
+  border-radius: 10px;
+  margin: 10px;
+`;
+
 const ButtonBack = styled.button`
   background-color: transparent;
   margin: 1rem;
+  padding: 1rem;
   border: none;
   color: #fff;
   font-size: 2rem;
+  cursor: pointer;
 `;
 
 const DetailContainer = styled.div`
@@ -96,7 +165,7 @@ const CocktailName = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 1rem 0;
+  margin: 0 0 2rem 0;
 
   & > h2 {
     font-size: 32px;
@@ -108,10 +177,20 @@ const CocktailName = styled.div`
   }
 `;
 
-const ImgCocktail = styled.img`
+const ImgCocktail = styled.div`
   width: 30rem;
   height: 30rem;
-  margin: 1rem 0;
+  margin: 2rem 0;
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > img {
+    width: 100%;
+    height: auto;
+  }
 `;
 
 const Ingredients = styled.div`
@@ -122,7 +201,7 @@ const Ingredients = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
+  padding: 2rem 2rem 3rem 2rem;
 `;
 
 const IngredientTitle = styled.div`
@@ -132,19 +211,11 @@ const IngredientTitle = styled.div`
 `;
 
 const IngredientContents = styled.div`
-  /* background-color: lightcoral; */
   display: flex;
-  justify-content: space-around;
-  width: 70%;
+  justify-content: space-between;
+  width: 50%;
   height: auto;
-  margin: 2rem;
-
-  & > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
+  margin: 1rem;
 `;
 
 const Recipe = styled.div`
@@ -166,11 +237,11 @@ const RecipeTitle = styled.div`
 `;
 
 const RecipeContent = styled.div`
-  width: 70%;
+  width: 60%;
   height: auto;
   margin: 2rem;
   text-align: center;
-  line-height: 200%;
+  line-height: 300%;
 `;
 
 const Video = styled.div`
@@ -194,18 +265,8 @@ const VideoContent = styled.div`
   width: 70%;
   height: auto;
   margin: 2rem;
-
-  & > :nth-child(1) {
-    background-color: #000;
-    width: 12rem;
-    height: 7rem;
-  }
-
-  & > :nth-child(2) {
-    margin: 1rem 0 0.4rem 0;
-  }
-  & > :nth-child(3) {
-    color: #a6a6a6;
-    font-size: 0.8rem;
-  }
+  position: relative;
+  overflow: hidden;
+  gap: 10px;
+  width: 100%;
 `;

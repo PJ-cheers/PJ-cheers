@@ -1,24 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Login from '../components/Login';
 import Signup from '../components/Signup';
+import SideBar from '../pages/SideBar';
+import UserEdit from '../components/UserEdit';
+import { getCocktailData } from '../api/recipeData';
 
 // 아이콘
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faMagnifyingGlass, faBars } from '@fortawesome/free-solid-svg-icons';
-import SideBar from '../pages/SideBar';
-import UserEdit from '../components/UserEdit';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { user } from 'fontawesome';
 
 
 function Layout() {
-
+  const [searchTerm, setSearchTerm] = useState('');
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [modalType, setModalType] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearchInputChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearchSubmit = async () => {
+    const cocktailsData = await getCocktailData();
+
+    const filteredData = cocktailsData.filter((cocktail) => {
+      return (
+        cocktail.krName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        cocktail.enName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
+
+    console.log('필터된 데이터:', filteredData);
+    navigate('/search', { state: { cocktails: filteredData } });
+  };
   const [isLogin, setIsLogin] = useState(false)
   const [name, setName] = useState("")
 
@@ -59,10 +78,20 @@ function Layout() {
         <Link to="/">
           <ImgLogo src="img/cheers_logo_white.png" alt="logoImage"></ImgLogo>
         </Link>
-        <HeaderMiddle>
-          <input type="text" placeholder="검색어를 입력해 주세요"></input>
+        <HeaderMiddle
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSearchSubmit();
+          }}
+        >
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={handleSearchInputChange}
+            placeholder="검색어를 입력해 주세요"
+          ></input>
           <button>
-            <FontAwesomeIcon icon={faMagnifyingGlass} />
+            <FontAwesomeIcon type="Submit" icon={faMagnifyingGlass} />
           </button>
         </HeaderMiddle>
         <HeaderRight>
@@ -92,14 +121,14 @@ function Layout() {
       <Signup isOpen={modalType === 'signup'} closeModal={() => handleCloseModal()} />
       <UserEdit isOpen={modalType === 'edit'} closeModal={() => handleCloseModal()} />
       <Footer>
-        <Link to="/">
+        <Link to="https://www.notion.so/fd48b261cbda4b51a7ece56e9d3f6f3d" target="_blank">
           <ImgNotion src="img/notion_logo_white.png" alt="notionImage"></ImgNotion>
         </Link>
         <p>
           © 2023 <img src="img/cheers_logo_white.png" alt="logoImage" style={{ width: '4rem' }} /> by 김채현 이지원
           전대현 정봉호
         </p>
-        <Link to="https://github.com/PJ-cheers/PJ-cheers">
+        <Link target="_blank" to="https://github.com/PJ-cheers/PJ-cheers">
           <FontAwesomeIcon icon={faGithub} size="xl" />
         </Link>
       </Footer>
@@ -112,7 +141,7 @@ export default Layout;
 const Header = styled.header`
   position: fixed;
   top: 0;
-  z-index: 40;
+  z-index: 30;
   width: 100vw;
   height: 6rem;
 
@@ -140,7 +169,7 @@ const HeaderMiddle = styled.form`
   display: flex;
   align-items: center;
   position: relative;
-  width: 40rem;
+  width: 40%;
 
   & > input {
     width: 100%;

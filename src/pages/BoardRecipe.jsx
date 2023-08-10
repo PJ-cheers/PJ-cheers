@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import React from 'react';
 import styled from 'styled-components';
 import { collection, getDoc, getDocs } from 'firebase/firestore';
 import { useQuery } from 'react-query';
@@ -43,13 +41,6 @@ function BoardRecipe() {
   return (
     <RecipeBody>
       <Title>칵테일 레시피</Title>
-      <HeaderMiddle>
-        <input type="text" placeholder="검색어를 입력해 주세요"></input>
-        <button>
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
-        </button>
-      </HeaderMiddle>
-
       <CockTailBox>
         {cocktailData?.map((item) => {
           return (
@@ -57,6 +48,7 @@ function BoardRecipe() {
               key={item.id}
               onClick={() => {
                 navigate(`/recipe/${item.id}`);
+                window.scrollTo(0, 0);
               }}
             >
               {item.imgUrl}
@@ -81,29 +73,6 @@ const Title = styled.h1`
   padding-left: 20px;
   margin-bottom: 60px;
 `;
-const HeaderMiddle = styled.form`
-  display: flex;
-  align-items: center;
-  position: relative;
-  width: 40rem;
-  margin: 0 auto;
-  margin-bottom: 60px;
-
-  & > input {
-    width: 100%;
-    padding: 1rem;
-    border: none;
-    border-radius: 3rem;
-  }
-
-  & > button {
-    border: none;
-    background-color: #fff;
-    position: absolute;
-    right: 10px;
-    color: #dcdcdc;
-  }
-`;
 
 const CockTailBox = styled.div`
   margin-top: 30px;
@@ -121,4 +90,5 @@ const CockTailImage = styled.div`
   height: 8.25rem;
   border-radius: 50%;
   background-color: #ffffff;
+  cursor: pointer;
 `;
