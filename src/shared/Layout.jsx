@@ -120,7 +120,7 @@ export default Layout;
 const Header = styled.header`
   position: fixed;
   top: 0;
-  z-index: 40;
+  z-index: 30;
   width: 100vw;
   height: 6rem;
 

@@ -43,7 +43,7 @@ export default Signup;
 
 const Modal = styled.div`
   display: ${(props) => (props.isOpen ? 'block' : 'none')};
-  z-index: 30;
+  z-index: 40;
   position: fixed;
   padding-top: 6rem;
   background-color: rgba(0, 0, 0, 0.9);
