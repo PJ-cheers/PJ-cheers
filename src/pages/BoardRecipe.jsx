@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { collection, getDoc, getDocs } from 'firebase/firestore';
 import { useQuery } from 'react-query';
 import { db } from '../firebase';
+import { useNavigate } from 'react-router-dom';
 
 const getCocktailData = async () => {
   const cocktailCollectionRef = collection(db, 'cocktails');
@@ -34,6 +35,8 @@ const getCocktailData = async () => {
 };
 
 function BoardRecipe() {
+  const navigate = useNavigate();
+
   const { data: cocktailData } = useQuery('fetchCocktailData', getCocktailData);
 
   console.log(cocktailData);
@@ -46,9 +49,19 @@ function BoardRecipe() {
           <FontAwesomeIcon icon={faMagnifyingGlass} />
         </button>
       </HeaderMiddle>
+
       <CockTailBox>
         {cocktailData?.map((item) => {
-          return <CockTailImage key={item.id}>{item.imgUrl}</CockTailImage>;
+          return (
+            <CockTailImage
+              key={item.id}
+              onClick={() => {
+                navigate(`/recipe/${item.id}`);
+              }}
+            >
+              {item.imgUrl}
+            </CockTailImage>
+          );
         })}
       </CockTailBox>
     </RecipeBody>

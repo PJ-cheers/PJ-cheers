@@ -13,13 +13,15 @@ const GlobalStyle = createGlobalStyle`
   ${reset}
 body{
   font-family: 'Noto Sans KR', sans-serif;
+  background-color: #313131;
 }
 `;
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 30, // 30분
-      cacheTime: 1000 * 60 * 60 // 1시간
+      staleTime: 1000 * 60 * 30, // 30분마다 호출
+      cacheTime: 1000 * 60 * 60 // 1시간마다 호출
     }
   }
 });

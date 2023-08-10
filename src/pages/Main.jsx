@@ -42,68 +42,71 @@ const getCocktailData = async () => {
 
 function Main() {
   const { data: diyData } = useQuery('fetchDIYData', getDIYData);
+  // 윈도우창에 변동이 생길 때 마다 데이터 호출이 되지 않게 방지함
   const { data: cocktailData } = useQuery(['fetchCocktailData'], getCocktailData, { refetchOnWindowFocus: false });
 
   return (
     <>
       <h1 style={{ fontSize: '24px' }}>인기 레시피</h1>
       <div style={{ display: 'flex', width: '100%' }}>
-        {cocktailData?.map((item) => {
-          const ingredients = item?.ingredients || [];
-          return (
-            <div
-              key={item.id}
-              style={{
-                backgroundColor: 'white',
-                border: '1px solid black',
-                margin: '1rem',
-                width: '20rem',
-                height: '24rem',
-                position: 'relative'
-              }}
-            >
-              <h2>{item.krName}</h2>
-              <p>{item.enName}</p>
-            </div>
-          );
-        })}
-      </div>
-      <h1 style={{ fontSize: '24px' }}>DIY레시피</h1>
-      <div
-        style={{
-          backgroundColor: '#d9d9d9',
-          width: '100%',
-          display: 'flex'
-        }}
-      >
-        {diyData?.map((item) => {
-          return (
-            <div
-              key={item.id}
-              style={{
-                backgroundColor: 'white',
-                border: '1px solid black',
-                margin: '1rem',
-                width: '20rem',
-                height: '24rem',
-                position: 'relative'
-              }}
-            >
-              <img
-                src={item.image}
-                alt="test"
+        <div style={{ display: 'flex', width: '100%' }}>
+          {cocktailData?.map((item) => {
+            const ingredients = item?.ingredients || [];
+            return (
+              <div
+                key={item.id}
                 style={{
-                  width: '10rem',
-                  height: '10rem',
-                  borderRadius: '100%',
-                  objectFit: 'cover',
-                  margin: '2rem 4.5rem 0'
+                  backgroundColor: 'white',
+                  border: '1px solid black',
+                  margin: '1rem',
+                  width: '20rem',
+                  height: '24rem',
+                  position: 'relative'
                 }}
-              />
-              <h2 style={{ margin: '2rem 0' }}>{item.name}</h2>
-            </div>
-          );
-        })}
+              >
+                <h2>{item.krName}</h2>
+                <p>{item.enName}</p>
+              </div>
+            );
+          })}
+        </div>
+        <h1 style={{ fontSize: '24px' }}>DIY레시피</h1>
+        <div
+          style={{
+            backgroundColor: '#d9d9d9',
+            width: '100%',
+            display: 'flex'
+          }}
+        >
+          {diyData?.map((item) => {
+            return (
+              <div
+                key={item.id}
+                style={{
+                  backgroundColor: 'white',
+                  border: '1px solid black',
+                  margin: '1rem',
+                  width: '20rem',
+                  height: '24rem',
+                  position: 'relative'
+                }}
+              >
+                <img
+                  src={item.image}
+                  alt="test"
+                  style={{
+                    width: '10rem',
+                    height: '10rem',
+                    borderRadius: '100%',
+                    objectFit: 'cover',
+                    margin: '2rem 4.5rem 0'
+                  }}
+                />
+                <h2 style={{ margin: '2rem 0' }}>{item.name}</h2>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </>
   );

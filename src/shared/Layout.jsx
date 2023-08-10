@@ -36,7 +36,7 @@ function Layout() {
     });
   };
   return (
-    <div style={{ paddingTop: '6rem' }}>
+    <div style={{ padding: '6rem 0' }}>
       <Header>
         <Link to="/">
           <ImgLogo src="img/cheers_logo_white.png" alt="logoImage"></ImgLogo>
