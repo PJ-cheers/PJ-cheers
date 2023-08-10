@@ -7,6 +7,12 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 function SideBar({ onClose, onLogin, onSignup }) {
   const navigate = useNavigate();
+
+  const handleListClick = (path) => {
+    onClose();
+    navigate(path);
+  };
+
   return (
     <Wrapper onClick={onClose}>
       <SidebarContent onClick={(e) => e.stopPropagation()}>
@@ -21,27 +27,9 @@ function SideBar({ onClose, onLogin, onSignup }) {
           <GrayButton onClick={onSignup}>회원가입</GrayButton>
         </ButtonWrapper>
         <NaviWrapper>
-          <List
-            onClick={() => {
-              navigate('/recipe');
-            }}
-          >
-            칵테일 레시피
-          </List>
-          <List
-            onClick={() => {
-              navigate('/board');
-            }}
-          >
-            DIY 칵테일
-          </List>
-          <List
-            onClick={() => {
-              navigate('/mypage');
-            }}
-          >
-            마이페이지
-          </List>
+          <List onClick={() => handleListClick('/recipe')}>칵테일 레시피</List>
+          <List onClick={() => handleListClick('/diy-recipe')}>DIY 칵테일</List>
+          <List onClick={() => handleListClick('/mypage')}>마이페이지</List>
         </NaviWrapper>
       </SidebarContent>
     </Wrapper>
