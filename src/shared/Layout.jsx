@@ -45,7 +45,7 @@ function Layout() {
           <FontAwesomeIcon style={{ fontSize: '24px' }} icon={faBars} onClick={toggleSidebar} />
         </HeaderRight>
       </Header>
-      {sidebarVisible && <SideBar onClose={toggleSidebar} />}
+      {sidebarVisible && <SideBar onClose={toggleSidebar} onLogin={loginOpenModal} onSignup={signupOpenModal} />}
       <Outlet />
       <Login isOpen={loginIsModalOpen} closeModal={loginCloseModal} />
       <Signup isOpen={signupIsModalOpen} closeModal={signupCloseModal} />
