@@ -8,29 +8,12 @@ function DIYPage() {
   const navigate = useNavigate();
   const { data: diyData } = useQuery('fetchDIYData', getDIYData);
   return (
-    <>
-    <h1 style={{ fontSize: '24px' }}>DIY 레시피</h1>
-    <div
-        style={{
-          backgroundColor: '#d9d9d9',
-          width: '100%',
-          display: 'flex'
-        }}
-      >
+    <BoardContainer>
+    <h1 style={{ fontSize: '24px' }}>DIY 칵테일</h1>
+    <CardContainer>
         {diyData?.map((item) => {
           return (
-            <div
-              key={item.id}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                backgroundColor: 'white',
-                border: '1px solid black',
-                margin: '1rem',
-                width: '15rem',
-                position: 'relative'
-              }}
-            >
+            <PostCard key={item.id}>
               <img
                 src={item.image}
                 style={{
@@ -39,21 +22,45 @@ function DIYPage() {
                   objectFit: 'contain',
                 }}
               />
-              <h2 style={{ margin: '1rem 0' }}>칵테일 이름: {item.krName}({item.enName})</h2>
+            <PostTextContainer>
+              <h2 style={{ margin: '1rem 0' }}>칵테일 이름: {item.name}</h2>
               {/* <p style={{ margin: '0.5rem 0' }}>레시피 : {item.recipe}</p> */}
               <p style={{ margin: '0.5rem 0' }}>바텐더 : {item.user}</p>
-            </div>
+              </PostTextContainer>
+            </PostCard>
           );
         })}
-      </div>
+      </CardContainer>
       <ButtonContainer>
         <AddButton onClick={() => {navigate("/add-board")}}>+</AddButton>
       </ButtonContainer>
-    </>
+    </BoardContainer>
   )
 }
 
 export default DIYPage;
+
+const BoardContainer = styled.div`
+  margin: 1rem;
+  `
+  const CardContainer = styled.div`
+    background-color: var(--color-main-gray);
+    width: 100%;
+    margin: 1rem;
+  `
+
+const PostCard = styled.div`
+    background-color: white;
+    border: 1px solid black;
+    margin: 1rem;
+    width: 15rem;
+    position: relative;
+    float: left;
+    overflow: hidden;
+`
+const PostTextContainer = styled.div`
+  margin: 1rem;
+`
 
 const ButtonContainer = styled.div`
   position: fixed;

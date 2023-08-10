@@ -16,7 +16,6 @@ body{
   background-color: #313131;
 }
 `;
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
