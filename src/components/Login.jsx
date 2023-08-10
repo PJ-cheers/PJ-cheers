@@ -6,26 +6,28 @@ function Login({ isOpen, closeModal }) {
     e.prevDefaultEvent();
   };
   return (
-    <Modal isOpen={isOpen} style={{ paddingTop: '6rem' }}>
-      <LoginBox>
-        <ProfileBox></ProfileBox>
-        <ProfileEdit>이미지 편집</ProfileEdit>
-        <UserBox>
-          <EmailBox>
-            <label>이메일</label>
-            <EmailInput type="email"></EmailInput>
-          </EmailBox>
-          <PasswordBox>
-            <label>비밀번호</label>
-            <PasswordInput type="password"></PasswordInput>
-          </PasswordBox>
-          <Buttons>
-            <CancelButton onClick={closeModal}>취소</CancelButton>
-            <ConfirmButton onClick={confirm}>확인</ConfirmButton>
-          </Buttons>
-        </UserBox>
-      </LoginBox>
-    </Modal>
+    <>
+      <Modal isOpen={isOpen}>
+        <LoginBox>
+          <ProfileBox></ProfileBox>
+          <ProfileEdit>이미지 편집</ProfileEdit>
+          <UserBox>
+            <EmailBox>
+              <label>이메일</label>
+              <EmailInput type="email"></EmailInput>
+            </EmailBox>
+            <PasswordBox>
+              <label>비밀번호</label>
+              <PasswordInput type="password"></PasswordInput>
+            </PasswordBox>
+            <Buttons>
+              <CancelButton onClick={closeModal}>취소</CancelButton>
+              <ConfirmButton onClick={confirm}>확인</ConfirmButton>
+            </Buttons>
+          </UserBox>
+        </LoginBox>
+      </Modal>
+    </>
   );
 }
 export default Login;
@@ -34,6 +36,7 @@ const Modal = styled.div`
   display: ${(props) => (props.isOpen ? 'block' : 'none')};
   z-index: 30;
   position: fixed;
+  padding-top: 6rem;
   background-color: rgba(0, 0, 0, 0.9);
   justify-content: center;
   align-items: center;

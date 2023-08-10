@@ -13,25 +13,28 @@ import UserEdit from '../components/UserEdit';
 
 function Layout() {
   const [sidebarVisible, setSidebarVisible] = useState(false);
-  const [loginIsModalOpen, setLoginIsModalOpen] = useState(false);
-  const [signupIsModalOpen, setSignupIsModalOpen] = useState(false);
-  const [userEditIsModalOpen, setUserEditIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState('');
+
+  // login, signup, edit
+  const handleOpenModal = (type) => {
+    if (!modalType) {
+      setModalType(type);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setModalType('');
+  };
 
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
   };
-  const loginOpenModal = () => setLoginIsModalOpen(true);
-  const loginCloseModal = () => setLoginIsModalOpen(false);
-  const signupOpenModal = () => setSignupIsModalOpen(true);
-  const signupCloseModal = () => setSignupIsModalOpen(false);
-  const userEditModalOpen = () => setUserEditIsModalOpen(true);
-  const userEditCloseModal = () => setUserEditIsModalOpen(false);
-
   const scrollToTop = () => {
     window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    })}
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
   return (
     <div style={{ padding: '6rem 0' }}>
       <Header>
@@ -45,9 +48,9 @@ function Layout() {
           </button>
         </HeaderMiddle>
         <HeaderRight>
-          <LoginButton onClick={loginOpenModal}>로그인</LoginButton>
-          <SignupButton onClick={signupOpenModal}>회원가입</SignupButton>
-          <UserEditButton onClick={userEditModalOpen}>회원정보 수정</UserEditButton>
+          <LoginButton onClick={() => handleOpenModal('login')}>로그인</LoginButton>
+          <SignupButton onClick={() => handleOpenModal('signup')}>회원가입</SignupButton>
+          <UserEditButton onClick={() => handleOpenModal('edit')}>회원정보 수정</UserEditButton>
           <FontAwesomeIcon style={{ fontSize: '24px' }} icon={faBars} onClick={toggleSidebar} />
         </HeaderRight>
       </Header>
@@ -56,9 +59,9 @@ function Layout() {
       </ScrollContainer>
       {sidebarVisible && <SideBar onClose={toggleSidebar} />}
       <Outlet />
-      <Login isOpen={loginIsModalOpen} closeModal={loginCloseModal} />
-      <Signup isOpen={signupIsModalOpen} closeModal={signupCloseModal} />
-      <UserEdit isOpen={userEditIsModalOpen} closeModal={userEditCloseModal} />
+      <Login isOpen={modalType === 'login'} closeModal={() => handleCloseModal()} />
+      <Signup isOpen={modalType === 'signup'} closeModal={() => handleCloseModal()} />
+      <UserEdit isOpen={modalType === 'edit'} closeModal={() => handleCloseModal()} />
       <Footer>
         <Link to="/">
           <ImgNotion src="img/notion_logo_white.png" alt="notionImage"></ImgNotion>
@@ -187,18 +190,18 @@ const ScrollContainer = styled.div`
   right: 1rem;
   bottom: 6rem;
   z-index: 5;
-`
+`;
 const TopButton = styled.button`
   font-weight: bold;
   font-size: 15px;
-  padding :15px 10px;
+  padding: 15px 10px;
   background-color: var(--color-black);
-  color:var(--color-white);
+  color: var(--color-white);
   border: 1px solid var(--color-white);
   border-radius: 50%;
   outline: none;
   cursor: pointer;
-&:hover{
-  color : var(--color-gray);
-}
-`
+  &:hover {
+    color: var(--color-gray);
+  }
+`;

@@ -1,7 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { useNavigate, useParams } from 'react-router-dom';
+import { doc, getDocs, collection } from 'firebase/firestore';
+import { db } from '../firebase';
 
 function DetailRecipe() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const querySnapshot = await getDocs(collection(db, 'cocktails'));
+      querySnapshot.forEach((doc) => {
+        console.log(`${doc.id} => ${doc.data()}`);
+      });
+    };
+    fetchData();
+  }, []);
+
+  // useParams를 이용하여 url의 id를 가져옴
+  const { id } = useParams();
+
   return (
     <>
       <ButtonBack>←</ButtonBack>
