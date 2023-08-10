@@ -1,5 +1,6 @@
 import React from 'react';
 import { styled } from 'styled-components';
+import { GrayButton } from '../shared/Buttons';
 
 function Login({ isOpen, closeModal }) {
   const confirm = (e) => {
@@ -21,8 +22,8 @@ function Login({ isOpen, closeModal }) {
               <PasswordInput type="password"></PasswordInput>
             </PasswordBox>
             <Buttons>
-              <CancelButton onClick={closeModal}>취소</CancelButton>
-              <ConfirmButton onClick={confirm}>확인</ConfirmButton>
+              <GrayButton onClick={closeModal}>취소</GrayButton>
+              <GrayButton onClick={confirm}>확인</GrayButton>
             </Buttons>
           </UserBox>
         </LoginBox>
@@ -109,23 +110,4 @@ const PasswordInput = styled.input`
 const Buttons = styled.div`
   display: flex;
   justify-content: center;
-`;
-
-const CancelButton = styled.button`
-  background-color: #cecece;
-  border-radius: 8px;
-  margin-right: 10px;
-  height: 1.7rem;
-  width: 5rem;
-  color: #000000;
-  border: none;
-`;
-
-const ConfirmButton = styled.button`
-  background-color: #cecece;
-  border-radius: 8px;
-  height: 1.7rem;
-  width: 5rem;
-  color: #000000;
-  border: none;
 `;
