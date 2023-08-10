@@ -1,61 +1,77 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
-import { doc, getDocs, collection } from 'firebase/firestore';
+import { getDoc, getDocs, collection } from 'firebase/firestore';
 import { db } from '../firebase';
+import { useQuery } from 'react-query';
+
+const getCocktailData = async () => {
+  const cocktailCollectionRef = collection(db, 'cocktails');
+  const cocktailQuerySnapshot = await getDocs(cocktailCollectionRef);
+
+  const cocktailsDataPromises = cocktailQuerySnapshot.docs.map(async (cocktailDoc) => {
+    const cocktailId = cocktailDoc.id;
+
+    const cocktailSnapshot = await getDoc(cocktailDoc.ref);
+
+    const ingredientsSnapshot = await getDocs(collection(cocktailDoc.ref, 'ingredients'));
+
+    return {
+      id: cocktailId,
+      ...cocktailSnapshot.data(),
+      ingredients: ingredientsSnapshot.docs.map((ingredientDoc) => {
+        return {
+          id: ingredientDoc.id,
+          ...ingredientDoc.data()
+        };
+      })
+    };
+  });
+
+  const cocktailsData = await Promise.all(cocktailsDataPromises);
+
+  console.log(cocktailsData);
+  return cocktailsData;
+};
 
 function DetailRecipe() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const querySnapshot = await getDocs(collection(db, 'cocktails'));
-      querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data()}`);
-      });
-    };
-    fetchData();
-  }, []);
-
   // useParams를 이용하여 url의 id를 가져옴
   const { id } = useParams();
+
+  const { data: cocktailData } = useQuery('fetchCocktailData', getCocktailData);
+
+  function findCocktail(item) {
+    return item.id === id;
+  }
 
   return (
     <>
       <ButtonBack>←</ButtonBack>
       <DetailContainer>
         <CocktailName>
-          <h2>모히또</h2>
-          <p>Mojito</p>
+          <h2>{cocktailData?.find(findCocktail).krName}</h2>
+          <p>{cocktailData?.find(findCocktail).enName}</p>
         </CocktailName>
-        <ImgCocktail src="img/mojito.png" alt="cocktailImage" />
+        <ImgCocktail src={cocktailData?.find(findCocktail).cocktailImg} alt="cocktailImage" />
         <Ingredients>
           <IngredientTitle>
             <h3>재료</h3>
           </IngredientTitle>
-          <IngredientContents>
-            <div>
-              <p>재료명1</p>
-              <p>재료명2</p>
-              <p>재료명3</p>
-            </div>
-            <div>
-              <p>용량1</p>
-              <p>용량2</p>
-              <p>용량3</p>
-            </div>
-          </IngredientContents>
+          {cocktailData?.find(findCocktail).ingredients.map((ingredient) => {
+            return (
+              <IngredientContents>
+                <p>{ingredient.ingName}</p>
+                <p>{ingredient.ingVolume}</p>
+              </IngredientContents>
+            );
+          })}
         </Ingredients>
         <Recipe>
           <RecipeTitle>
             <h3>레시피</h3>
           </RecipeTitle>
           <RecipeContent>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-              ea commodo consequat.
-            </p>
+            <p>{cocktailData?.find(findCocktail).recipe}</p>
           </RecipeContent>
         </Recipe>
         <Video>
@@ -122,7 +138,7 @@ const Ingredients = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
+  padding: 2rem 2rem 3rem 2rem;
 `;
 
 const IngredientTitle = styled.div`
@@ -132,19 +148,11 @@ const IngredientTitle = styled.div`
 `;
 
 const IngredientContents = styled.div`
-  /* background-color: lightcoral; */
   display: flex;
-  justify-content: space-around;
-  width: 70%;
+  justify-content: space-between;
+  width: 50%;
   height: auto;
-  margin: 2rem;
-
-  & > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
+  margin: 1rem;
 `;
 
 const Recipe = styled.div`
@@ -166,11 +174,11 @@ const RecipeTitle = styled.div`
 `;
 
 const RecipeContent = styled.div`
-  width: 70%;
+  width: 60%;
   height: auto;
   margin: 2rem;
   text-align: center;
-  line-height: 200%;
+  line-height: 300%;
 `;
 
 const Video = styled.div`
