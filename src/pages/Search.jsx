@@ -1,8 +1,9 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 function Search() {
+  const navigate = useNavigate();
   const location = useLocation();
   const filteredData = location.state.cocktails;
 
@@ -11,7 +12,12 @@ function Search() {
       <StyledH1>칵테일 레시피</StyledH1>
       <StyledGrid>
         {filteredData.map((cocktail) => (
-          <CocktailContainer key={cocktail.id}>
+          <CocktailContainer
+            onClick={() => {
+              navigate(`/recipe/${cocktail.id}`);
+            }}
+            key={cocktail.id}
+          >
             <CocktailImage src={cocktail.imgurl} />
             <CocktailName>{cocktail.krName}</CocktailName>
           </CocktailContainer>
@@ -38,6 +44,7 @@ const StyledGrid = styled.div`
 `;
 
 const CocktailContainer = styled.div`
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
