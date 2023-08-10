@@ -1,28 +1,73 @@
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import React from 'react';
+import { useState } from 'react';
 import { styled } from 'styled-components';
+import { auth } from '../firebase';
+import { GrayButton } from '../shared/Buttons';
 
 function Login({ isOpen, closeModal }) {
-  const confirm = (e) => {
-    e.prevDefaultEvent();
-  };
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const confirm = async(e) => {
+    e.preventDefault();
+    if(email === ""){
+      alert("이메일을 입력해주세요!")
+      return
+    }
+    if(password === ""){
+      alert("비밀번호를 입력해주세요!")
+      return
+    }
+    try{
+      const userCredential = await signInWithEmailAndPassword(auth, email, password)
+      closeModal();
+    } catch(error){
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      if(errorCode === "auth/invalid-email"){
+        alert("이메일 주소를 올바르게 입력해주세요!")
+        return
+      }
+      if(errorCode === "auth/user-not-found"){
+        alert("사용자를 찾을 수 없습니다!")
+        return
+      }
+      if(errorCode === "auth/wrong-password"){
+        alert("비밀번호가 일치하지 않습니다!")
+        return
+      }
+      alert( errorCode + errorMessage)
+    }
+  }
+
+
+
   return (
     <>
       <Modal isOpen={isOpen}>
         <LoginBox>
-          <ProfileBox></ProfileBox>
-          <ProfileEdit>이미지 편집</ProfileEdit>
+          {/* <ProfileBox></ProfileBox>
+          <ProfileEdit>이미지 편집</ProfileEdit> */}
           <UserBox>
             <EmailBox>
               <label>이메일</label>
-              <EmailInput type="email"></EmailInput>
+              <EmailInput
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              ></EmailInput>
             </EmailBox>
             <PasswordBox>
               <label>비밀번호</label>
-              <PasswordInput type="password"></PasswordInput>
+              <PasswordInput
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              ></PasswordInput>
             </PasswordBox>
             <Buttons>
-              <CancelButton onClick={closeModal}>취소</CancelButton>
-              <ConfirmButton onClick={confirm}>확인</ConfirmButton>
+              <GrayButton onClick={closeModal}>취소</GrayButton>
+              <GrayButton onClick={confirm}>로그인</GrayButton>
             </Buttons>
           </UserBox>
         </LoginBox>
@@ -72,6 +117,7 @@ const ProfileEdit = styled.button`
 `;
 
 const UserBox = styled.div`
+  margin-top: 30px;
   width: 20rem;
   height: 15rem;
   padding-top: 60px;

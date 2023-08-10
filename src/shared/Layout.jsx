@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Login from '../components/Login';
@@ -10,10 +10,28 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faMagnifyingGlass, faBars } from '@fortawesome/free-solid-svg-icons';
 import SideBar from '../pages/SideBar';
 import UserEdit from '../components/UserEdit';
+import { auth } from '../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { user } from 'fontawesome';
+
 
 function Layout() {
+
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [modalType, setModalType] = useState('');
+  const [isLogin, setIsLogin] = useState(false)
+  const [name, setName] = useState("")
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if(user !== null){
+        setIsLogin(true)
+        setName(user.displayName)
+      } else {setIsLogin(false)}
+    })
+  }, [])
+  console.log(auth.user)
+
 
   // login, signup, edit
   const handleOpenModal = (type) => {
@@ -48,9 +66,14 @@ function Layout() {
           </button>
         </HeaderMiddle>
         <HeaderRight>
-          <LoginButton onClick={() => handleOpenModal('login')}>로그인</LoginButton>
-          <SignupButton onClick={() => handleOpenModal('signup')}>회원가입</SignupButton>
-          <UserEditButton onClick={() => handleOpenModal('edit')}>회원정보 수정</UserEditButton>
+          {isLogin?
+          <span>{name} &nbsp;님</span>
+          :<>
+            <LoginButton onClick={() => handleOpenModal('login')}>로그인</LoginButton>
+            <SignupButton onClick={() => handleOpenModal('signup')}>회원가입</SignupButton>
+          </>
+         }
+          {/* <UserEditButton onClick={() => handleOpenModal('edit')}>회원정보 수정</UserEditButton> */}
           <FontAwesomeIcon style={{ fontSize: '24px' }} icon={faBars} onClick={toggleSidebar} />
         </HeaderRight>
       </Header>

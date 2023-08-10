@@ -30,7 +30,7 @@ function SideBar({ onClose, onLogin, onSignup }) {
           </List>
           <List
             onClick={() => {
-              navigate('/board');
+              navigate('/diy-recipe');
             }}
           >
             DIY 칵테일

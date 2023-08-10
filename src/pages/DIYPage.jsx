@@ -9,7 +9,7 @@ function DIYPage() {
   const { data: diyData } = useQuery('fetchDIYData', getDIYData);
   return (
     <BoardContainer>
-    <h1 style={{ fontSize: '24px' }}>DIY 칵테일</h1>
+    <h1 style={{ fontSize: '24px', color: 'var(--color-white)'}}>DIY 칵테일</h1>
     <CardContainer>
         {diyData?.map((item) => {
           return (

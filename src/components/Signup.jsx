@@ -1,36 +1,108 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from 'styled-components';
+import { firebaseSignUp } from '../firebase';
+import { GrayButton } from '../shared/Buttons';
+
 
 function Signup({ isOpen, closeModal }) {
-  const confirm = (e) => {
-    e.prevDefaultEvent();
-  };
+  const initialState = {
+    email: "",
+    name:"",
+    password: "",
+    confirmPassword: "",
+    photo: "https://www.unite.ai/wp-content/uploads/2023/01/ben-sweet-2LowviVHZ-E-unsplash.jpg"
+  }
+  const [input, setInput]= useState(initialState)
+  const confirm = async(e) => {
+    e.preventDefault();
+    if(!input.email){
+      alert("이메일을 입력해주세요!")
+      return
+    }
+    if(!input.name){
+      alert("닉네임을 입력해주세요!")
+      return
+    }
+    if(!input.password){
+      alert("비밀번호를 입력해주세요!")
+      return
+    }
+    if(!input.confirmPassword){
+      alert("비밀번호 확인을 입력해주세요!")
+      return
+    }
+    if(input.password !== input.confirmPassword){
+      alert("비밀번호와 비밀번호 확인이 일치하지 않습니다!")
+      return
+    }
+    try{
+      await firebaseSignUp({name:input.name, email:input.email, password: input.password, photo: input.photo})
+      alert('회원가입에 성공했습니다!');
+      setInput(initialState)
+      closeModal();
+    }catch(error){
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      if (errorCode === 'auth/invalid-email') {
+        alert('이메일 주소를 올바르게 입력해주세요!');
+        return;
+      }
+      if (errorCode === 'auth/weak-password') {
+        alert('비밀번호를 6자 이상 입력해주세요!');
+        return;
+      }
+      if (errorCode === 'auth/email-already-in-use') {
+        alert('이미 가입된 이메일 주소입니다!');
+        return;
+      }
+      alert(errorCode + errorMessage);
+    }
+  }
+
   return (
     <>
       <Modal isOpen={isOpen}>
         <LoginBox>
-          <ProfileBox></ProfileBox>
+          <ProfileBox photo={input.photo}></ProfileBox>
           <ProfileEdit>이미지 편집</ProfileEdit>
           <UserBox>
             <EmailBox>
               <label>이메일</label>
-              <EmailInput type="email"></EmailInput>
+              <EmailInput
+              type="email"
+              value={input.email}
+              onChange={(e) => setInput({...input, email:e.target.value})}
+              ></EmailInput>
             </EmailBox>
             <NickNameBox>
               <label>닉네임</label>
-              <NickNameInput type="text"></NickNameInput>
+              <NickNameInput
+              type="text"
+              value={input.name}
+              onChange={(e) => setInput({...input, name:e.target.value})}
+              ></NickNameInput>
             </NickNameBox>
             <PasswordBox>
               <label>비밀번호</label>
-              <PasswordInput type="password"></PasswordInput>
+              <PasswordInput
+              type="password"
+              value={input.password}
+              onChange={(e) => setInput({...input, password:e.target.value})}
+              ></PasswordInput>
             </PasswordBox>
             <ConfirmPasswordBox>
               <label>비밀번호 확인</label>
-              <ConfirmPasswordInput type="password"></ConfirmPasswordInput>
+              <ConfirmPasswordInput
+              type="password"
+              value={input.confirmPassword}
+              onChange={(e) => setInput({...input, confirmPassword:e.target.value})}
+              ></ConfirmPasswordInput>
             </ConfirmPasswordBox>
             <Buttons>
-              <CancelButton onClick={closeModal}>취소</CancelButton>
-              <ConfirmButton onClick={confirm}>확인</ConfirmButton>
+              <GrayButton onClick={() => {closeModal()
+              setInput(initialState)
+              }}>취소</GrayButton>
+              <GrayButton onClick={confirm}>확인</GrayButton>
             </Buttons>
           </UserBox>
         </LoginBox>
@@ -68,6 +140,9 @@ const ProfileBox = styled.div`
   height: 8.25rem;
   border-radius: 50%;
   background-color: #ffffff;
+  background-image: url(${(props) => props.photo});
+  background-size: 26rem;
+  background-position: center center;
   margin-top: 30px;
 `;
 
@@ -145,21 +220,21 @@ const Buttons = styled.div`
   justify-content: center;
 `;
 
-const CancelButton = styled.button`
-  background-color: #cecece;
-  border-radius: 8px;
-  margin-right: 10px;
-  height: 1.7rem;
-  width: 5rem;
-  color: #000000;
-  border: none;
-`;
+// const CancelButton = styled.button`
+//   background-color: #cecece;
+//   border-radius: 8px;
+//   margin-right: 10px;
+//   height: 1.7rem;
+//   width: 5rem;
+//   color: #000000;
+//   border: none;
+// `;
 
-const ConfirmButton = styled.button`
-  background-color: #cecece;
-  border-radius: 8px;
-  height: 1.7rem;
-  width: 5rem;
-  color: #000000;
-  border: none;
-`;
+// const ConfirmButton = styled.button`
+//   background-color: #cecece;
+//   border-radius: 8px;
+//   height: 1.7rem;
+//   width: 5rem;
+//   color: #000000;
+//   border: none;
+// `;
