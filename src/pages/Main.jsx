@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { collection, getDoc, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
+
 const getDIYData = async () => {
   const querySnapshot = await getDocs(collection(db, 'DIY'));
   const fetchedData = querySnapshot.docs.map((doc) => ({
@@ -10,6 +11,7 @@ const getDIYData = async () => {
   }));
   return fetchedData;
 };
+
 const getCocktailData = async () => {
   const cocktailCollectionRef = collection(db, 'cocktails');
   const cocktailQuerySnapshot = await getDocs(cocktailCollectionRef);
