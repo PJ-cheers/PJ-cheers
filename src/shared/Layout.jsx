@@ -3,14 +3,14 @@ import { Outlet, Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Login from '../components/Login';
 import Signup from '../components/Signup';
-
-// 아이콘
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { faMagnifyingGlass, faBars } from '@fortawesome/free-solid-svg-icons';
 import SideBar from '../pages/SideBar';
 import UserEdit from '../components/UserEdit';
 import { getCocktailData } from '../api/recipeData';
+
+// 아이콘
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
 function Layout() {
   const [searchTerm, setSearchTerm] = useState('');

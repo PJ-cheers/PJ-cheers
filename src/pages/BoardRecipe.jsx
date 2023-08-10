@@ -48,6 +48,7 @@ function BoardRecipe() {
               key={item.id}
               onClick={() => {
                 navigate(`/recipe/${item.id}`);
+                window.scrollTo(0, 0);
               }}
             >
               {item.imgUrl}
