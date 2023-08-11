@@ -78,7 +78,7 @@ function DetailRecipe() {
           <p>{cocktailData?.find(findCocktail).enName}</p>
         </CocktailName>
         <ImgCocktail>
-          <img src={cocktailData?.find(findCocktail).cocktailImg} alt="cocktailImage" />
+          <img src={cocktailData?.find(findCocktail).imgurl} alt="cocktailImage" />
         </ImgCocktail>
         <Ingredients>
           <IngredientTitle>
