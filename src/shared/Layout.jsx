@@ -18,10 +18,12 @@ import { useRecoilState } from 'recoil';
 import { loginState, userState } from '../recoil/user';
 
 function Layout() {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [modalType, setModalType] = useState('');
-  const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useRecoilState(loginState);
+  const [userProfile, setUserProfile] = useRecoilState(userState);
 
   const handleSearchInputChange = (e) => {
     setSearchTerm(e.target.value);
@@ -40,11 +42,11 @@ function Layout() {
     console.log('필터된 데이터:', filteredData);
     navigate('/search', { state: { cocktails: filteredData } });
   };
-  const [isLogin, setIsLogin] = useRecoilState(loginState);
-  const [userProfile, setUserProfile] = useRecoilState(userState);
+ 
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
+      console.log(user)
       if (user !== null) {
         const profile = { name: user.displayName, email: user.email, photoURL: user.photoURL };
         setUserProfile(profile);

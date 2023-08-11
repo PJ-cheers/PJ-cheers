@@ -1,6 +1,9 @@
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 import { styled } from 'styled-components';
-import { firebaseSignUp } from '../firebase';
+import { firebaseSignUp, storage } from '../firebase';
+import { userState } from '../recoil/user';
 import { GrayButton } from '../shared/Buttons';
 
 function Signup({ isOpen, closeModal }) {
@@ -12,23 +15,27 @@ function Signup({ isOpen, closeModal }) {
     photo: "https://www.unite.ai/wp-content/uploads/2023/01/ben-sweet-2LowviVHZ-E-unsplash.jpg"
   }
   const [input, setInput]= useState(initialState)
+  const [userProfile, setUserProfile] = useRecoilState(userState)
 
   const imageFile = React.useRef(null);
 
-  const uploadImageHandler = (e)=> {
+  const selectImage = async(e)=> {
     const image = e.target.files[0]
-    const reader = new FileReader();
-    reader.onload = finishedEvent => {
-      const {currentTarget: {result}} = finishedEvent;
-    }
-    reader.readAsDataURL(image);
+    if(image !== undefined){
+    const imageRef = ref(storage, `${userProfile.email}/${image.name}`)
+    await uploadBytes(imageRef, image);
+
+    const downloadURL = await getDownloadURL(imageRef)
+    console.log(downloadURL)
+    setInput({...input, photo: downloadURL})
   }
-  const onCancelButtonClickHandler = () => {
+  }
+  const cancelButtonClickHandler = () => {
     closeModal()
     setInput(initialState)
   }
 
-  const confirm = async(e) => {
+  const confirmButtonClickHandler = async(e) => {
     e.preventDefault();
     if(!input.email){
       alert("이메일을 입력해주세요!")
@@ -51,8 +58,9 @@ function Signup({ isOpen, closeModal }) {
       return
     }
     try{
-      await firebaseSignUp({name:input.name, email:input.email, password: input.password, photo: input.photo})
+      const editedUserProfile = await firebaseSignUp({name:input.name, email:input.email, password: input.password, photo: input.photo})
       alert('회원가입에 성공했습니다!');
+      setUserProfile(editedUserProfile)
       setInput(initialState)
       closeModal();
     }catch(error){
@@ -78,9 +86,9 @@ function Signup({ isOpen, closeModal }) {
     <>
       <Modal isOpen={isOpen}>
         <LoginBox>
-        <ProfileEdit onClick={confirm}>이미지 편집</ProfileEdit>
-          <UploadImageInput type='file' ref={imageFile} onChange={uploadImageHandler}/>
-          <ProfileEdit>이미지 편집</ProfileEdit>
+          <ProfileBox photo={input.photo}></ProfileBox>
+          <ProfileEdit onClick={() => {imageFile.current.click()}}>이미지 업로드</ProfileEdit>
+          <UploadImageInput type='file' ref={imageFile} onChange={selectImage}/>
           <UserBox>
             <EmailBox>
               <label>이메일</label>
@@ -115,8 +123,8 @@ function Signup({ isOpen, closeModal }) {
               ></ConfirmPasswordInput>
             </ConfirmPasswordBox>
             <Buttons>
-              <GrayButton onClick={onCancelButtonClickHandler}>취소</GrayButton>
-              <GrayButton onClick={confirm}>확인</GrayButton>
+              <GrayButton onClick={cancelButtonClickHandler}>취소</GrayButton>
+              <GrayButton onClick={confirmButtonClickHandler}>확인</GrayButton>
             </Buttons>
           </UserBox>
         </LoginBox>
@@ -168,6 +176,7 @@ const ProfileEdit = styled.button`
   color: #ffffff;
   margin-top: 15px;
   margin-bottom: 20px;
+  cursor: pointer;
 `;
 
 const UserBox = styled.div`

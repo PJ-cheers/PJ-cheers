@@ -1,104 +1,65 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { GrayButton } from '../shared/Buttons';
 import { useRecoilState } from 'recoil';
 import { userState } from '../recoil/user';
-import { updateProfile } from 'firebase/auth';
+import { onAuthStateChanged, updateProfile } from 'firebase/auth';
 import { auth, storage } from '../firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 function UserEdit({ isOpen, closeModal}) {
   const [userProfile, setUserProfile] = useRecoilState(userState)
-  const [newName, setNewName] = useState(userProfile.name)
-  const [newImage, setNewImage] = useState(userProfile.photoURL)
-  const imageFile = React.useRef(null);
-  const uploadButtonClickHandler = () => {
-    imageFile.current.click();
+
+  const initialState = {
+    name: userProfile.name,
+    photo: userProfile.photoURL
   }
-  const uploadImageHandler = (e)=> {
+  console.log(initialState)
+
+  const [editInput, setEditInput] = useState(initialState)
+
+
+  const editImageFile = React.useRef(null);
+
+  const inputClickHandler = () => {
+    editImageFile.current.click();
+  }
+  const onSelectImage = async(e)=> {
     const image = e.target.files[0]
-    const reader = new FileReader();
-    reader.onload = finishedEvent => {
-      const {currentTarget: {result}} = finishedEvent;
-      setNewImage(result)
+    if(image !== undefined){
+      const imageRef = ref(storage, `${userProfile.email}/${image.name}`)
+      await uploadBytes(imageRef, image);
+  
+      const downloadURL = await getDownloadURL(imageRef)
+      console.log(downloadURL)
+      setEditInput({...editInput, photo: downloadURL})
     }
-    reader.readAsDataURL(image);
   }
   const onCancelButtonClickHandler = () => {
     closeModal()
-    setNewImage(userProfile.photoURL)
-    setNewName(userProfile.name)
   }
   const onEditButtonClickHandler = async (e) => {
     e.preventDefault();
-    // const imageStorageRef = ref(storage, `${userProfile.email}/profile/photo`);
-    // await uploadBytes(imageStorageRef, newImage);
-    // const downloadURL = await getDownloadURL(imageStorageRef);
-    
-    // if(userProfile.displayName !== newName || userProfile.photoURL !== downloadURL) {
-    //   try{
-    //     await updateProfile(auth.currentUser, {
-    //       displayName: newName, photoURL: downloadURL
-    //     })
-    //     setUserProfile({...userProfile, name: newName, photoURL:newImage})
-    //     setNewImage(userProfile.photoURL)
-    //     setNewName(userProfile.name)
-    //     closeModal();
-    //   } catch (error) {
-    //       const errorCode = error.code;
-    //       const errorMessage = error.message;
-    //       alert(errorCode + errorMessage);
-    //     }
-      
-    //   }
-   }
-
-    // try{
-      
-    //   setUserProfile({...userProfile, name: newName, photoURL:newImage})
-    //   setNewImage(userProfile.photoURL)
-    //   setNewName(userProfile.name)
-    //   closeModal();
-
-    // } catch (error) {
-    //   const errorCode = error.code;
-    //   const errorMessage = error.message;
-    //   alert(errorCode + errorMessage);
-    // }
+    await updateProfile(auth.currentUser, { displayName: editInput.name, photoURL: editInput.photo });
+    closeModal();
+  }
   
-
   return (
     <>
       <Modal isOpen={isOpen}> 
         <LoginBox>
-          <ProfileBox photo={newImage}></ProfileBox>
-          <ProfileEdit onClick={uploadButtonClickHandler}>이미지 편집</ProfileEdit>
-          <UploadImageInput type='file' ref={imageFile} onChange={uploadImageHandler}/>
+          <ProfileBox photo={editInput.photo}></ProfileBox>
+          <ProfileEdit onClick={inputClickHandler}>이미지 편집</ProfileEdit>
+          <UploadImageInput type='file' ref={editImageFile} onChange={onSelectImage}/>
           <UserBox>
             <NickNameBox>
               <label>닉네임</label>
               <NickNameInput
               type="text"
-              value={newName}
-              onChange={(e) => setNewName(e.target.value)}
+              value={editInput.name}
+              onChange={(e) => setEditInput({...editInput, name: e.target.value})}
               ></NickNameInput>
             </NickNameBox>
-            {/* <PasswordBox>
-              <label>비밀번호 변경</label>
-              <PasswordInput
-              type="password"
-              value={editInput.password}
-              onChange={(e) => setEditInput({...editInput, password: e.target.value})}
-              ></PasswordInput>
-            </PasswordBox>
-            <ConfirmPasswordBox>
-              <label>비밀번호 확인</label>
-              <ConfirmPasswordInput
-              type="password"
-              value={editInput.confirmPassword}
-              onChange={(e) => setEditInput({...editInput, confirmPassword: e.target.value})}
-              ></ConfirmPasswordInput>
-            </ConfirmPasswordBox> */}
             <Buttons>
               <GrayButton onClick={onCancelButtonClickHandler}>취소</GrayButton>
               <GrayButton onClick={onEditButtonClickHandler}>수정</GrayButton>
