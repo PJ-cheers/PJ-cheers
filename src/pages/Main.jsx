@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { getCocktailData, getDIYData } from '../api/recipeData';
+import styled from 'styled-components';
 import Carousel from 'react-multi-carousel';
 
 function Main() {
@@ -33,7 +34,7 @@ function Main() {
       <h1 style={{ fontSize: '24px', color: '#ffffff', marginTop: '2rem', marginLeft: '2rem' }}>인기 레시피</h1>
       {cocktailData && (
         <div>
-          <Carousel autoPlay autoPlaySpeed={2000} responsive={responsive}>
+          <Carousel autoPlay autoPlaySpeed={2000} responsive={responsive} infinite={true}>
             {cocktailData.map((item) => {
               return (
                 <div
@@ -66,47 +67,82 @@ function Main() {
       )}
 
       <h1 style={{ fontSize: '24px', color: '#ffffff', marginTop: '2rem', marginLeft: '2rem' }}>DIY 레시피</h1>
-      <div
-        style={{
-          width: '100%',
-          display: 'flex'
-        }}
-      >
-        {diyData?.map((item) => {
-          return (
-            <div
-              key={item.id}
-              style={{
-                backgroundColor: 'white',
-                border: '1px solid black',
-                margin: '1rem',
-                width: '20rem',
-                height: '24rem',
-                position: 'relative',
-                cursor: 'pointer'
-              }}
-              onClick={() => {
-                navigate(`/diy-recipe/${item.id}`);
-                window.scrollTo(0, 0);
-              }}
-            >
-              <img
-                src={item.image}
-                style={{
-                  width: '10rem',
-                  height: '10rem',
-                  borderRadius: '100%',
-                  objectFit: 'cover',
-                  margin: '2rem 4.5rem 0'
-                }}
-              />
-              <h2 style={{ margin: '2rem 0' }}>{item.name}</h2>
-            </div>
-          );
-        })}
-      </div>
+      <StDIYWrapper>
+        {diyData?.map((item) => (
+          <StDIYItem
+            key={item.id}
+            onClick={() => {
+              navigate(`/diy-recipe/${item.id}`);
+              window.scrollTo(0, 0);
+            }}
+          >
+            <StImageWrapper>
+              <img src={item.image} alt={item.name} />
+            </StImageWrapper>
+            <StName>{item.name}</StName>
+          </StDIYItem>
+        ))}
+      </StDIYWrapper>
     </>
   );
 }
 
 export default Main;
+
+const StCarouselItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+
+  img {
+    width: 14rem;
+    height: 14rem;
+    border-radius: 100%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 20px;
+    margin-bottom: 1rem;
+    color: #ffffff;
+  }
+`;
+
+const StDIYWrapper = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-gap: 1.5rem;
+  padding: 2rem;
+`;
+
+const StDIYItem = styled.div`
+  background-color: white;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  min-width: 10px;
+  min-height: 10px;
+  max-width: 400px;
+  max-height: 800px;
+`;
+
+const StImageWrapper = styled.div`
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    overflow: hidden;
+    max-height: 300px;
+  }
+`;
+
+const StName = styled.h2`
+  margin: 0;
+  padding: 1rem;
+`;
