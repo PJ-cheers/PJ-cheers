@@ -1,29 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { doc, getDoc, getDocs, collection, query } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+import { doc, deleteDoc, getDocs, collection, query } from 'firebase/firestore';
 import { db } from '../firebase';
-import { useQuery } from 'react-query';
 import { GrayButton } from '../shared/Buttons';
 
 // 아이콘
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-
-// const getCocktailData = async () => {
-//   const cocktailCollectionRef = collection(db, 'DIY');
-//   const cocktailQuerySnapshot = await getDocs(cocktailCollectionRef);
-
-//   return cocktailsData;
-// };
-
-// const getCocktailData = async () => {
-//   const querySnapshot = await getDocs(collection(db, 'DIY'));
-//   querySnapshot.forEach((doc) => {
-//     // doc.data() is never undefined for query doc snapshots
-//     console.log(doc.id, ' => ', doc.data());
-//   });
-// };
 
 // 버튼 클릭 시 뒤로가기
 function historyBack() {
@@ -32,9 +17,28 @@ function historyBack() {
 
 function DIYdetail() {
   const [cocktails, setCocktails] = useState();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('정말 삭제하시겠습니까?');
+  const navigate = useNavigate();
   // useParams를 이용하여 url의 id를 가져옴
   const { id } = useParams();
+
+  // 삭제 기능
+  const handleDeleteButton = async (e) => {
+    e.preventDefault();
+
+    try {
+      const docRef = doc(db, 'DIY', id);
+      await deleteDoc(docRef);
+
+      console.log('Document written with ID: ', docRef.id);
+      setIsModalOpen(true);
+      navigate('/diy-recipe');
+    } catch (error) {
+      console.error('Error adding document: ', error);
+    }
+    setIsModalOpen(true);
+  };
 
   // const { data: cocktailData } = useQuery('fetchCocktailData', getCocktailData);
 
@@ -72,7 +76,7 @@ function DIYdetail() {
       <DetailContainer>
         <EditDelete>
           <div>수정</div>
-          <div>삭제</div>
+          <div onClick={() => setIsModalOpen(true)}>삭제</div>
         </EditDelete>
         <CocktailName>
           <h2>{cocktails?.find(findCocktail).name}</h2>
@@ -109,6 +113,17 @@ function DIYdetail() {
           </ButtonBox>
         </CommentBox>
       </DetailContainer>
+      {isModalOpen && (
+        <ModalOverlay>
+          <ModalContent>
+            <ModalMessage>{modalMessage}</ModalMessage>
+            <ButtonsBox>
+              <GrayButton onClick={handleDeleteButton}>삭제</GrayButton>
+              <GrayButton onClick={() => setIsModalOpen(false)}>취소</GrayButton>
+            </ButtonsBox>
+          </ModalContent>
+        </ModalOverlay>
+      )}
     </>
   );
 }
@@ -276,4 +291,39 @@ const ButtonBox = styled.div`
   width: 100%;
   display: flex;
   justify-content: end;
+`;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ButtonsBox = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center; /* 가운데 정렬 */
+  gap: 1rem; /* 버튼 사이의 간격 조정 */
+  margin-top: 1rem; /* 위쪽 여백 추가 */
+`;
+
+const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+`;
+
+const ModalMessage = styled.div`
+  font-weight: 400;
+  font-size: 20px;
+  margin-bottom: 10px;
 `;
