@@ -14,12 +14,15 @@ import { faMagnifyingGlass, faBars } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
+import { useRecoilState,useRecoilStoreID,useRecoilValue, useSetRecoilState } from 'recoil';
+import { userState } from '../recoil/user';
 
 function Layout() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [modalType, setModalType] = useState('');
   const navigate = useNavigate();
+ 
 
   const handleSearchInputChange = (e) => {
     setSearchTerm(e.target.value);
@@ -39,23 +42,24 @@ function Layout() {
     navigate('/search', { state: { cocktails: filteredData } });
   };
   const [isLogin, setIsLogin] = useState(false);
-  const [name, setName] = useState('');
+  const [userProfile, setUserProfile] = useRecoilState(userState)
+  
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if (user !== null) {
-        setIsLogin(true);
-        setName(user.displayName);
-      } else {
-        setIsLogin(false);
-      }
+      if (user!== null) {
+        const profile ={name: user.displayName, email: user.email, photoURL: user.photoURL}
+      setUserProfile(profile);
+        setIsLogin(true)
+      } else {setIsLogin(false)}
+      
     });
   }, []);
-
+  
   const handleLogout = () => {
     signOut(auth).then(() => {
       setIsLogin(false);
-      setName('');
+      setUserProfile({name:"", email:"", photoURL:""})
     });
   };
 
@@ -103,7 +107,7 @@ function Layout() {
         </HeaderMiddle>
         <HeaderRight>
           {isLogin ? (
-            <span>{name} &nbsp;님</span>
+            <span onClick={() => {navigate("/mypage")}}>{userProfile.name} &nbsp;님</span>
           ) : (
             <>
               <LoginButton onClick={() => handleOpenModal('login')}>로그인</LoginButton>
@@ -127,7 +131,7 @@ function Layout() {
           isLogin={isLogin}
         />
       )}
-      <Outlet />
+      <Outlet/>
       <Login isOpen={modalType === 'login'} closeModal={() => handleCloseModal()} />
       <Signup isOpen={modalType === 'signup'} closeModal={() => handleCloseModal()} />
       <UserEdit isOpen={modalType === 'edit'} closeModal={() => handleCloseModal()} />

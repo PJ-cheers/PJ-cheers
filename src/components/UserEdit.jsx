@@ -1,29 +1,71 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import { GrayButton } from '../shared/Buttons';
+import { useRecoilState } from 'recoil';
+import { userState } from '../recoil/user';
+import { updateProfile } from 'firebase/auth';
+import { auth } from '../firebase';
 
-function UserEdit({ isOpen, closeModal }) {
-  const edit = (e) => {
-    e.prevDefaultEvent();
+function UserEdit({ isOpen, closeModal}) {
+  const [userProfile, setUserProfile] = useRecoilState(userState)
+  console.log(userProfile)
+  const [editInput, setEditInput] = useState({
+    name: userProfile.name,
+    password: '',
+    confirmPassword: '',
+  })
+  
+  const edit = async (e) => {
+    e.preventDefault();
+    if(editInput.password !== editInput.confirmPassword) {
+      alert("비밀번호와 비밀번호 확인이 일치하지 않습니다!")
+      return
+    }
+    try{
+      await updateProfile(auth.currentUser, {
+        displayName: editInput.name
+      })
+      setUserProfile({...userProfile, name: editInput.name})
+      await updateProfile(auth.currentUser, editInput.password )
+      closeModal();
+      
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorCode + errorMessage);
+    }
   };
+
   return (
     <>
-      <Modal isOpen={isOpen}>
+      <Modal isOpen={isOpen}> 
         <LoginBox>
-          <ProfileBox></ProfileBox>
+          <ProfileBox photo={userProfile.photoURL}></ProfileBox>
           <ProfileEdit>이미지 편집</ProfileEdit>
           <UserBox>
             <NickNameBox>
               <label>닉네임</label>
-              <NickNameInput type="text"></NickNameInput>
+              <NickNameInput
+              type="text"
+              value={editInput.name}
+              onChange={(e) => setEditInput({...editInput, name: e.target.value})}
+              ></NickNameInput>
             </NickNameBox>
             <PasswordBox>
               <label>비밀번호 변경</label>
-              <PasswordInput type="password"></PasswordInput>
+              <PasswordInput
+              type="password"
+              value={editInput.password}
+              onChange={(e) => setEditInput({...editInput, password: e.target.value})}
+              ></PasswordInput>
             </PasswordBox>
             <ConfirmPasswordBox>
               <label>비밀번호 확인</label>
-              <ConfirmPasswordInput type="password"></ConfirmPasswordInput>
+              <ConfirmPasswordInput
+              type="password"
+              value={editInput.confirmPassword}
+              onChange={(e) => setEditInput({...editInput, confirmPassword: e.target.value})}
+              ></ConfirmPasswordInput>
             </ConfirmPasswordBox>
             <Buttons>
               <GrayButton onClick={closeModal}>취소</GrayButton>
@@ -67,6 +109,9 @@ const ProfileBox = styled.div`
   height: 8.25rem;
   border-radius: 50%;
   background-color: #ffffff;
+  background-image: url(${(props) => props.photo});
+  background-size: 26rem;
+  background-position: center center;
   margin-top: 30px;
 `;
 
