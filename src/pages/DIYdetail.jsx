@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { doc, deleteDoc, getDocs, collection, query } from 'firebase/firestore';
+import { useMutation, useQueryClient } from 'react-query';
 import { db } from '../firebase';
 import { GrayButton } from '../shared/Buttons';
 
@@ -20,19 +21,21 @@ function DIYdetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('정말 삭제하시겠습니까?');
   const navigate = useNavigate();
+  const queryClient = new useQueryClient();
   // useParams를 이용하여 url의 id를 가져옴
   const { id } = useParams();
 
   // 삭제 기능
   const handleDeleteButton = async (e) => {
+    setIsModalOpen(true);
+    mutationDelete.mutate();
     e.preventDefault();
 
     try {
-      const docRef = doc(db, 'DIY', id);
-      await deleteDoc(docRef);
+      // const docRef = doc(db, 'DIY', id);
+      // await deleteDoc(docRef);
 
-      console.log('Document written with ID: ', docRef.id);
-      setIsModalOpen(true);
+      // console.log('Document written with ID: ', docRef.id);
       navigate('/diy-recipe');
     } catch (error) {
       console.error('Error adding document: ', error);
@@ -40,6 +43,18 @@ function DIYdetail() {
     setIsModalOpen(true);
   };
 
+  const mutationDelete = useMutation(
+    () => {
+      const docRef = doc(db, 'DIY', id);
+      return deleteDoc(docRef);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('fetchDIYData');
+        navigate('/diy-recipe');
+      }
+    }
+  );
   // const { data: cocktailData } = useQuery('fetchCocktailData', getCocktailData);
 
   function findCocktail(item) {
