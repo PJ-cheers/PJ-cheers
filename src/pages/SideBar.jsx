@@ -9,13 +9,11 @@ import { userState } from '../recoil/user';
 
 function SideBar({ onClose, onLogin, onSignup, onEdit, isLogin, onLogout }) {
   const navigate = useNavigate();
-
   const handleListClick = (path) => {
     onClose();
     navigate(path);
   };
   const userProfile = useRecoilState(userState);
-
   return (
     <Wrapper onClick={onClose}>
       <SidebarContent onClick={(e) => e.stopPropagation()}>
@@ -28,7 +26,9 @@ function SideBar({ onClose, onLogin, onSignup, onEdit, isLogin, onLogout }) {
               <ProfileImg photo={userProfile[0].photoURL} />
             </ImgWrapper>
             <ButtonWrapper>
-              <GrayButton onClick={onEdit}>프로필 수정</GrayButton>
+              <GrayButton onClick={() => {
+                onEdit()
+              }}>프로필 수정</GrayButton>
             </ButtonWrapper>
             <NaviWrapper>
               <List onClick={() => handleListClick('/recipe')}>칵테일 레시피</List>
