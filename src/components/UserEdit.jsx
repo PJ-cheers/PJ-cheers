@@ -4,7 +4,8 @@ import { GrayButton } from '../shared/Buttons';
 import { useRecoilState } from 'recoil';
 import { userState } from '../recoil/user';
 import { updateProfile } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth, storage } from '../firebase';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 function UserEdit({ isOpen, closeModal}) {
   const [userProfile, setUserProfile] = useRecoilState(userState)
@@ -15,40 +16,62 @@ function UserEdit({ isOpen, closeModal}) {
     imageFile.current.click();
   }
   const uploadImageHandler = (e)=> {
-    setNewImage(e.target.files[0]);
-    // if (newImage === 0) {
-    //   return;
-    // } else {
-    //   const imagePreview = e.target.files[0];
-    //   const reader = new FileReader();
-    //   reader.readAsDataURL(imagePreview);
-    //   reader.onloadend = () => {
-    //     setNewImage(reader.result);
-    //   };
-    // }
-  }
-  
-  const edit = async (e) => {
-    e.preventDefault();
-    try{
-      await updateProfile(auth.currentUser, {
-        displayName: newName
-      })
-      setUserProfile({...userProfile, name: newName})
-      closeModal();
-
-    } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert(errorCode + errorMessage);
+    const image = e.target.files[0]
+    const reader = new FileReader();
+    reader.onload = finishedEvent => {
+      const {currentTarget: {result}} = finishedEvent;
+      setNewImage(result)
     }
-  };
+    reader.readAsDataURL(image);
+  }
+  const onCancelButtonClickHandler = () => {
+    closeModal()
+    setNewImage(userProfile.photoURL)
+    setNewName(userProfile.name)
+  }
+  const onEditButtonClickHandler = async (e) => {
+    e.preventDefault();
+    // const imageStorageRef = ref(storage, `${userProfile.email}/profile/photo`);
+    // await uploadBytes(imageStorageRef, newImage);
+    // const downloadURL = await getDownloadURL(imageStorageRef);
+    
+    // if(userProfile.displayName !== newName || userProfile.photoURL !== downloadURL) {
+    //   try{
+    //     await updateProfile(auth.currentUser, {
+    //       displayName: newName, photoURL: downloadURL
+    //     })
+    //     setUserProfile({...userProfile, name: newName, photoURL:newImage})
+    //     setNewImage(userProfile.photoURL)
+    //     setNewName(userProfile.name)
+    //     closeModal();
+    //   } catch (error) {
+    //       const errorCode = error.code;
+    //       const errorMessage = error.message;
+    //       alert(errorCode + errorMessage);
+    //     }
+      
+    //   }
+   }
+
+    // try{
+      
+    //   setUserProfile({...userProfile, name: newName, photoURL:newImage})
+    //   setNewImage(userProfile.photoURL)
+    //   setNewName(userProfile.name)
+    //   closeModal();
+
+    // } catch (error) {
+    //   const errorCode = error.code;
+    //   const errorMessage = error.message;
+    //   alert(errorCode + errorMessage);
+    // }
+  
 
   return (
     <>
       <Modal isOpen={isOpen}> 
         <LoginBox>
-          <ProfileBox photo={userProfile.photoURL}></ProfileBox>
+          <ProfileBox photo={newImage}></ProfileBox>
           <ProfileEdit onClick={uploadButtonClickHandler}>이미지 편집</ProfileEdit>
           <UploadImageInput type='file' ref={imageFile} onChange={uploadImageHandler}/>
           <UserBox>
@@ -77,8 +100,8 @@ function UserEdit({ isOpen, closeModal}) {
               ></ConfirmPasswordInput>
             </ConfirmPasswordBox> */}
             <Buttons>
-              <GrayButton onClick={closeModal}>취소</GrayButton>
-              <GrayButton onClick={edit}>수정</GrayButton>
+              <GrayButton onClick={onCancelButtonClickHandler}>취소</GrayButton>
+              <GrayButton onClick={onEditButtonClickHandler}>수정</GrayButton>
             </Buttons>
           </UserBox>
         </LoginBox>

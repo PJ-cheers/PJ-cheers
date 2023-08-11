@@ -19,6 +19,7 @@ function MyPage() {
   const handleChangeUserInfo = () => {
     alert("ㅎㅇ")
   };
+  console.log(userProfile.photoURL)
   return (
     <TotalBox>
       <MyPageBox>

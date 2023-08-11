@@ -15,7 +15,7 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useRecoilState } from 'recoil';
-import { userState } from '../recoil/user';
+import { loginState, userState } from '../recoil/user';
 
 function Layout() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -40,7 +40,7 @@ function Layout() {
     console.log('필터된 데이터:', filteredData);
     navigate('/search', { state: { cocktails: filteredData } });
   };
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useRecoilState(loginState);
   const [userProfile, setUserProfile] = useRecoilState(userState);
 
   useEffect(() => {

@@ -12,6 +12,22 @@ function Signup({ isOpen, closeModal }) {
     photo: "https://www.unite.ai/wp-content/uploads/2023/01/ben-sweet-2LowviVHZ-E-unsplash.jpg"
   }
   const [input, setInput]= useState(initialState)
+
+  const imageFile = React.useRef(null);
+
+  const uploadImageHandler = (e)=> {
+    const image = e.target.files[0]
+    const reader = new FileReader();
+    reader.onload = finishedEvent => {
+      const {currentTarget: {result}} = finishedEvent;
+    }
+    reader.readAsDataURL(image);
+  }
+  const onCancelButtonClickHandler = () => {
+    closeModal()
+    setInput(initialState)
+  }
+
   const confirm = async(e) => {
     e.preventDefault();
     if(!input.email){
@@ -62,7 +78,8 @@ function Signup({ isOpen, closeModal }) {
     <>
       <Modal isOpen={isOpen}>
         <LoginBox>
-          <ProfileBox photo={input.photo}></ProfileBox>
+        <ProfileEdit onClick={confirm}>이미지 편집</ProfileEdit>
+          <UploadImageInput type='file' ref={imageFile} onChange={uploadImageHandler}/>
           <ProfileEdit>이미지 편집</ProfileEdit>
           <UserBox>
             <EmailBox>
@@ -98,9 +115,7 @@ function Signup({ isOpen, closeModal }) {
               ></ConfirmPasswordInput>
             </ConfirmPasswordBox>
             <Buttons>
-              <GrayButton onClick={() => {closeModal()
-              setInput(initialState)
-              }}>취소</GrayButton>
+              <GrayButton onClick={onCancelButtonClickHandler}>취소</GrayButton>
               <GrayButton onClick={confirm}>확인</GrayButton>
             </Buttons>
           </UserBox>
@@ -133,7 +148,9 @@ const LoginBox = styled.div`
   align-items: center;
   border-radius: 8px;
 `;
-
+const UploadImageInput = styled.input`
+  display: none;
+`
 const ProfileBox = styled.div`
   width: 8.25rem;
   height: 8.25rem;
