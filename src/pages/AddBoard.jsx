@@ -5,6 +5,7 @@ import { collection, addDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { storage } from '../firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { useMutation, useQueryClient } from 'react-query';
 import { GrayButton } from '../shared/Buttons';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../recoil/user';
@@ -18,12 +19,27 @@ function AddBoard() {
   const [imgUrl, setImgUrl] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+  const queryClient = new useQueryClient();
   const navigate = useNavigate();
 
   const handleCancelClick = (e) => {
     e.preventDefault();
     navigate('/diy-recipe');
   };
+
+  const mutationAdd = useMutation(
+    (data) => {
+      return addDoc(collection(db, 'DIY'), data);
+    },
+    {
+      onSuccess: () => {
+        // 데이터베이스 작업이 완료되면 상태를 업데이트하고, 리다이렉션을 실행
+        queryClient.invalidateQueries('fetchDIYData');
+        navigate('/diy-recipe');
+      }
+    }
+  );
+
   const handleSaveClick = async (e) => {
     e.preventDefault();
 
@@ -42,17 +58,13 @@ function AddBoard() {
     }
 
     try {
-      const docRef = await addDoc(collection(db, 'DIY'), {
+      await mutationAdd.mutateAsync({
         name: title,
         content: content,
         userEmail: userProfile.email,
         username: userProfile.name,
         image: imgUrl
       });
-
-      console.log('Document written with ID: ', docRef.id);
-      // 추가 성공 시, 상태 초기화
-      navigate('/diy-recipe');
     } catch (error) {
       console.error('Error adding document: ', error);
     }
