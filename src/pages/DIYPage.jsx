@@ -69,6 +69,7 @@ const PostCard = styled.div`
   position: relative;
   float: left;
   overflow: hidden;
+  cursor: pointer;
 `;
 const PostTextContainer = styled.div`
   margin: 1rem;
