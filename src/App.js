@@ -1,5 +1,6 @@
 import './App.css';
 import Router from './shared/Router';
+import 'react-multi-carousel/lib/styles.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { RecoilRoot } from 'recoil';
 
