@@ -94,7 +94,12 @@ function Main() {
                 margin: '1rem',
                 width: '20rem',
                 height: '24rem',
-                position: 'relative'
+                position: 'relative',
+                cursor: 'pointer'
+              }}
+              onClick={() => {
+                navigate(`/diy-recipe/${item.id}`);
+                window.scrollTo(0, 0);
               }}
             >
               <img
