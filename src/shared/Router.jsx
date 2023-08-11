@@ -9,6 +9,7 @@ import BoardRecipe from '../pages/BoardRecipe';
 import NotFoundPage from '../pages/NotFoundPage';
 import Search from '../pages/Search';
 import MyPage from '../pages/MyPage';
+import DIYdetail from '../pages/DIYdetail';
 
 function Router() {
   return (
@@ -16,6 +17,7 @@ function Router() {
       <Route element={<Layout />}>
         <Route path="/" element={<Main />} />
         <Route path="/diy-recipe" element={<DIYPage />} />
+        <Route path="/diy-recipe/:id" element={<DIYdetail />} />
         <Route path="/add-board" element={<AddBoard />} />
         <Route path="/recipe" element={<BoardRecipe />} />
         <Route path="/recipe/:id" element={<DetailRecipe />} />
