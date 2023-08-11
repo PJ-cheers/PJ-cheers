@@ -63,7 +63,8 @@ function AddBoard() {
         content: content,
         userEmail: userProfile.email,
         username: userProfile.name,
-        image: imgUrl
+        image: imgUrl,
+        fileName: fileName
       });
     } catch (error) {
       console.error('Error adding document: ', error);

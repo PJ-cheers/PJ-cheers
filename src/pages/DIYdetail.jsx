@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { doc, deleteDoc, getDocs, collection, query } from 'firebase/firestore';
 import { useMutation, useQueryClient } from 'react-query';
 import { db } from '../firebase';
 import { GrayButton } from '../shared/Buttons';
-
 // 아이콘
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-
-// 버튼 클릭 시 뒤로가기
-function historyBack() {
-  window.history.back();
-}
 
 function DIYdetail() {
   const [cocktails, setCocktails] = useState();
@@ -25,6 +18,11 @@ function DIYdetail() {
   // useParams를 이용하여 url의 id를 가져옴
   const { id } = useParams();
 
+  // 버튼 클릭 시 뒤로가기
+  function historyBack(e) {
+    navigate('/diy-recipe');
+  }
+
   // 삭제 기능
   const handleDeleteButton = async (e) => {
     setIsModalOpen(true);
@@ -32,10 +30,6 @@ function DIYdetail() {
     e.preventDefault();
 
     try {
-      // const docRef = doc(db, 'DIY', id);
-      // await deleteDoc(docRef);
-
-      // console.log('Document written with ID: ', docRef.id);
       navigate('/diy-recipe');
     } catch (error) {
       console.error('Error adding document: ', error);
@@ -90,7 +84,7 @@ function DIYdetail() {
       </ButtonBack>
       <DetailContainer>
         <EditDelete>
-          <div>수정</div>
+          <div onClick={() => navigate(`/edit-board/${id}`)}>수정</div>
           <div onClick={() => setIsModalOpen(true)}>삭제</div>
         </EditDelete>
         <CocktailName>
