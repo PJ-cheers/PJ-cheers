@@ -8,27 +8,36 @@ import { auth } from '../firebase';
 
 function UserEdit({ isOpen, closeModal}) {
   const [userProfile, setUserProfile] = useRecoilState(userState)
-  console.log(userProfile)
-  const [editInput, setEditInput] = useState({
-    name: userProfile.name,
-    password: '',
-    confirmPassword: '',
-  })
+  const [newName, setNewName] = useState(userProfile.name)
+  const [newImage, setNewImage] = useState(userProfile.photoURL)
+  const imageFile = React.useRef(null);
+  const uploadButtonClickHandler = () => {
+    imageFile.current.click();
+  }
+  const uploadImageHandler = (e)=> {
+    setImageFile(event.target.files[0]);
+
+    if (imageFile === 0) {
+      return;
+    } else {
+      const imagePreview = event.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(imagePreview);
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+    }
+  }
   
   const edit = async (e) => {
     e.preventDefault();
-    if(editInput.password !== editInput.confirmPassword) {
-      alert("비밀번호와 비밀번호 확인이 일치하지 않습니다!")
-      return
-    }
     try{
       await updateProfile(auth.currentUser, {
-        displayName: editInput.name
+        displayName: newName
       })
-      setUserProfile({...userProfile, name: editInput.name})
-      await updateProfile(auth.currentUser, editInput.password )
+      setUserProfile({...userProfile, name: newName})
       closeModal();
-      
+
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -41,17 +50,18 @@ function UserEdit({ isOpen, closeModal}) {
       <Modal isOpen={isOpen}> 
         <LoginBox>
           <ProfileBox photo={userProfile.photoURL}></ProfileBox>
-          <ProfileEdit>이미지 편집</ProfileEdit>
+          <ProfileEdit onClick={uploadButtonClickHandler}>이미지 편집</ProfileEdit>
+          <UploadImageInput type='file' ref={imageFile} onChange={uploadImageHandler}/>
           <UserBox>
             <NickNameBox>
               <label>닉네임</label>
               <NickNameInput
               type="text"
-              value={editInput.name}
-              onChange={(e) => setEditInput({...editInput, name: e.target.value})}
+              value={newName}
+              onChange={(e) => setNewName(e.target.value)}
               ></NickNameInput>
             </NickNameBox>
-            <PasswordBox>
+            {/* <PasswordBox>
               <label>비밀번호 변경</label>
               <PasswordInput
               type="password"
@@ -66,7 +76,7 @@ function UserEdit({ isOpen, closeModal}) {
               value={editInput.confirmPassword}
               onChange={(e) => setEditInput({...editInput, confirmPassword: e.target.value})}
               ></ConfirmPasswordInput>
-            </ConfirmPasswordBox>
+            </ConfirmPasswordBox> */}
             <Buttons>
               <GrayButton onClick={closeModal}>취소</GrayButton>
               <GrayButton onClick={edit}>수정</GrayButton>
@@ -104,6 +114,10 @@ const LoginBox = styled.div`
   border-radius: 8px;
 `;
 
+const UploadImageInput = styled.input`
+  display: none;
+`
+
 const ProfileBox = styled.div`
   width: 8.25rem;
   height: 8.25rem;
@@ -121,11 +135,12 @@ const ProfileEdit = styled.button`
   color: #ffffff;
   margin-top: 15px;
   margin-bottom: 20px;
+  cursor: pointer;
 `;
 
 const UserBox = styled.div`
   width: 20rem;
-  height: 23rem;
+  height: 10rem;
   padding-top: 60px;
   padding-left: 30px;
   border-radius: 8px;

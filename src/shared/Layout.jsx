@@ -14,7 +14,7 @@ import { faMagnifyingGlass, faBars } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { useRecoilState,useRecoilStoreID,useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { userState } from '../recoil/user';
 
 function Layout() {
