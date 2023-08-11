@@ -30,7 +30,6 @@ function DIYPage() {
               />
               <PostTextContainer>
                 <h2 style={{ margin: '1rem 0' }}>칵테일 이름: {item.name}</h2>
-                {/* <p style={{ margin: '0.5rem 0' }}>레시피 : {item.recipe}</p> */}
                 <p style={{ margin: '0.5rem 0' }}>바텐더 : {item.username}</p>
               </PostTextContainer>
             </PostCard>
