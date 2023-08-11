@@ -36,6 +36,10 @@ function Login({ isOpen, closeModal }) {
         alert("비밀번호가 일치하지 않습니다!")
         return
       }
+      if(errorCode === "auth/too-many-requestsFirebase"){
+        alert("로그인 시도 횟수를 초과했습니다. 잠시 후 시도하세요!")
+        return
+      }
       alert( errorCode + errorMessage)
     }
   }

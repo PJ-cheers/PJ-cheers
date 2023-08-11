@@ -4,6 +4,8 @@ import { GrayButton } from '../shared/Buttons';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { useRecoilState } from 'recoil';
+import {userState} from '../recoil/user'
 
 function SideBar({ onClose, onLogin, onSignup, onEdit, isLogin, onLogout }) {
   const navigate = useNavigate();
@@ -12,6 +14,7 @@ function SideBar({ onClose, onLogin, onSignup, onEdit, isLogin, onLogout }) {
     onClose();
     navigate(path);
   };
+  const userProfile = useRecoilState(userState)
 
   return (
     <Wrapper onClick={onClose}>
@@ -22,7 +25,7 @@ function SideBar({ onClose, onLogin, onSignup, onEdit, isLogin, onLogout }) {
         {isLogin ? (
           <>
             <ImgWrapper>
-              <ProfileImg photo="https://www.unite.ai/wp-content/uploads/2023/01/ben-sweet-2LowviVHZ-E-unsplash.jpg" />
+              <ProfileImg photo={userProfile[0].photoURL} />
             </ImgWrapper>
             <ButtonWrapper>
               <GrayButton onClick={onEdit}>프로필 수정</GrayButton>

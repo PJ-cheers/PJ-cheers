@@ -7,14 +7,17 @@ import './color.css';
 import { YoutubeDataProvider } from './api/YoutubeDataContext';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { RecoilRoot } from 'recoil';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <YoutubeDataProvider>
-        <App />
-      </YoutubeDataProvider>
+      <RecoilRoot>
+        <YoutubeDataProvider>
+          <App />
+        </YoutubeDataProvider>
+      </RecoilRoot>
     </BrowserRouter>
   </React.StrictMode>
 );

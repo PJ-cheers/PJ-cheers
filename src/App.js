@@ -1,6 +1,7 @@
 import './App.css';
 import Router from './shared/Router';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { RecoilRoot } from 'recoil';
 
 // reset CSS
 import * as React from 'react';

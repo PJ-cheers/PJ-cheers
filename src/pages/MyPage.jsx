@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { userState } from '../recoil/user';
 
 function MyPage() {
   const [currentTab, clickTab] = useState(0);
-
+  const userProfile = useRecoilState(userState)
   const menuArr = [
     { name: '내가 작성한 글', content: 'test' },
     { name: '내가 작성한 댓글', content: 'tes2t' }
@@ -15,16 +17,22 @@ function MyPage() {
     clickTab(index);
   };
   const handleChangeUserInfo = () => {
-    alert('1');
+    alert("ㅎㅇ")
   };
   return (
     <TotalBox>
       <MyPageBox>
+      {userProfile[0].name === '' ?
         <NickName>닉네임</NickName>
+        :<NickName>{userProfile[0].name}님</NickName>
+        }
         <PencilIcon icon={faPencil} onClick={handleChangeUserInfo} />
       </MyPageBox>
       <ImageBox>
-        <UserImage></UserImage>
+        {userProfile[0].photoURL === '' ?
+        <UserImage photo="https://www.unite.ai/wp-content/uploads/2023/01/ben-sweet-2LowviVHZ-E-unsplash.jpg"></UserImage>
+        :<UserImage photo={userProfile[0].photoURL}></UserImage>
+        }
       </ImageBox>
       <TabBox>
         <TabMenu>
@@ -87,7 +95,9 @@ const UserImage = styled.div`
   width: 8.25rem;
   height: 8.25rem;
   border-radius: 50%;
-  background-color: #ffffff;
+  background-image: url(${(props) => props.photo});
+  background-size: 26rem;
+  background-position: center center;
 `;
 
 const TabBox = styled.div`
