@@ -6,6 +6,7 @@ import Signup from '../components/Signup';
 import SideBar from '../pages/SideBar';
 import UserEdit from '../components/UserEdit';
 import { getCocktailData } from '../api/recipeData';
+import { signOut } from 'firebase/auth';
 
 // 아이콘
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,7 +14,6 @@ import { faMagnifyingGlass, faBars } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-
 
 function Layout() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -38,19 +38,26 @@ function Layout() {
     console.log('필터된 데이터:', filteredData);
     navigate('/search', { state: { cocktails: filteredData } });
   };
-  const [isLogin, setIsLogin] = useState(false)
-  const [name, setName] = useState("")
+  const [isLogin, setIsLogin] = useState(false);
+  const [name, setName] = useState('');
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if(user !== null){
-        setIsLogin(true)
-        setName(user.displayName)
-      } else {setIsLogin(false)}
-    })
-  }, [])
-  console.log(auth.user)
+      if (user !== null) {
+        setIsLogin(true);
+        setName(user.displayName);
+      } else {
+        setIsLogin(false);
+      }
+    });
+  }, []);
 
+  const handleLogout = () => {
+    signOut(auth).then(() => {
+      setIsLogin(false);
+      setName('');
+    });
+  };
 
   // login, signup, edit
   const handleOpenModal = (type) => {
@@ -95,13 +102,14 @@ function Layout() {
           </button>
         </HeaderMiddle>
         <HeaderRight>
-          {isLogin?
-          <span>{name} &nbsp;님</span>
-          :<>
-            <LoginButton onClick={() => handleOpenModal('login')}>로그인</LoginButton>
-            <SignupButton onClick={() => handleOpenModal('signup')}>회원가입</SignupButton>
-          </>
-         }
+          {isLogin ? (
+            <span>{name} &nbsp;님</span>
+          ) : (
+            <>
+              <LoginButton onClick={() => handleOpenModal('login')}>로그인</LoginButton>
+              <SignupButton onClick={() => handleOpenModal('signup')}>회원가입</SignupButton>
+            </>
+          )}
           {/* <UserEditButton onClick={() => handleOpenModal('edit')}>회원정보 수정</UserEditButton> */}
           <FontAwesomeIcon style={{ fontSize: '24px' }} icon={faBars} onClick={toggleSidebar} />
         </HeaderRight>
@@ -114,6 +122,9 @@ function Layout() {
           onClose={toggleSidebar}
           onLogin={() => handleOpenModal('login')}
           onSignup={() => handleOpenModal('signup')}
+          onEdit={() => handleOpenModal('edit')}
+          onLogout={handleLogout}
+          isLogin={isLogin}
         />
       )}
       <Outlet />

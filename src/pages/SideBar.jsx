@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-function SideBar({ onClose, onLogin, onSignup }) {
+function SideBar({ onClose, onLogin, onSignup, onEdit, isLogin, onLogout }) {
   const navigate = useNavigate();
 
   const handleListClick = (path) => {
@@ -19,18 +19,37 @@ function SideBar({ onClose, onLogin, onSignup }) {
         <CloseIcon onClick={onClose}>
           <FontAwesomeIcon icon={faTimes} style={{ fontSize: '30px' }} />
         </CloseIcon>
-        <ImgWrapper>
-          <ProfileImg />
-        </ImgWrapper>
-        <ButtonWrapper>
-          <GrayButton onClick={onLogin}>로그인</GrayButton>
-          <GrayButton onClick={onSignup}>회원가입</GrayButton>
-        </ButtonWrapper>
-        <NaviWrapper>
-          <List onClick={() => handleListClick('/recipe')}>칵테일 레시피</List>
-          <List onClick={() => handleListClick('/diy-recipe')}>DIY 칵테일</List>
-          <List onClick={() => handleListClick('/mypage')}>마이페이지</List>
-        </NaviWrapper>
+        {isLogin ? (
+          <>
+            <ImgWrapper>
+              <ProfileImg photo="https://www.unite.ai/wp-content/uploads/2023/01/ben-sweet-2LowviVHZ-E-unsplash.jpg" />
+            </ImgWrapper>
+            <ButtonWrapper>
+              <GrayButton onClick={onEdit}>프로필 수정</GrayButton>
+            </ButtonWrapper>
+            <NaviWrapper>
+              <List onClick={() => handleListClick('/recipe')}>칵테일 레시피</List>
+              <List onClick={() => handleListClick('/diy-recipe')}>DIY 칵테일</List>
+              <List onClick={() => handleListClick('/mypage')}>마이페이지</List>
+            </NaviWrapper>
+            <LogoutButton onClick={onLogout}>로그아웃</LogoutButton>
+          </>
+        ) : (
+          <>
+            <ImgWrapper>
+              <ProfileImg photo="https://www.unite.ai/wp-content/uploads/2023/01/ben-sweet-2LowviVHZ-E-unsplash.jpg" />
+            </ImgWrapper>
+            <ButtonWrapper>
+              <GrayButton onClick={onLogin}>로그인</GrayButton>
+              <GrayButton onClick={onSignup}>회원가입</GrayButton>
+            </ButtonWrapper>
+            <NaviWrapper>
+              <List onClick={() => handleListClick('/recipe')}>칵테일 레시피</List>
+              <List onClick={() => handleListClick('/diy-recipe')}>DIY 칵테일</List>
+              <List onClick={() => handleListClick('/mypage')}>마이페이지</List>
+            </NaviWrapper>
+          </>
+        )}
       </SidebarContent>
     </Wrapper>
   );
@@ -40,9 +59,13 @@ export default SideBar;
 
 const CloseIcon = styled.div`
   position: absolute;
-  top: 8rem;
-  right: 2rem;
+  top: 25.5rem;
+  right: 0.5rem;
   cursor: pointer;
+  color: #d9d9d9;
+  &:hover {
+    color: rgba(0, 0, 0, 0.5);
+  }
 `;
 
 const List = styled.p`
@@ -88,14 +111,19 @@ const ButtonWrapper = styled.div`
   padding-bottom: 2rem;
 `;
 
-const ProfileImg = styled.img`
-  background-color: black;
-  width: 10rem;
-  height: 10rem;
-  border-radius: 100%;
+const ProfileImg = styled.div`
+  width: 8.25rem;
+  height: 8.25rem;
+  border-radius: 50%;
+  background-color: #ffffff;
+  background-image: url(${(props) => props.photo});
+  background-size: 26rem;
+  background-position: center center;
+  margin-top: 30px;
 `;
 
 const SidebarContent = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -105,4 +133,19 @@ const SidebarContent = styled.div`
   transform: translateX(0);
   transition: transform 0.3s;
   padding-top: 38rem;
+`;
+const LogoutButton = styled.button`
+  position: absolute;
+  bottom: 24.5rem;
+  right: 1rem;
+  padding: 8px 12px;
+  font-size: 0.9em;
+  border: none;
+  background-color: #d9d9d9;
+  color: rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
 `;
