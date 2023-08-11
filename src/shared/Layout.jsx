@@ -224,7 +224,6 @@ const Footer = styled.footer`
   z-index: 20;
   width: 100vw;
   height: 4rem;
-  position: fixed;
   bottom: 0px;
   background-color: #000000;
   display: flex;
