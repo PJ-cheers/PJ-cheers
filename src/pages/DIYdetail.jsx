@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { doc, getDoc, getDocs, collection } from 'firebase/firestore';
-import { YoutubeDataContext } from '../api/YoutubeDataContext';
+import { doc, getDoc, getDocs, collection, query } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useQuery } from 'react-query';
 import { GrayButton } from '../shared/Buttons';
@@ -18,28 +17,53 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 //   return cocktailsData;
 // };
 
+// const getCocktailData = async () => {
+//   const querySnapshot = await getDocs(collection(db, 'DIY'));
+//   querySnapshot.forEach((doc) => {
+//     // doc.data() is never undefined for query doc snapshots
+//     console.log(doc.id, ' => ', doc.data());
+//   });
+// };
+
 // 버튼 클릭 시 뒤로가기
 function historyBack() {
   window.history.back();
 }
 
 function DIYdetail() {
+  const [cocktails, setCocktails] = useState();
+
   // useParams를 이용하여 url의 id를 가져옴
   const { id } = useParams();
+
+  // const { data: cocktailData } = useQuery('fetchCocktailData', getCocktailData);
 
   function findCocktail(item) {
     return item.id === id;
   }
 
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
-    cssEase: 'linear',
-    slide: 'div'
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      // collection 이름이 DIY인 collection의 모든 document를 가져옵니다.
+      const q = query(collection(db, 'DIY'));
+      const querySnapshot = await getDocs(q);
+
+      const initialTodos = [];
+
+      // document의 id와 데이터를 initialTodos에 저장합니다.
+      // doc.id의 경우 따로 지정하지 않는 한 자동으로 생성되는 id입니다.
+      // doc.data()를 실행하면 해당 document의 데이터를 가져올 수 있습니다.
+      querySnapshot.forEach((doc) => {
+        initialTodos.push({ id: doc.id, ...doc.data() });
+      });
+
+      // firestore에서 가져온 데이터를 state에 전달
+      setCocktails(initialTodos);
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <ButtonBack onClick={historyBack}>
@@ -51,16 +75,18 @@ function DIYdetail() {
           <div>삭제</div>
         </EditDelete>
         <CocktailName>
-          <h2>칵테일</h2>
+          <h2>{cocktails?.find(findCocktail).name}</h2>
         </CocktailName>
         <ImgCocktail>
-          {/* <img src={cocktailData?.find(findCocktail).cocktailImg} alt="cocktailImage" /> */}
+          <img src={cocktails?.find(findCocktail).image} alt="cocktailImage" />
         </ImgCocktail>
         <Recipe>
           <RecipeTitle>
             <h3>내용</h3>
           </RecipeTitle>
-          <RecipeContent>{/* <p>{cocktailData?.find(findCocktail).recipe}</p> */}</RecipeContent>
+          <RecipeContent>
+            <p>{cocktails?.find(findCocktail).content}</p>
+          </RecipeContent>
         </Recipe>
         <CommentBox>
           <CommentHead>
