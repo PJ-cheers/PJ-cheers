@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useRecoilState } from 'recoil';
-import {userState} from '../recoil/user'
+import { userState } from '../recoil/user';
 
 function SideBar({ onClose, onLogin, onSignup, onEdit, isLogin, onLogout }) {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ function SideBar({ onClose, onLogin, onSignup, onEdit, isLogin, onLogout }) {
     onClose();
     navigate(path);
   };
-  const userProfile = useRecoilState(userState)
+  const userProfile = useRecoilState(userState);
 
   return (
     <Wrapper onClick={onClose}>
@@ -49,7 +49,6 @@ function SideBar({ onClose, onLogin, onSignup, onEdit, isLogin, onLogout }) {
             <NaviWrapper>
               <List onClick={() => handleListClick('/recipe')}>칵테일 레시피</List>
               <List onClick={() => handleListClick('/diy-recipe')}>DIY 칵테일</List>
-              <List onClick={() => handleListClick('/mypage')}>마이페이지</List>
             </NaviWrapper>
           </>
         )}

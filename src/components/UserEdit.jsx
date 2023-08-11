@@ -15,18 +15,17 @@ function UserEdit({ isOpen, closeModal}) {
     imageFile.current.click();
   }
   const uploadImageHandler = (e)=> {
-    setImageFile(event.target.files[0]);
-
-    if (imageFile === 0) {
-      return;
-    } else {
-      const imagePreview = event.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(imagePreview);
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-    }
+    setNewImage(e.target.files[0]);
+    // if (newImage === 0) {
+    //   return;
+    // } else {
+    //   const imagePreview = e.target.files[0];
+    //   const reader = new FileReader();
+    //   reader.readAsDataURL(imagePreview);
+    //   reader.onloadend = () => {
+    //     setNewImage(reader.result);
+    //   };
+    // }
   }
   
   const edit = async (e) => {

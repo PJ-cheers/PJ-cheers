@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { db } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { storage } from '../firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { GrayButton } from '../shared/Buttons';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../recoil/user';
 
 function AddBoard() {
+  const userProfile = useRecoilValue(userState);
   const fileInput = React.useRef(null);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -42,7 +45,8 @@ function AddBoard() {
       const docRef = await addDoc(collection(db, 'DIY'), {
         name: title,
         content: content,
-        // user,
+        userEmail: userProfile.email,
+        username: userProfile.name,
         image: imgUrl
       });
 

@@ -45,14 +45,13 @@ function BoardRecipe() {
         {cocktailData?.map((item) => {
           return (
             <CockTailImage
+              src={item.imgurl}
               key={item.id}
               onClick={() => {
                 navigate(`/recipe/${item.id}`);
                 window.scrollTo(0, 0);
               }}
-            >
-              {item.imgUrl}
-            </CockTailImage>
+            ></CockTailImage>
           );
         })}
       </CockTailBox>
@@ -85,7 +84,7 @@ const CockTailBox = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr;
 `;
 
-const CockTailImage = styled.div`
+const CockTailImage = styled.img`
   width: 8.25rem;
   height: 8.25rem;
   border-radius: 50%;
