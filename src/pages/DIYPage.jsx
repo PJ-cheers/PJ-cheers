@@ -1,7 +1,7 @@
 import React from 'react';
 import { getDIYData } from '../api/recipeData';
 import { useQuery } from 'react-query';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 function DIYPage() {
@@ -9,7 +9,9 @@ function DIYPage() {
   const { data: diyData } = useQuery('fetchDIYData', getDIYData);
   return (
     <BoardContainer>
-      <h1 style={{ fontSize: '24px', color: 'var(--color-white)' }}>DIY 칵테일</h1>
+      <h1 style={{ fontSize: '24px', color: 'var(--color-white)', marginTop: '2rem', marginLeft: '2rem' }}>
+        DIY 칵테일
+      </h1>
       <CardContainer>
         {diyData?.map((item) => {
           return (
@@ -55,20 +57,35 @@ const BoardContainer = styled.div`
   margin: 1rem;
 `;
 const CardContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1rem;
   background-color: var(--color-main-gray);
   width: 100%;
   margin: 1rem;
+  padding: 1rem;
 `;
-
 const PostCard = styled.div`
   background-color: white;
   border: 1px solid black;
-  margin: 1rem;
-  width: 15rem;
+  width: 97%;
   position: relative;
-  float: left;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+
+  img {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: contain;
+  }
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
 `;
 const PostTextContainer = styled.div`
   margin: 1rem;

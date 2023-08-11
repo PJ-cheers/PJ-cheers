@@ -37,15 +37,10 @@ function Main() {
           <Carousel autoPlay autoPlaySpeed={2000} responsive={responsive} infinite={true}>
             {cocktailData.map((item) => {
               return (
-                <div
+                <CrouselCard
                   key={item.id}
-                  style={{
-                    margin: '3rem 0',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '1rem'
+                  onClick={() => {
+                    navigate(`/recipe/${item.id}`);
                   }}
                 >
                   <img
@@ -59,7 +54,7 @@ function Main() {
                     }}
                   />
                   <p style={{ fontSize: '20px', marginBottom: '1rem', color: '#ffffff' }}>{item.krName}</p>
-                </div>
+                </CrouselCard>
               );
             })}
           </Carousel>
@@ -88,6 +83,19 @@ function Main() {
 }
 
 export default Main;
+
+const CrouselCard = styled.div`
+  margin: 3rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
 
 const StCarouselItem = styled.div`
   display: flex;
@@ -126,10 +134,13 @@ const StDIYItem = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  min-width: 10px;
-  min-height: 10px;
   max-width: 400px;
   max-height: 800px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 const StImageWrapper = styled.div`
