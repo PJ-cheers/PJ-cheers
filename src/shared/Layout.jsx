@@ -119,7 +119,6 @@ function Layout() {
               <SignupButton onClick={() => handleOpenModal('signup')}>회원가입</SignupButton>
             </>
           )}
-          {/* <UserEditButton onClick={() => handleOpenModal('edit')}>회원정보 수정</UserEditButton> */}
           <FontAwesomeIcon style={{ fontSize: '24px' }} icon={faBars} onClick={toggleSidebar} />
         </HeaderRight>
       </Header>
@@ -169,14 +168,14 @@ const Header = styled.header`
   color: #fff;
 
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 
   & > :first-child {
-    margin-left: 1rem;
+    margin-right: 14rem;
   }
   & > :last-child {
-    margin-right: 1rem;
+    margin-left: 10rem;
   }
 `;
 
@@ -189,7 +188,7 @@ const HeaderMiddle = styled.form`
   display: flex;
   align-items: center;
   position: relative;
-  width: 40%;
+  width: 55%;
 
   & > input {
     width: 100%;
@@ -208,7 +207,7 @@ const HeaderMiddle = styled.form`
 
 const HeaderRight = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 3rem;
 
   & > :nth-child(n + 1) {
     cursor: pointer;
