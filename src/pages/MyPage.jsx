@@ -19,12 +19,13 @@ function MyPage() {
   const handleChangeUserInfo = () => {
     alert("ㅎㅇ")
   };
+  console.log(userProfile.photoURL)
   return (
     <TotalBox>
       <MyPageBox>
       {userProfile[0].name === '' ?
         <NickName>닉네임</NickName>
-        :<NickName>{userProfile[0].name}님</NickName>
+        :<NickName>{userProfile[0].name}</NickName>
         }
         <PencilIcon icon={faPencil} onClick={handleChangeUserInfo} />
       </MyPageBox>

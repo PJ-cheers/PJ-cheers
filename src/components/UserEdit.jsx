@@ -1,47 +1,56 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { GrayButton } from '../shared/Buttons';
 import { useRecoilState } from 'recoil';
 import { userState } from '../recoil/user';
-import { updateProfile } from 'firebase/auth';
-import { auth } from '../firebase';
+import { onAuthStateChanged, updateProfile } from 'firebase/auth';
+import { auth, storage } from '../firebase';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 function UserEdit({ isOpen, closeModal}) {
   const [userProfile, setUserProfile] = useRecoilState(userState)
-  console.log(userProfile)
-  const [editInput, setEditInput] = useState({
-    name: userProfile.name,
-    password: '',
-    confirmPassword: '',
-  })
-  
-  const edit = async (e) => {
-    e.preventDefault();
-    if(editInput.password !== editInput.confirmPassword) {
-      alert("비밀번호와 비밀번호 확인이 일치하지 않습니다!")
-      return
-    }
-    try{
-      await updateProfile(auth.currentUser, {
-        displayName: editInput.name
-      })
-      setUserProfile({...userProfile, name: editInput.name})
-      await updateProfile(auth.currentUser, editInput.password )
-      closeModal();
-      
-    } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert(errorCode + errorMessage);
-    }
-  };
 
+  const initialState = {
+    name: userProfile.name,
+    photo: userProfile.photoURL
+  }
+  console.log(initialState)
+
+  const [editInput, setEditInput] = useState(initialState)
+
+
+  const editImageFile = React.useRef(null);
+
+  const inputClickHandler = () => {
+    editImageFile.current.click();
+  }
+  const onSelectImage = async(e)=> {
+    const image = e.target.files[0]
+    if(image !== undefined){
+      const imageRef = ref(storage, `${userProfile.email}/${image.name}`)
+      await uploadBytes(imageRef, image);
+  
+      const downloadURL = await getDownloadURL(imageRef)
+      console.log(downloadURL)
+      setEditInput({...editInput, photo: downloadURL})
+    }
+  }
+  const onCancelButtonClickHandler = () => {
+    closeModal()
+  }
+  const onEditButtonClickHandler = async (e) => {
+    e.preventDefault();
+    await updateProfile(auth.currentUser, { displayName: editInput.name, photoURL: editInput.photo });
+    closeModal();
+  }
+  
   return (
     <>
       <Modal isOpen={isOpen}> 
         <LoginBox>
-          <ProfileBox photo={userProfile.photoURL}></ProfileBox>
-          <ProfileEdit>이미지 편집</ProfileEdit>
+          <ProfileBox photo={editInput.photo}></ProfileBox>
+          <ProfileEdit onClick={inputClickHandler}>이미지 편집</ProfileEdit>
+          <UploadImageInput type='file' ref={editImageFile} onChange={onSelectImage}/>
           <UserBox>
             <NickNameBox>
               <label>닉네임</label>
@@ -51,25 +60,9 @@ function UserEdit({ isOpen, closeModal}) {
               onChange={(e) => setEditInput({...editInput, name: e.target.value})}
               ></NickNameInput>
             </NickNameBox>
-            <PasswordBox>
-              <label>비밀번호 변경</label>
-              <PasswordInput
-              type="password"
-              value={editInput.password}
-              onChange={(e) => setEditInput({...editInput, password: e.target.value})}
-              ></PasswordInput>
-            </PasswordBox>
-            <ConfirmPasswordBox>
-              <label>비밀번호 확인</label>
-              <ConfirmPasswordInput
-              type="password"
-              value={editInput.confirmPassword}
-              onChange={(e) => setEditInput({...editInput, confirmPassword: e.target.value})}
-              ></ConfirmPasswordInput>
-            </ConfirmPasswordBox>
             <Buttons>
-              <GrayButton onClick={closeModal}>취소</GrayButton>
-              <GrayButton onClick={edit}>수정</GrayButton>
+              <GrayButton onClick={onCancelButtonClickHandler}>취소</GrayButton>
+              <GrayButton onClick={onEditButtonClickHandler}>수정</GrayButton>
             </Buttons>
           </UserBox>
         </LoginBox>
@@ -104,6 +97,10 @@ const LoginBox = styled.div`
   border-radius: 8px;
 `;
 
+const UploadImageInput = styled.input`
+  display: none;
+`
+
 const ProfileBox = styled.div`
   width: 8.25rem;
   height: 8.25rem;
@@ -121,11 +118,12 @@ const ProfileEdit = styled.button`
   color: #ffffff;
   margin-top: 15px;
   margin-bottom: 20px;
+  cursor: pointer;
 `;
 
 const UserBox = styled.div`
   width: 20rem;
-  height: 23rem;
+  height: 10rem;
   padding-top: 60px;
   padding-left: 30px;
   border-radius: 8px;
