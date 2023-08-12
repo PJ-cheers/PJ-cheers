@@ -42,11 +42,10 @@ function Layout() {
     console.log('필터된 데이터:', filteredData);
     navigate('/search', { state: { cocktails: filteredData } });
   };
- 
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      console.log(user)
+      console.log(user);
       if (user !== null) {
         const profile = { name: user.displayName, email: user.email, photoURL: user.photoURL };
         setUserProfile(profile);
