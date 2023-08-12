@@ -2,42 +2,13 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import Slider from 'react-slick';
 import { useParams } from 'react-router-dom';
-import { getDoc, getDocs, collection } from 'firebase/firestore';
 import { YoutubeDataContext } from '../api/YoutubeDataContext';
-import { db } from '../firebase';
 import { useQuery } from 'react-query';
 
 // 아이콘
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-
-const getCocktailData = async () => {
-  const cocktailCollectionRef = collection(db, 'cocktails');
-  const cocktailQuerySnapshot = await getDocs(cocktailCollectionRef);
-
-  const cocktailsDataPromises = cocktailQuerySnapshot.docs.map(async (cocktailDoc) => {
-    const cocktailId = cocktailDoc.id;
-
-    const cocktailSnapshot = await getDoc(cocktailDoc.ref);
-
-    const ingredientsSnapshot = await getDocs(collection(cocktailDoc.ref, 'ingredients'));
-
-    return {
-      id: cocktailId,
-      ...cocktailSnapshot.data(),
-      ingredients: ingredientsSnapshot.docs.map((ingredientDoc) => {
-        return {
-          id: ingredientDoc.id,
-          ...ingredientDoc.data()
-        };
-      })
-    };
-  });
-
-  const cocktailsData = await Promise.all(cocktailsDataPromises);
-
-  return cocktailsData;
-};
+import { getCocktailData } from '../api/recipeData';
 
 // 버튼 클릭 시 뒤로가기
 function historyBack() {
@@ -45,7 +16,7 @@ function historyBack() {
 }
 
 function DetailRecipe() {
-  const { playlists, videosList, videoId, setVideoId, handleVideoEnd } = useContext(YoutubeDataContext);
+  const { videosList } = useContext(YoutubeDataContext);
   const playlistId = 'PLhD80yCklGmZqOBTMAlfMz0sZryCVKO_Y';
   const videoData = videosList[playlistId];
   // useParams를 이용하여 url의 id를 가져옴
@@ -67,6 +38,7 @@ function DetailRecipe() {
     cssEase: 'linear',
     slide: 'div'
   };
+
   return (
     <>
       <ButtonBack onClick={historyBack}>

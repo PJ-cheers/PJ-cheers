@@ -7,6 +7,7 @@ import SideBar from '../pages/SideBar';
 import UserEdit from '../components/UserEdit';
 import { getCocktailData } from '../api/recipeData';
 import { signOut } from 'firebase/auth';
+import { loginState } from '../recoil/user';
 
 // 아이콘
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -40,7 +41,7 @@ function Layout() {
     console.log('필터된 데이터:', filteredData);
     navigate('/search', { state: { cocktails: filteredData } });
   };
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useRecoilState(loginState);
   const [userProfile, setUserProfile] = useRecoilState(userState);
 
   useEffect(() => {

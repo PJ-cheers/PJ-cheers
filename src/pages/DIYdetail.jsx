@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { doc, deleteDoc, getDocs, collection, query } from 'firebase/firestore';
+import { doc, deleteDoc, getDocs, collection, query, onSnapshot, addDoc, deleteField } from 'firebase/firestore';
 import { db } from '../firebase';
 import { GrayButton } from '../shared/Buttons';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../recoil/user';
 
 // 아이콘
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,12 +18,15 @@ function historyBack() {
 }
 
 function DIYdetail() {
+  const userProfile = useRecoilValue(userState);
   const [cocktails, setCocktails] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState('정말 삭제하시겠습니까?');
+  const [comments, setComments] = useState([]);
+  const [commentInput, setCommentInput] = useState('');
   const navigate = useNavigate();
   // useParams를 이용하여 url의 id를 가져옴
   const { id } = useParams();
+  console.log(userProfile);
 
   // 삭제 기능
   const handleDeleteButton = async (e) => {
@@ -40,7 +45,48 @@ function DIYdetail() {
     setIsModalOpen(true);
   };
 
-  // const { data: cocktailData } = useQuery('fetchCocktailData', getCocktailData);
+  const handleAddComment = async (e) => {
+    e.preventDefault();
+
+    try {
+      const newComment = {
+        content: commentInput,
+        user: {
+          email: userProfile.email,
+          displayName: userProfile.name
+        }
+      };
+
+      const ref = collection(db, 'DIY', id, 'comments');
+      await addDoc(ref, newComment);
+
+      // 댓글 입력 폼 초기화
+      setCommentInput('');
+    } catch (error) {
+      console.error('Error adding comment: ', error);
+    }
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    try {
+      const commentRef = doc(db, 'DIY', id, 'comments', commentId);
+      await deleteDoc(commentRef);
+      console.log('Comment deleted with ID: ', commentId);
+    } catch (error) {
+      console.error('Error deleting comment: ', error);
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, 'DIY', id, 'comments'), (snapshot) => {
+      const fetchedComments = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setComments(fetchedComments);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [id]);
 
   function findCocktail(item) {
     return item.id === id;
@@ -96,27 +142,37 @@ function DIYdetail() {
           <CommentHead>
             <h3>댓글</h3>
           </CommentHead>
-          <Comments>
-            <CommentProfileImg>
-              <img src="" alt="" />
-            </CommentProfileImg>
-            <Comment>
-              <p>닉네임</p>
-              <p>댓글 내용</p>
-            </Comment>
-          </Comments>
-          <form>
-            <CommentContent type="text" placeholder="댓글을 입력해 주세요"></CommentContent>
+          {comments?.map((comment) => (
+            <Comments key={comment.id}>
+              <CommentProfileImg>
+                <img src="" alt="" />
+              </CommentProfileImg>
+              <Comment>
+                <p>{comment.user.displayName}</p>
+                <p>{comment.content}</p>
+              </Comment>
+              <GrayButton onClick={() => handleDeleteComment(comment.id)}>삭제</GrayButton>
+            </Comments>
+          ))}
+          <form onSubmit={handleAddComment}>
+            <CommentContent
+              type="text"
+              value={commentInput}
+              onChange={(e) => setCommentInput(e.target.value)}
+              placeholder="댓글을 입력해 주세요"
+            />
           </form>
           <ButtonBox>
-            <GrayButton style={{ borderRadius: 'none' }}>등록</GrayButton>
+            <GrayButton style={{ borderRadius: 'none' }} onClick={handleAddComment}>
+              등록
+            </GrayButton>
           </ButtonBox>
         </CommentBox>
       </DetailContainer>
       {isModalOpen && (
         <ModalOverlay>
           <ModalContent>
-            <ModalMessage>{modalMessage}</ModalMessage>
+            <ModalMessage>정말 삭제하시겠습니까?</ModalMessage>
             <ButtonsBox>
               <GrayButton onClick={handleDeleteButton}>삭제</GrayButton>
               <GrayButton onClick={() => setIsModalOpen(false)}>취소</GrayButton>
