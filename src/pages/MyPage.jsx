@@ -1,39 +1,62 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { userState } from '../recoil/user';
+import { useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import { collection, getDocs, query } from 'firebase/firestore';
+import { db } from '../firebase';
+import { getCocktailData } from '../api/recipeData';
+
+const getLikedCocktailData = async () => {
+  // collection 이름이 likeCocktails인 collection의 모든 document를 가져옵니다.
+  const querySnapshot = await getDocs(query(collection(db, 'likeCocktails')));
+  const likedCocktailData = [];
+
+  querySnapshot.forEach((doc) => {
+    // console.log(`${doc.id} => ${doc.data()}`);
+    // console.log(`${doc.data().cocktailId}`);
+    likedCocktailData.push({
+      cocktailId: doc.data().cocktailId,
+      email: doc.data().email
+    });
+  });
+  return likedCocktailData;
+};
 
 function MyPage() {
+  const navigate = useNavigate();
+  const { data: cocktailData } = useQuery('fetchCocktailData', getCocktailData);
+  const { data: likedCocktailData } = useQuery('fetchLikedCocktailData', getLikedCocktailData);
   const [currentTab, clickTab] = useState(0);
-  const userProfile = useRecoilState(userState)
+  const userProfile = useRecoilState(userState);
+
   const menuArr = [
     { name: '내가 작성한 글', content: 'test' },
-    { name: '내가 작성한 댓글', content: 'tes2t' }
+    { name: '내가 찜한 레시피', content: 'tes2t' }
   ];
 
   const selectMenuHandler = (index) => {
     clickTab(index);
   };
   const handleChangeUserInfo = () => {
-    alert("ㅎㅇ")
+    alert('ㅎㅇ');
   };
-  console.log(userProfile.photoURL)
+  console.log(userProfile.photoURL);
   return (
     <TotalBox>
       <MyPageBox>
-      {userProfile[0].name === '' ?
-        <NickName>닉네임</NickName>
-        :<NickName>{userProfile[0].name}</NickName>
-        }
+        {userProfile[0].name === '' ? <NickName>닉네임</NickName> : <NickName>{userProfile[0].name}</NickName>}
         <PencilIcon icon={faPencil} onClick={handleChangeUserInfo} />
       </MyPageBox>
       <ImageBox>
-        {userProfile[0].photoURL === '' ?
-        <UserImage photo="https://www.unite.ai/wp-content/uploads/2023/01/ben-sweet-2LowviVHZ-E-unsplash.jpg"></UserImage>
-        :<UserImage photo={userProfile[0].photoURL}></UserImage>
-        }
+        {userProfile[0].photoURL === '' ? (
+          <UserImage photo="https://www.unite.ai/wp-content/uploads/2023/01/ben-sweet-2LowviVHZ-E-unsplash.jpg"></UserImage>
+        ) : (
+          <UserImage photo={userProfile[0].photoURL}></UserImage>
+        )}
       </ImageBox>
       <TabBox>
         <TabMenu>
@@ -47,11 +70,40 @@ function MyPage() {
           ))}
         </TabMenu>
         <Desc>
-          {menuArr.map((el, index) => (
+          {/* {menuArr.map((el, index) => (
             <ContentBox>
               <p>{menuArr[currentTab].content}</p>
             </ContentBox>
-          ))}
+          ))} */}
+          {currentTab === 0 ? (
+            // 내가 작성한 글 탭인 경우
+            <>
+              <h1 style={{ fontSize: '24px', color: 'var(--color-white)', marginTop: '2rem', marginLeft: '2rem' }}>
+                DIY 칵테일
+              </h1>
+              <ContentBox>
+                <p>{menuArr[currentTab].content}</p>
+              </ContentBox>
+            </>
+          ) : (
+            // 내가 찜한 레시피 탭인 경우
+            <CockTailBox>
+              {cocktailData
+                ?.filter((item) => likedCocktailData?.find((data) => data.cocktailId === item.id))
+                .map((item) => {
+                  return (
+                    <CockTailImage
+                      src={item.imgurl}
+                      key={item.id}
+                      onClick={() => {
+                        navigate(`/recipe/${item.id}`);
+                        window.scrollTo(0, 0);
+                      }}
+                    ></CockTailImage>
+                  );
+                })}
+            </CockTailBox>
+          )}
         </Desc>
       </TabBox>
     </TotalBox>
@@ -159,4 +211,24 @@ const ContentBox = styled.div`
   margin: 0 auto;
   margin-left: 10px;
   border-radius: 8px;
+`;
+
+// BoardRecipe UI
+const CockTailBox = styled.div`
+  margin-top: 30px;
+  position: relative;
+  display: grid;
+  // contents 전체 items 안에 요소
+  justify-items: center;
+  gap: 40px;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+`;
+
+const CockTailImage = styled.img`
+  width: 8.25rem;
+  height: 8.25rem;
+  border-radius: 50%;
+  background-color: #ffffff;
+  cursor: pointer;
 `;
