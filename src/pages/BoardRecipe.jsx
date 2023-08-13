@@ -1,36 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { collection, getDoc, getDocs } from 'firebase/firestore';
 import { useQuery } from 'react-query';
-import { db } from '../firebase';
 import { useNavigate } from 'react-router-dom';
-
-const getCocktailData = async () => {
-  const cocktailCollectionRef = collection(db, 'cocktails');
-  const cocktailQuerySnapshot = await getDocs(cocktailCollectionRef);
-  const cocktailsDataPromises = cocktailQuerySnapshot.docs.map(async (cocktailDoc) => {
-    const cocktailId = cocktailDoc.id;
-
-    const cocktailSnapshot = await getDoc(cocktailDoc.ref);
-
-    const ingredientsSnapshot = await getDocs(collection(cocktailDoc.ref, 'ingredients'));
-
-    return {
-      id: cocktailId,
-      ...cocktailSnapshot.data(),
-      ingredients: ingredientsSnapshot.docs.map((ingredientDoc) => {
-        return {
-          id: ingredientDoc.id,
-          ...ingredientDoc.data()
-        };
-      })
-    };
-  });
-
-  const cocktailsData = await Promise.all(cocktailsDataPromises);
-
-  return cocktailsData;
-};
+import { getCocktailData } from '../api/recipeData';
 
 function BoardRecipe() {
   const navigate = useNavigate();
@@ -44,14 +16,16 @@ function BoardRecipe() {
       <CockTailBox>
         {cocktailData?.map((item) => {
           return (
-            <CockTailImage
-              src={item.imgurl}
+            <CockTailItem
               key={item.id}
               onClick={() => {
                 navigate(`/recipe/${item.id}`);
                 window.scrollTo(0, 0);
               }}
-            ></CockTailImage>
+            >
+              <CockTailImage src={item.imgurl} alt={item.krName} />
+              <CockTailName>{item.krName}</CockTailName>
+            </CockTailItem>
           );
         })}
       </CockTailBox>
@@ -75,13 +49,24 @@ const Title = styled.h1`
 
 const CockTailBox = styled.div`
   margin-top: 30px;
-  position: relative;
   display: grid;
-  // contents 전체 items 안에 요소
   justify-items: center;
   gap: 40px;
   grid-template-rows: 1fr;
   grid-template-columns: 1fr 1fr 1fr 1fr;
+`;
+
+const CockTailItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  &:hover {
+    transform: scale(1.3);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 const CockTailImage = styled.img`
@@ -89,5 +74,10 @@ const CockTailImage = styled.img`
   height: 8.25rem;
   border-radius: 50%;
   background-color: #ffffff;
-  cursor: pointer;
+`;
+
+const CockTailName = styled.p`
+  font-size: 20px;
+  margin-top: 8px;
+  color: #ffffff;
 `;

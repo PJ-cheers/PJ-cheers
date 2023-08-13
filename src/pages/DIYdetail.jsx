@@ -291,7 +291,7 @@ const RecipeContent = styled.div`
 
 const CommentBox = styled.div`
   margin: 2rem 0;
-  width: 50rem;
+  width: 72rem;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -313,7 +313,7 @@ const CommentContent = styled.textarea`
   box-sizing: border-box;
   padding: 1rem;
   margin: 1rem;
-  width: 50rem;
+  width: 72rem;
   height: 5rem;
   resize: none;
 

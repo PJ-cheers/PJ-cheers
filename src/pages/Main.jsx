@@ -31,10 +31,17 @@ function Main() {
 
   return (
     <>
-      <h1 style={{ fontSize: '24px', color: '#ffffff', marginTop: '2rem', marginLeft: '2rem' }}>인기 레시피</h1>
+      <h1
+        style={{ fontSize: '24px', color: '#ffffff', marginTop: '2rem', marginLeft: '2rem', cursor: 'pointer' }}
+        onClick={() => {
+          navigate('/recipe');
+        }}
+      >
+        인기 레시피
+      </h1>
       {cocktailData && (
         <div>
-          <Carousel autoPlay autoPlaySpeed={2000} responsive={responsive} infinite={true}>
+          <CarouselLayout autoPlay autoPlaySpeed={2000} responsive={responsive} infinite={true}>
             {cocktailData.map((item) => {
               return (
                 <CrouselCard
@@ -57,11 +64,18 @@ function Main() {
                 </CrouselCard>
               );
             })}
-          </Carousel>
+          </CarouselLayout>
         </div>
       )}
 
-      <h1 style={{ fontSize: '24px', color: '#ffffff', marginTop: '2rem', marginLeft: '2rem' }}>DIY 레시피</h1>
+      <h1
+        style={{ fontSize: '24px', color: '#ffffff', marginTop: '2rem', marginLeft: '2rem', cursor: 'pointer' }}
+        onClick={() => {
+          navigate('/diy-recipe');
+        }}
+      >
+        DIY 레시피
+      </h1>
       <StDIYWrapper>
         {diyData?.map((item) => (
           <StDIYItem
@@ -84,6 +98,12 @@ function Main() {
 
 export default Main;
 
+const CarouselLayout = styled(Carousel)`
+  & .react-multiple-carousel__arrow {
+    z-index: 0;
+  }
+`;
+
 const CrouselCard = styled.div`
   margin: 3rem 0;
   display: flex;
@@ -95,6 +115,7 @@ const CrouselCard = styled.div`
   &:hover {
     transform: scale(1.1);
   }
+  z-index: 0;
 `;
 
 const StCarouselItem = styled.div`

@@ -66,6 +66,8 @@ function AddBoard() {
         image: imgUrl,
         fileName: fileName
       });
+      setModalMessage('게시물이 작성되었습니다.');
+      setIsModalOpen(true);
     } catch (error) {
       console.error('Error adding document: ', error);
     }
