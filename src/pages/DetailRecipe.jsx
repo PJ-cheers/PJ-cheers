@@ -1,14 +1,20 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Slider from 'react-slick';
 import { useParams } from 'react-router-dom';
 import { YoutubeDataContext } from '../api/YoutubeDataContext';
 import { useQuery } from 'react-query';
+import { useRecoilState } from 'recoil';
+import { userState, loginState } from '../recoil/user';
+import { getCocktailData } from '../api/recipeData';
+
+// firebase
+import { db, auth } from '../firebase';
+import { addDoc, getDoc, getDocs, collection, doc, deleteDoc } from 'firebase/firestore';
 
 // 아이콘
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import { getCocktailData } from '../api/recipeData';
+import { faChevronLeft, faHeart } from '@fortawesome/free-solid-svg-icons';
 
 // 버튼 클릭 시 뒤로가기
 function historyBack() {
@@ -19,15 +25,35 @@ function DetailRecipe() {
   const { videosList } = useContext(YoutubeDataContext);
   const playlistId = 'PLhD80yCklGmZqOBTMAlfMz0sZryCVKO_Y';
   const videoData = videosList[playlistId];
-  // useParams를 이용하여 url의 id를 가져옴
-  const { id } = useParams();
   console.log(videoData);
+  const { id } = useParams();
+  const [isLogin, setIsLogin] = useRecoilState(loginState);
 
   const { data: cocktailData } = useQuery('fetchCocktailData', getCocktailData);
 
   function findCocktail(item) {
     return item.id === id;
   }
+
+  // 하트 버튼 클릭 시 active 상태 변경
+  const [isActive, setIsActive] = useState(false);
+  function handleClick() {
+    setIsActive(!isActive);
+  }
+
+  // 하트 버튼 클릭 시 클릭한 요소의 데이터 firestore에 추가됨
+  const likeCocktails = async (e) => {
+    const newLike = {
+      email: auth.currentUser.email,
+      cocktailId: id,
+      isActive: isActive
+    };
+    // Firestore에서 'users' 컬렉션에 대한 참조 생성하기, 'users' 컬렉션에 newLike 문서를 추가
+    if (isActive === false) {
+      await addDoc(collection(db, 'likeCocktails'), newLike);
+      console.log(newLike);
+    }
+  };
 
   const sliderSettings = {
     dots: true,
@@ -45,6 +71,20 @@ function DetailRecipe() {
         <FontAwesomeIcon icon={faChevronLeft} />
       </ButtonBack>
       <DetailContainer>
+        {isLogin ? (
+          <LikeBox>
+            <Like
+              className={isActive ? 'active' : ''}
+              onClick={() => {
+                likeCocktails();
+                handleClick();
+                alert('찜한 레시에 추가되었습니다.');
+              }}
+            >
+              <FontAwesomeIcon icon={faHeart} size="lg" />
+            </Like>
+          </LikeBox>
+        ) : null}
         <CocktailName>
           <h2>{cocktailData?.find(findCocktail).krName}</h2>
           <p>{cocktailData?.find(findCocktail).enName}</p>
@@ -122,6 +162,29 @@ const ButtonBack = styled.button`
   color: #fff;
   font-size: 2rem;
   cursor: pointer;
+`;
+
+const LikeBox = styled.div`
+  width: 80%;
+  display: flex;
+  justify-content: end;
+  margin: 1rem;
+`;
+
+const Like = styled.button`
+  background-color: #fff;
+  color: var(--color-gray);
+  padding: 0.5rem;
+  border-radius: 100%;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-black);
+  }
+
+  &:active {
+    color: #ff0000;
+  }
 `;
 
 const DetailContainer = styled.div`
