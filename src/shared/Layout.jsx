@@ -25,6 +25,17 @@ function Layout() {
   const [isLogin, setIsLogin] = useRecoilState(loginState);
   const [userProfile, setUserProfile] = useRecoilState(userState);
 
+  // 모달창 띄우면 body 태그에 active className 추가
+  // 모달창 나오면 스크롤 작동하지 않게 막는 코드입니다.
+  // App.js 21번 body.active 부분 코드 추가
+  useEffect(() => {
+    if (modalType) {
+      document.body.classList.add('active');
+    } else {
+      document.body.classList.remove('active');
+    }
+  }, [modalType]);
+
   const handleSearchInputChange = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -84,7 +95,7 @@ function Layout() {
     });
   };
   return (
-    <div style={{ padding: '6rem 0' }}>
+    <div style={{ padding: '6rem 0 0 0' }}>
       <Header>
         <Link to="/">
           <ImgLogo src="img/cheers_logo_white.png" alt="logoImage"></ImgLogo>
