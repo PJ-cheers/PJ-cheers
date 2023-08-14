@@ -3,21 +3,23 @@ import { styled } from 'styled-components';
 import { GrayButton } from '../shared/Buttons';
 import { useRecoilState } from 'recoil';
 import { userState } from '../recoil/user';
-import { onAuthStateChanged, updateProfile } from 'firebase/auth';
+import { updateProfile } from 'firebase/auth';
 import { auth, storage } from '../firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { useMemo } from 'react';
 
 function UserEdit({ isOpen, closeModal}) {
+  console.log('userEdit')
   const [userProfile, setUserProfile] = useRecoilState(userState)
-
-  const initialState = {
-    name: userProfile.name,
-    photo: userProfile.photoURL
-  }
-  console.log(initialState)
+  console.log(userProfile)
+  const initialState = useMemo(() => {
+    return {
+      name: userProfile.name,
+      photo: userProfile.photoURL
+    }
+  }, [userProfile])
 
   const [editInput, setEditInput] = useState(initialState)
-
 
   const editImageFile = React.useRef(null);
 
@@ -36,19 +38,25 @@ function UserEdit({ isOpen, closeModal}) {
     }
   }
   const onCancelButtonClickHandler = () => {
+    setEditInput(initialState)
     closeModal()
   }
   const onEditButtonClickHandler = async (e) => {
-    e.preventDefault();
-    await updateProfile(auth.currentUser, { displayName: editInput.name, photoURL: editInput.photo });
+    // e.preventDefault();
+    await updateProfile(auth.currentUser, { displayName: editInput?.name, photoURL: editInput?.photo });
+    setUserProfile({...userProfile, name: editInput.name, photoURL: editInput.photo})
     closeModal();
   }
   
+  useEffect(() => {
+    setEditInput(initialState)
+  },[initialState])
+
   return (
     <>
       <Modal isOpen={isOpen}> 
         <LoginBox>
-          <ProfileBox photo={editInput.photo}></ProfileBox>
+          <ProfileBox photo={editInput?.photo}></ProfileBox>
           <ProfileEdit onClick={inputClickHandler}>이미지 편집</ProfileEdit>
           <UploadImageInput type='file' ref={editImageFile} onChange={onSelectImage}/>
           <UserBox>
@@ -56,7 +64,7 @@ function UserEdit({ isOpen, closeModal}) {
               <label>닉네임</label>
               <NickNameInput
               type="text"
-              value={editInput.name}
+              value={editInput?.name}
               onChange={(e) => setEditInput({...editInput, name: e.target.value})}
               ></NickNameInput>
             </NickNameBox>
