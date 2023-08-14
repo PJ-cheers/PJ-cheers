@@ -8,62 +8,67 @@ import { GrayButton } from '../shared/Buttons';
 
 function Signup({ isOpen, closeModal }) {
   const initialState = {
-    email: "",
-    name:"",
-    password: "",
-    confirmPassword: "",
-    photo: "https://www.unite.ai/wp-content/uploads/2023/01/ben-sweet-2LowviVHZ-E-unsplash.jpg"
-  }
-  const [input, setInput]= useState(initialState)
-  const [userProfile, setUserProfile] = useRecoilState(userState)
+    email: '',
+    name: '',
+    password: '',
+    confirmPassword: '',
+    photo: 'https://www.unite.ai/wp-content/uploads/2023/01/ben-sweet-2LowviVHZ-E-unsplash.jpg'
+  };
+  const [input, setInput] = useState(initialState);
+  const [userProfile, setUserProfile] = useRecoilState(userState);
 
   const imageFile = React.useRef(null);
 
-  const selectImage = async(e)=> {
-    const image = e.target.files[0]
-    if(image !== undefined){
-    const imageRef = ref(storage, `${userProfile.email}/${image.name}`)
-    await uploadBytes(imageRef, image);
+  const selectImage = async (e) => {
+    const image = e.target.files[0];
+    if (image !== undefined) {
+      const imageRef = ref(storage, `${userProfile.email}/${image.name}`);
+      await uploadBytes(imageRef, image);
 
-    const downloadURL = await getDownloadURL(imageRef)
-    console.log(downloadURL)
-    setInput({...input, photo: downloadURL})
-  }
-  }
+      const downloadURL = await getDownloadURL(imageRef);
+      console.log(downloadURL);
+      setInput({ ...input, photo: downloadURL });
+    }
+  };
   const cancelButtonClickHandler = () => {
-    closeModal()
-    setInput(initialState)
-  }
+    closeModal();
+    setInput(initialState);
+  };
 
-  const confirmButtonClickHandler = async(e) => {
+  const confirmButtonClickHandler = async (e) => {
     e.preventDefault();
-    if(!input.email){
-      alert("이메일을 입력해주세요!")
-      return
+    if (!input.email) {
+      alert('이메일을 입력해주세요!');
+      return;
     }
-    if(!input.name){
-      alert("닉네임을 입력해주세요!")
-      return
+    if (!input.name) {
+      alert('닉네임을 입력해주세요!');
+      return;
     }
-    if(!input.password){
-      alert("비밀번호를 입력해주세요!")
-      return
+    if (!input.password) {
+      alert('비밀번호를 입력해주세요!');
+      return;
     }
-    if(!input.confirmPassword){
-      alert("비밀번호 확인을 입력해주세요!")
-      return
+    if (!input.confirmPassword) {
+      alert('비밀번호 확인을 입력해주세요!');
+      return;
     }
-    if(input.password !== input.confirmPassword){
-      alert("비밀번호와 비밀번호 확인이 일치하지 않습니다!")
-      return
+    if (input.password !== input.confirmPassword) {
+      alert('비밀번호와 비밀번호 확인이 일치하지 않습니다!');
+      return;
     }
-    try{
-      const editedUserProfile = await firebaseSignUp({name:input.name, email:input.email, password: input.password, photo: input.photo})
+    try {
+      const editedUserProfile = await firebaseSignUp({
+        name: input.name,
+        email: input.email,
+        password: input.password,
+        photo: input.photo
+      });
       alert('회원가입에 성공했습니다!');
-      setUserProfile(editedUserProfile)
-      setInput(initialState)
+      setUserProfile(editedUserProfile);
+      setInput(initialState);
       closeModal();
-    }catch(error){
+    } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
       if (errorCode === 'auth/invalid-email') {
@@ -80,46 +85,52 @@ function Signup({ isOpen, closeModal }) {
       }
       alert(errorCode + errorMessage);
     }
-  }
+  };
 
   return (
     <>
       <Modal isOpen={isOpen}>
         <LoginBox>
           <ProfileBox photo={input.photo}></ProfileBox>
-          <ProfileEdit onClick={() => {imageFile.current.click()}}>이미지 업로드</ProfileEdit>
-          <UploadImageInput type='file' ref={imageFile} onChange={selectImage}/>
+          <ProfileEdit
+            onClick={() => {
+              imageFile.current.click();
+            }}
+          >
+            이미지 업로드
+          </ProfileEdit>
+          <UploadImageInput type="file" ref={imageFile} onChange={selectImage} />
           <UserBox>
             <EmailBox>
               <label>이메일</label>
               <EmailInput
-              type="email"
-              value={input.email}
-              onChange={(e) => setInput({...input, email:e.target.value})}
+                type="email"
+                value={input.email}
+                onChange={(e) => setInput({ ...input, email: e.target.value })}
               ></EmailInput>
             </EmailBox>
             <NickNameBox>
               <label>닉네임</label>
               <NickNameInput
-              type="text"
-              value={input.name}
-              onChange={(e) => setInput({...input, name:e.target.value})}
+                type="text"
+                value={input.name}
+                onChange={(e) => setInput({ ...input, name: e.target.value })}
               ></NickNameInput>
             </NickNameBox>
             <PasswordBox>
               <label>비밀번호</label>
               <PasswordInput
-              type="password"
-              value={input.password}
-              onChange={(e) => setInput({...input, password:e.target.value})}
+                type="password"
+                value={input.password}
+                onChange={(e) => setInput({ ...input, password: e.target.value })}
               ></PasswordInput>
             </PasswordBox>
             <ConfirmPasswordBox>
               <label>비밀번호 확인</label>
               <ConfirmPasswordInput
-              type="password"
-              value={input.confirmPassword}
-              onChange={(e) => setInput({...input, confirmPassword:e.target.value})}
+                type="password"
+                value={input.confirmPassword}
+                onChange={(e) => setInput({ ...input, confirmPassword: e.target.value })}
               ></ConfirmPasswordInput>
             </ConfirmPasswordBox>
             <Buttons>
@@ -158,7 +169,7 @@ const LoginBox = styled.div`
 `;
 const UploadImageInput = styled.input`
   display: none;
-`
+`;
 const ProfileBox = styled.div`
   width: 8.25rem;
   height: 8.25rem;
@@ -181,15 +192,15 @@ const ProfileEdit = styled.button`
 
 const UserBox = styled.div`
   width: 20rem;
-  height: 28rem;
-  padding-top: 60px;
-  padding-left: 30px;
+  height: 30rem;
+  padding: 60px 15px 0px 15px;
   border-radius: 8px;
   background-color: #a6a6a6;
 `;
 
 const EmailBox = styled.div`
   margin-bottom: 10px;
+  margin-left: 10px;
 `;
 
 const EmailInput = styled.input`
@@ -199,10 +210,12 @@ const EmailInput = styled.input`
   margin-bottom: 20px;
   border: none;
   border-radius: 20px;
+  padding: 5px 0 5px 10px;
 `;
 
 const NickNameBox = styled.div`
   margin-bottom: 10px;
+  margin-left: 10px;
 `;
 
 const NickNameInput = styled.input`
@@ -212,10 +225,12 @@ const NickNameInput = styled.input`
   margin-bottom: 20px;
   border: none;
   border-radius: 20px;
+  padding: 5px 0 5px 10px;
 `;
 
 const PasswordBox = styled.div`
   margin-bottom: 10px;
+  margin-left: 10px;
 `;
 
 const PasswordInput = styled.input`
@@ -225,10 +240,12 @@ const PasswordInput = styled.input`
   margin-bottom: 20px;
   border: none;
   border-radius: 20px;
+  padding: 5px 0 5px 10px;
 `;
 
 const ConfirmPasswordBox = styled.div`
   margin-bottom: 10px;
+  margin-left: 10px;
 `;
 
 const ConfirmPasswordInput = styled.input`
@@ -238,6 +255,7 @@ const ConfirmPasswordInput = styled.input`
   margin-bottom: 20px;
   border: none;
   border-radius: 20px;
+  padding: 5px 0 5px 10px;
 `;
 
 const Buttons = styled.div`

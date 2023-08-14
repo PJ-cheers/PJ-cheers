@@ -8,64 +8,64 @@ import { auth, storage } from '../firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useMemo } from 'react';
 
-function UserEdit({ isOpen, closeModal}) {
-  console.log('userEdit')
-  const [userProfile, setUserProfile] = useRecoilState(userState)
-  console.log(userProfile)
+function UserEdit({ isOpen, closeModal }) {
+  console.log('userEdit');
+  const [userProfile, setUserProfile] = useRecoilState(userState);
+  console.log(userProfile);
   const initialState = useMemo(() => {
     return {
       name: userProfile.name,
       photo: userProfile.photoURL
-    }
-  }, [userProfile])
+    };
+  }, [userProfile]);
 
-  const [editInput, setEditInput] = useState(initialState)
+  const [editInput, setEditInput] = useState(initialState);
 
   const editImageFile = React.useRef(null);
 
   const inputClickHandler = () => {
     editImageFile.current.click();
-  }
-  const onSelectImage = async(e)=> {
-    const image = e.target.files[0]
-    if(image !== undefined){
-      const imageRef = ref(storage, `${userProfile.email}/${image.name}`)
+  };
+  const onSelectImage = async (e) => {
+    const image = e.target.files[0];
+    if (image !== undefined) {
+      const imageRef = ref(storage, `${userProfile.email}/${image.name}`);
       await uploadBytes(imageRef, image);
-  
-      const downloadURL = await getDownloadURL(imageRef)
-      console.log(downloadURL)
-      setEditInput({...editInput, photo: downloadURL})
+
+      const downloadURL = await getDownloadURL(imageRef);
+      console.log(downloadURL);
+      setEditInput({ ...editInput, photo: downloadURL });
     }
-  }
+  };
   const onCancelButtonClickHandler = () => {
-    setEditInput(initialState)
-    closeModal()
-  }
+    setEditInput(initialState);
+    closeModal();
+  };
   const onEditButtonClickHandler = async (e) => {
     // e.preventDefault();
     await updateProfile(auth.currentUser, { displayName: editInput?.name, photoURL: editInput?.photo });
-    setUserProfile({...userProfile, name: editInput.name, photoURL: editInput.photo})
+    setUserProfile({ ...userProfile, name: editInput.name, photoURL: editInput.photo });
     closeModal();
-  }
-  
+  };
+
   useEffect(() => {
-    setEditInput(initialState)
-  },[initialState])
+    setEditInput(initialState);
+  }, [initialState]);
 
   return (
     <>
-      <Modal isOpen={isOpen}> 
+      <Modal isOpen={isOpen}>
         <LoginBox>
           <ProfileBox photo={editInput?.photo}></ProfileBox>
           <ProfileEdit onClick={inputClickHandler}>이미지 편집</ProfileEdit>
-          <UploadImageInput type='file' ref={editImageFile} onChange={onSelectImage}/>
+          <UploadImageInput type="file" ref={editImageFile} onChange={onSelectImage} />
           <UserBox>
             <NickNameBox>
               <label>닉네임</label>
               <NickNameInput
-              type="text"
-              value={editInput?.name}
-              onChange={(e) => setEditInput({...editInput, name: e.target.value})}
+                type="text"
+                value={editInput?.name}
+                onChange={(e) => setEditInput({ ...editInput, name: e.target.value })}
               ></NickNameInput>
             </NickNameBox>
             <Buttons>
@@ -107,7 +107,7 @@ const LoginBox = styled.div`
 
 const UploadImageInput = styled.input`
   display: none;
-`
+`;
 
 const ProfileBox = styled.div`
   width: 8.25rem;
@@ -132,14 +132,14 @@ const ProfileEdit = styled.button`
 const UserBox = styled.div`
   width: 20rem;
   height: 10rem;
-  padding-top: 60px;
-  padding-left: 30px;
+  padding: 60px 15px 0px 15px;
   border-radius: 8px;
   background-color: #a6a6a6;
 `;
 
 const NickNameBox = styled.div`
   margin-bottom: 10px;
+  margin-left: 10px;
 `;
 
 const NickNameInput = styled.input`
@@ -149,6 +149,7 @@ const NickNameInput = styled.input`
   margin-bottom: 20px;
   border: none;
   border-radius: 20px;
+  padding: 5px 0 5px 10px;
 `;
 
 const PasswordBox = styled.div`

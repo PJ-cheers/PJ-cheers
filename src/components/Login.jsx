@@ -6,45 +6,43 @@ import { auth } from '../firebase';
 import { GrayButton } from '../shared/Buttons';
 
 function Login({ isOpen, closeModal }) {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const confirm = async(e) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const confirm = async (e) => {
     e.preventDefault();
-    if(email === ""){
-      alert("이메일을 입력해주세요!")
-      return
+    if (email === '') {
+      alert('이메일을 입력해주세요!');
+      return;
     }
-    if(password === ""){
-      alert("비밀번호를 입력해주세요!")
-      return
+    if (password === '') {
+      alert('비밀번호를 입력해주세요!');
+      return;
     }
-    try{
-      const userCredential = await signInWithEmailAndPassword(auth, email, password)
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
       closeModal();
-    } catch(error){
+    } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
-      if(errorCode === "auth/invalid-email"){
-        alert("이메일 주소를 올바르게 입력해주세요!")
-        return
+      if (errorCode === 'auth/invalid-email') {
+        alert('이메일 주소를 올바르게 입력해주세요!');
+        return;
       }
-      if(errorCode === "auth/user-not-found"){
-        alert("사용자를 찾을 수 없습니다!")
-        return
+      if (errorCode === 'auth/user-not-found') {
+        alert('사용자를 찾을 수 없습니다!');
+        return;
       }
-      if(errorCode === "auth/wrong-password"){
-        alert("비밀번호가 일치하지 않습니다!")
-        return
+      if (errorCode === 'auth/wrong-password') {
+        alert('비밀번호가 일치하지 않습니다!');
+        return;
       }
-      if(errorCode === "auth/too-many-requestsFirebase"){
-        alert("로그인 시도 횟수를 초과했습니다. 잠시 후 시도하세요!")
-        return
+      if (errorCode === 'auth/too-many-requestsFirebase') {
+        alert('로그인 시도 횟수를 초과했습니다. 잠시 후 시도하세요!');
+        return;
       }
-      alert( errorCode + errorMessage)
+      alert(errorCode + errorMessage);
     }
-  }
-
-
+  };
 
   return (
     <>
@@ -55,18 +53,14 @@ function Login({ isOpen, closeModal }) {
           <UserBox>
             <EmailBox>
               <label>이메일</label>
-              <EmailInput
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              ></EmailInput>
+              <EmailInput type="email" value={email} onChange={(e) => setEmail(e.target.value)}></EmailInput>
             </EmailBox>
             <PasswordBox>
               <label>비밀번호</label>
               <PasswordInput
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               ></PasswordInput>
             </PasswordBox>
             <Buttons>
@@ -123,15 +117,15 @@ const ProfileEdit = styled.button`
 const UserBox = styled.div`
   margin-top: 30px;
   width: 20rem;
-  height: 15rem;
-  padding-top: 60px;
-  padding-left: 30px;
+  height: 20rem;
+  padding: 60px 15px 0px 15px;
   border-radius: 8px;
   background-color: #a6a6a6;
 `;
 
 const EmailBox = styled.div`
   margin-bottom: 10px;
+  margin-left: 10px;
 `;
 
 const EmailInput = styled.input`
@@ -141,10 +135,12 @@ const EmailInput = styled.input`
   margin-bottom: 20px;
   border: none;
   border-radius: 20px;
+  padding: 5px 0 5px 10px;
 `;
 
 const PasswordBox = styled.div`
   margin-bottom: 10px;
+  margin-left: 10px;
 `;
 
 const PasswordInput = styled.input`
@@ -154,6 +150,7 @@ const PasswordInput = styled.input`
   margin-bottom: 20px;
   border: none;
   border-radius: 20px;
+  padding: 5px 0 5px 10px;
 `;
 
 const Buttons = styled.div`

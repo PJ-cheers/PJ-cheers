@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { doc, deleteDoc, getDocs, collection, query, onSnapshot, addDoc, deleteField } from 'firebase/firestore';
 import { useRecoilValue } from 'recoil';
-import { userState } from '../recoil/user';
+import { userState, loginState } from '../recoil/user';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
 import { db } from '../firebase';
@@ -18,6 +18,7 @@ function DIYdetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState('');
+  const login = useRecoilValue(loginState);
   const navigate = useNavigate();
   const queryClient = new useQueryClient();
   // useParams를 이용하여 url의 id를 가져옴
@@ -124,20 +125,28 @@ function DIYdetail() {
     fetchData();
   }, []);
 
+  console.log(comments);
+
   return (
     <>
       <ButtonBack onClick={historyBack}>
         <FontAwesomeIcon icon={faChevronLeft} />
       </ButtonBack>
+
       <DetailContainer>
-        <EditDelete>
-          <div style={{ cursor: 'pointer' }} onClick={() => navigate(`/edit-board/${id}`)}>
-            수정
-          </div>
-          <div style={{ cursor: 'pointer' }} onClick={() => setIsModalOpen(true)}>
-            삭제
-          </div>
-        </EditDelete>
+        {login ? (
+          <EditDelete>
+            <div style={{ cursor: 'pointer' }} onClick={() => navigate(`/edit-board/${id}`)}>
+              수정
+            </div>
+            <div style={{ cursor: 'pointer' }} onClick={() => setIsModalOpen(true)}>
+              삭제
+            </div>
+          </EditDelete>
+        ) : (
+          <></>
+        )}
+
         <CocktailName>
           <h2>{cocktails?.find(findCocktail).name}</h2>
         </CocktailName>
@@ -159,13 +168,13 @@ function DIYdetail() {
           {comments?.map((comment) => (
             <Comments key={comment.id}>
               <CommentProfileImg>
-                <img src="" alt="" />
+                <img src={comment.imgurl} alt="" />
               </CommentProfileImg>
               <Comment>
                 <p>{comment.user.displayName}</p>
                 <p>{comment.content}</p>
               </Comment>
-              <GrayButton onClick={() => handleDeleteComment(comment.id)}>삭제</GrayButton>
+              {login ? <GrayButton onClick={() => handleDeleteComment(comment.id)}>삭제</GrayButton> : <></>}
             </Comments>
           ))}
           <form onSubmit={handleAddComment}>

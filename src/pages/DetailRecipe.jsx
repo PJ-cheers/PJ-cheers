@@ -116,7 +116,7 @@ function DetailRecipe() {
         </Recipe>
         <Video>
           <VideoTitle>
-            <h4>관련영상</h4>
+            <h4>추천음악</h4>
           </VideoTitle>
           <VideoContent>
             <Slider {...sliderSettings}>
@@ -299,7 +299,7 @@ const VideoTitle = styled.div`
 
 const VideoContent = styled.div`
   width: 70%;
-  height: auto;
+  height: 10rem;
   margin: 2rem;
   position: relative;
   overflow: hidden;
