@@ -1,6 +1,8 @@
 import './App.css';
 import Router from './shared/Router';
+import 'react-multi-carousel/lib/styles.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { RecoilRoot } from 'recoil';
 
 // reset CSS
 import * as React from 'react';
@@ -11,11 +13,30 @@ import reset from 'styled-reset';
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
-body{
-  font-family: 'Noto Sans KR', sans-serif;
-}
+  body{
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #313131;
+  }
+
+  body.active {
+    overflow: hidden;
+  }
+  
+  .slick-slide {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+  
 `;
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 30, // 30분마다 호출
+      cacheTime: 1000 * 60 * 60 // 1시간마다 호출
+    }
+  }
+});
 
 function App() {
   return (
