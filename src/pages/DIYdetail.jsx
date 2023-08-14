@@ -131,8 +131,12 @@ function DIYdetail() {
       </ButtonBack>
       <DetailContainer>
         <EditDelete>
-          <div onClick={() => navigate(`/edit-board/${id}`)}>수정</div>
-          <div onClick={() => setIsModalOpen(true)}>삭제</div>
+          <div style={{ cursor: 'pointer' }} onClick={() => navigate(`/edit-board/${id}`)}>
+            수정
+          </div>
+          <div style={{ cursor: 'pointer' }} onClick={() => setIsModalOpen(true)}>
+            삭제
+          </div>
         </EditDelete>
         <CocktailName>
           <h2>{cocktails?.find(findCocktail).name}</h2>
