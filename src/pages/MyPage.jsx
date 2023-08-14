@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil';
 import { userState } from '../recoil/user';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { collection, getDocs, query } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase';
 import { getCocktailData } from '../api/recipeData';
 import { getAuth } from 'firebase/auth';
@@ -27,6 +27,19 @@ const getLikedCocktailData = async () => {
   return likedCocktailData;
 };
 
+const getMyPosts = async (email) => {
+  const q = query(collection(db, 'DIY'), where('userEmail', '==', email));
+  const querySnapshot = await getDocs(q);
+  const myPosts = [];
+  querySnapshot.forEach((doc) => {
+    myPosts.push({
+      id: doc.id,
+      ...doc.data()
+    });
+  });
+  return myPosts;
+};
+
 function MyPage() {
   const navigate = useNavigate();
   const { data: cocktailData } = useQuery('fetchCocktailData', getCocktailData);
@@ -41,10 +54,11 @@ function MyPage() {
 
   // ) => {}, []);
 
-  const menuArr = [
-    { name: '내가 작성한 글', content: 'test' },
-    { name: '내가 찜한 레시피', content: 'tes2t' }
-  ];
+  const menuArr = [{ name: '내가 작성한 글' }, { name: '내가 찜한 레시피' }];
+
+  const { data: myPosts } = useQuery(['fetchMyPosts', userProfile[0]?.email], () => getMyPosts(userProfile[0]?.email), {
+    enabled: Boolean(userProfile[0]?.email)
+  });
 
   const auth = getAuth();
   const user = auth.currentUser;
@@ -63,7 +77,6 @@ function MyPage() {
   const handleChangeUserInfo = () => {
     alert('ㅎㅇ');
   };
-  console.log(userProfile.photoURL);
   return (
     <TotalBox>
       <MyPageBox>
@@ -95,9 +108,19 @@ function MyPage() {
               <h1 style={{ fontSize: '24px', color: 'var(--color-white)', marginTop: '2rem', marginLeft: '2rem' }}>
                 DIY 칵테일
               </h1>
-              <ContentBox>
-                <p>{menuArr[currentTab].content}</p>
-              </ContentBox>
+              {myPosts?.map((post) => {
+                return (
+                  <PostCard
+                    key={post.id}
+                    onClick={() => {
+                      navigate(`/diy-recipe/${post.id}`);
+                    }}
+                  >
+                    <img src={post.image} />
+                    <p>{post.name}</p>
+                  </PostCard>
+                );
+              })}
             </>
           ) : (
             // 내가 찜한 레시피 탭인 경우
@@ -221,12 +244,44 @@ const Desc = styled.div`
 `;
 
 const ContentBox = styled.div`
+  display: flex;
   background-color: #ffffff;
   width: 20rem;
   height: 30rem;
   margin: 0 auto;
   margin-left: 10px;
   border-radius: 8px;
+`;
+
+const PostCard = styled.div`
+  width: 100%;
+  max-width: 30rem;
+  height: auto;
+  padding: 16px;
+  background-color: #ffffff;
+  margin: 16px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    max-height: 350px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 16px;
+  }
+
+  p {
+    color: #313131;
+    font-size: 18px;
+    font-weight: 600;
+  }
 `;
 
 // BoardRecipe UI
