@@ -78,7 +78,7 @@ function DetailRecipe() {
               onClick={() => {
                 likeCocktails();
                 handleClick();
-                alert('찜한 레시에 추가되었습니다.');
+                alert('찜한 레시피에 추가되었습니다.');
               }}
             >
               <FontAwesomeIcon icon={faHeart} size="lg" />
