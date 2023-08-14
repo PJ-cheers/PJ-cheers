@@ -25,7 +25,7 @@ function DetailRecipe() {
   const { videosList } = useContext(YoutubeDataContext);
   const playlistId = 'PLhD80yCklGmZqOBTMAlfMz0sZryCVKO_Y';
   const videoData = videosList[playlistId];
-  console.log(videoData);
+  // console.log(videoData);
   const { id } = useParams();
   const [isLogin, setIsLogin] = useRecoilState(loginState);
 
@@ -51,7 +51,7 @@ function DetailRecipe() {
     // Firestore에서 'users' 컬렉션에 대한 참조 생성하기, 'users' 컬렉션에 newLike 문서를 추가
     if (isActive === false) {
       await addDoc(collection(db, 'likeCocktails'), newLike);
-      console.log(newLike);
+      console.log('newLike', newLike);
     }
   };
 
@@ -78,7 +78,8 @@ function DetailRecipe() {
               onClick={() => {
                 likeCocktails();
                 handleClick();
-                alert('찜한 레시피에 추가되었습니다.');
+                alert('찜한 레시에 추가되었습니다.');
+                window.location.reload();
               }}
             >
               <FontAwesomeIcon icon={faHeart} size="lg" />
