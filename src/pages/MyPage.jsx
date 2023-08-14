@@ -9,6 +9,7 @@ import { useQuery } from 'react-query';
 import { collection, getDocs, query } from 'firebase/firestore';
 import { db } from '../firebase';
 import { getCocktailData } from '../api/recipeData';
+import { getAuth } from 'firebase/auth';
 
 const getLikedCocktailData = async () => {
   // collection 이름이 likeCocktails인 collection의 모든 document를 가져옵니다.
@@ -33,10 +34,28 @@ function MyPage() {
   const [currentTab, clickTab] = useState(0);
   const userProfile = useRecoilState(userState);
 
+  // 새로고침 문제 해결중
+  // const [like, setLike] = useState([]);
+
+  // useEffect((
+
+  // ) => {}, []);
+
   const menuArr = [
     { name: '내가 작성한 글', content: 'test' },
     { name: '내가 찜한 레시피', content: 'tes2t' }
   ];
+
+  const auth = getAuth();
+  const user = auth.currentUser;
+  if (user !== null) {
+    // The user object has basic properties such as display name, email, etc.
+    const displayName = user.displayName;
+    const email = user.email;
+    const photoURL = user.photoURL;
+    const emailVerified = user.emailVerified;
+    const uid = user.uid;
+  }
 
   const selectMenuHandler = (index) => {
     clickTab(index);
@@ -70,11 +89,6 @@ function MyPage() {
           ))}
         </TabMenu>
         <Desc>
-          {/* {menuArr.map((el, index) => (
-            <ContentBox>
-              <p>{menuArr[currentTab].content}</p>
-            </ContentBox>
-          ))} */}
           {currentTab === 0 ? (
             // 내가 작성한 글 탭인 경우
             <>
@@ -89,7 +103,9 @@ function MyPage() {
             // 내가 찜한 레시피 탭인 경우
             <CockTailBox>
               {cocktailData
-                ?.filter((item) => likedCocktailData?.find((data) => data.cocktailId === item.id))
+                ?.filter((item) =>
+                  likedCocktailData?.find((data) => data.cocktailId === item.id && user.email === data.email)
+                )
                 .map((item) => {
                   return (
                     <CockTailImage
